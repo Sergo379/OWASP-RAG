@@ -1,0 +1,117 @@
+repository: OWASP/CheatSheetSeries
+ref: master
+timeout: 20
+retries: 3
+max_backoff: 8
+max_document_bytes: 2000000
+documents:
+  - path: cheatsheets/Authentication_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/Multifactor_Authentication_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/Forgot_Password_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/Password_Storage_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/OAuth2_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/SAML_Security_Cheat_Sheet.md
+    topic: Authentication
+  - path: cheatsheets/Authorization_Cheat_Sheet.md
+    topic: Authorization
+  - path: cheatsheets/Authorization_Patterns_Cheat_Sheet.md
+    topic: Authorization
+  - path: cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md
+    topic: Authorization
+  - path: cheatsheets/Transaction_Authorization_Cheat_Sheet.md
+    topic: Authorization
+  - path: cheatsheets/Multi_Tenant_Security_Cheat_Sheet.md
+    topic: Authorization
+  - path: cheatsheets/Session_Management_Cheat_Sheet.md
+    topic: Session Management
+  - path: cheatsheets/Cookie_Theft_Mitigation_Cheat_Sheet.md
+    topic: Session Management
+  - path: cheatsheets/JSON_Web_Token_Cheat_Sheet.md
+    topic: Session Management
+  - path: cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md
+    topic: Session Management
+  - path: cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/Query_Parameterization_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/Injection_Prevention_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/XPath_Injection_Prevention_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/Server_Side_Template_Injection_Prevention_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/NoSQL_Security_Cheat_Sheet.md
+    topic: Injection
+  - path: cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md
+    topic: XSS
+  - path: cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.md
+    topic: XSS
+  - path: cheatsheets/DOM_Clobbering_Prevention_Cheat_Sheet.md
+    topic: XSS
+  - path: cheatsheets/Content_Security_Policy_Cheat_Sheet.md
+    topic: XSS
+  - path: cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.md
+    topic: XSS
+  - path: cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.md
+    topic: XSS
+  - path: cheatsheets/REST_Security_Cheat_Sheet.md
+    topic: API Security
+  - path: cheatsheets/REST_Assessment_Cheat_Sheet.md
+    topic: API Security
+  - path: cheatsheets/GraphQL_Cheat_Sheet.md
+    topic: API Security
+  - path: cheatsheets/WebSocket_Security_Cheat_Sheet.md
+    topic: API Security
+  - path: cheatsheets/Web_Service_Security_Cheat_Sheet.md
+    topic: API Security
+  - path: cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md
+    topic: API Security
+  - path: cheatsheets/Cryptographic_Storage_Cheat_Sheet.md
+    topic: Cryptography
+  - path: cheatsheets/Key_Management_Cheat_Sheet.md
+    topic: Cryptography
+  - path: cheatsheets/Transport_Layer_Security_Cheat_Sheet.md
+    topic: Cryptography
+  - path: cheatsheets/Post_Quantum_Cryptography_Cheat_Sheet.md
+    topic: Cryptography
+  - path: cheatsheets/Secrets_Management_Cheat_Sheet.md
+    topic: Cryptography
+  - path: cheatsheets/Input_Validation_Cheat_Sheet.md
+    topic: Input Validation
+  - path: cheatsheets/File_Upload_Cheat_Sheet.md
+    topic: Input Validation
+  - path: cheatsheets/Bean_Validation_Cheat_Sheet.md
+    topic: Input Validation
+  - path: cheatsheets/Deserialization_Cheat_Sheet.md
+    topic: Input Validation
+  - path: cheatsheets/Mass_Assignment_Cheat_Sheet.md
+    topic: Input Validation
+  - path: cheatsheets/Logging_Cheat_Sheet.md
+    topic: Logging and Monitoring
+  - path: cheatsheets/Logging_Vocabulary_Cheat_Sheet.md
+    topic: Logging and Monitoring
+  - path: cheatsheets/Error_Handling_Cheat_Sheet.md
+    topic: Logging and Monitoring
+  - path: cheatsheets/HTTP_Headers_Cheat_Sheet.md
+    topic: Secure Configuration
+  - path: cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.md
+    topic: Secure Configuration
+  - path: cheatsheets/Docker_Security_Cheat_Sheet.md
+    topic: Secure Configuration
+  - path: cheatsheets/Database_Security_Cheat_Sheet.md
+    topic: Secure Configuration
+  - path: cheatsheets/Clickjacking_Defense_Cheat_Sheet.md
+    topic: Secure Configuration

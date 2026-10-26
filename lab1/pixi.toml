@@ -1,0 +1,31 @@
+[workspace]
+name = "owasp-rag"
+version = "0.1.0"
+description = "OWASP-RAG Foundation and Data Pipeline"
+channels = ["conda-forge"]
+platforms = ["win-64"]
+
+[dependencies]
+python = "3.11.*"
+pip = "*"
+
+[pypi-dependencies]
+fastapi = ">=0.115,<1"
+uvicorn = ">=0.34,<1"
+httpx = ">=0.28,<1"
+pydantic = ">=2.10,<3"
+pyyaml = ">=6,<7"
+tokenizers = ">=0.21,<1"
+filelock = ">=3.17,<4"
+pytest = ">=8,<10"
+ruff = ">=0.11,<1"
+
+[tasks]
+app = "python -m uvicorn src.api.app:create_app --factory --host 127.0.0.1 --port 8000"
+grab = "python -m src.cli grab"
+preprocess = "python -m src.cli preprocess"
+stats = "python -m src.cli stats"
+test = "python -m pytest -q"
+smoke = "python -m src.cli smoke"
+tokenizer = "python -m src.cli tokenizer"
+lint = "ruff check src tests"
