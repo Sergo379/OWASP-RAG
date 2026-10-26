@@ -8,6 +8,36 @@
   --accent:#62dfbf;
   --blue:#8aaefe
 }
+
+.model-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.model-card { padding: 16px; border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; }
+.model-card strong, .model-card small { display: block; }
+.model-card small { color: var(--muted); margin: 8px 0; font: 10px/1.6 Consolas,monospace; }
+.model-card button { margin-top: 10px; }
+.index-controls { margin-bottom: 18px; }
+#index-list button { margin: 3px 0; padding: 5px 8px; border: 1px solid var(--line); font-size: 10px; }
+#index-inspection-text, #search-diagnostics-text { max-height: 600px; overflow: auto; }
+.query-label { color: var(--muted); display: block; margin-bottom: 8px; font-size: 11px; }
+.query-row { display: flex; gap: 12px; }
+#search-query { flex: 1; min-width: 0; padding: 16px; font-size: 16px; }
+.search-settings { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 24px 0 16px; }
+.search-settings label { display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: 11px; min-width: 0; }
+.search-settings select, .search-settings input { width: 100%; }
+.search-options { display: flex; justify-content: space-between; gap: 18px; align-items: start; }
+.search-options details { max-width: 50%; }
+.search-options input[type=number] { width: 100px; margin: 10px; }
+.search-options summary, #search-comparison summary, #search-diagnostics summary { cursor: pointer; color: var(--blue); }
+.rank { display: inline-block; padding: 5px 10px; border: 1px solid #315e51; border-radius: 6px; color: var(--accent); }
+.search-result .panel-title { justify-content: start; }
+.search-result h2 { flex: 1; }
+.result-text { background: #0b121d; border-left: 2px solid #315e51; padding: 18px; margin: 16px 0; max-height: 380px; overflow: auto; }
+.score-line { color: var(--accent); font: 11px/1.8 Consolas,monospace; }
+.chunk-id { font-size: 10px; overflow-wrap: anywhere; }
+#search-message { padding: 22px; font-size: 13px; }
+#comparison-summary { font-size: 12px; margin: 24px 0; }
+#comparison-summary h3 { font-size: 14px; color: var(--accent); }
+@media(max-width:1200px) { .model-grid { grid-template-columns:1fr; } .search-settings { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:760px) { .query-row { flex-direction:column; } .search-settings { grid-template-columns:1fr; } .search-options { flex-direction:column; } .search-options details { max-width:100%; } .search-result .panel-title { flex-wrap:wrap; } }
 * {
   box-sizing:border-box
 }

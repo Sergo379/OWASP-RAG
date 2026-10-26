@@ -1,4 +1,6 @@
 import socket
+import uuid
+from pathlib import Path
 
 import httpx
 import pytest
@@ -9,6 +11,15 @@ from src.core.models import CorpusItem
 from src.grabber.github import blob_sha
 from src.preprocessing.tokenization import E5Tokenizer
 from src.storage.files import Store
+
+
+def pytest_configure(config):
+    # Isolate each run from Windows temp symlinks left by other sandboxes/processes.
+    # A fresh UUID path is never a pre-existing user directory.
+    if config.option.basetemp is None:
+        parent = Path(__file__).resolve().parents[1] / ".cache" / "tests"
+        parent.mkdir(parents=True, exist_ok=True)
+        config.option.basetemp = str(parent / uuid.uuid4().hex)
 
 
 @pytest.fixture(autouse=True)

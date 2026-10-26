@@ -1,6 +1,6 @@
-# OWASP-RAG · этап №1
+# OWASP-RAG · этапы №1–2
 
-Цель — создать воспроизводимый сбор и подготовку знаний о безопасности веб-приложений для последующей собственной RAG-системы. Требования: [задание преподавателя](https://github.com/Randwow/PAD). Сейчас доступны Foundation, Grabber, Preprocessing, Dashboard и Knowledge Base. Финальная система будет поддерживать вопросы на русском и английском; сейчас генерации ответов нет.
+Цель — собственная воспроизводимая RAG-система по безопасности веб-приложений. Требования: [задание преподавателя](https://github.com/Randwow/PAD). Первый этап принят пользователем. Сейчас доступны Foundation, Grabber, Preprocessing, Dashboard, Knowledge Base и настоящий семантический поиск RU/EN с ChromaDB и reranking. Генерации ответов LLM пока нет.
 
 ## Обоснование решений
 
@@ -13,7 +13,7 @@
 
 ## Установка и запуск
 
-Windows 11 x64, CPU, 16 GB RAM. Pixi 0.81.0 или совместимая версия. Системный Python не используется. Интернет нужен для установки пакетов, обновления OWASP и первой загрузки JSON токенизатора (~17 MB); полные веса моделей не скачиваются.
+Windows 11 x64, CPU, 16 GB RAM. Pixi 0.81.0 или совместимая версия. Системный Python не используется. Интернет нужен для установки, обновления OWASP и явной подготовки моделей. На этапе №2 полные safetensors трёх моделей занимают вместе около 1.46 GB с токенизаторами. Готовый поиск offline использует только локальные файлы.
 
 ```powershell
 Set-Location C:\MyWorkP\OWASP-RAG\lab1
@@ -44,6 +44,8 @@ pixi run smoke --network
 | `configs/corpus.yaml` | Репозиторий, ref, 55 путей с тематикой, timeout, retries, лимит размера |
 | `configs/preprocessing.yaml` | Стратегия, размер, overlap, версия pipeline и закреплённый токенизатор |
 | `configs/logging.yaml` | Уровень и ротация локальных JSON-логов |
+| `configs/retrieval.yaml` | Pinned models, batch size, CPU threads, token budgets, политики индексации, query logging |
+| `configs/model_artifacts.json` | Размер и SHA256 каждого разрешённого файла weights/tokenizer/config |
 | `GITHUB_TOKEN` | Необязательный токен только в окружении; отправляется только GitHub API |
 | `OWASP_DATA_DIR` | Необязательный альтернативный каталог данных |
 
@@ -117,7 +119,7 @@ OpenAPI: `/openapi.json`, Swagger UI: `/docs` (Swagger assets могут тре�
 
 ## Файлы и тесты
 
-`src/core`, `grabber`, `preprocessing`, `storage`, `observability`, `api`, `ui` — реализованные модули. Будущие embeddings/retrieval/reranking/filters/generation/evaluation описаны контрактами в [ARCHITECTURE.md](ARCHITECTURE.md), без фиктивных функций. `data/vector_db`, `data/evaluation`, `experiments/configs/results/charts` подготовлены как каталоги.
+`src/core`, `grabber`, `preprocessing`, `storage`, `observability`, `api`, `ui` — действующие модули первого этапа. Этап №2 добавляет `embeddings`, `retrieval`, `storage/vectors.py`, `api/stage2.py`, `ui/stage2.js` и CLI/smoke. Filtering, deduplication и reranking входят в собственный retrieval pipeline. Generation/evaluation — будущие контракты в [ARCHITECTURE.md](ARCHITECTURE.md), без фиктивных функций.
 
 ```powershell
 pixi run test
@@ -132,8 +134,68 @@ JSON-логи: `lab1/logs/application.log`, ротация 2 MB × 4 файла.
 
 Резервная копия — копия каталога `data` при остановленных операциях. Для воспроизведения другого snapshot используйте отдельный `OWASP_DATA_DIR` и сохранённый commit в corpus.yaml. Память на этапе №1 ограничена одним небольшим корпусом и одним токенизатором; embeddings/reranker/LLM не загружаются. Сохранение JSONL сейчас пакетное; для очень больших корпусов потребуется потоковая запись.
 
+## Семантический поиск (этап №2)
+
+Последовательность: **Prepare Model → Build Index → Search**. Все операции доступны в Knowledge Base; Search встроен в существующий sidebar.
+
+```powershell
+pixi run prepare-model --model e5
+pixi run prepare-model --model minilm
+pixi run prepare-model --model reranker
+pixi run build-index --model e5 --configuration-id 95c6ca90edb66fce3ee9
+pixi run build-index --model minilm --configuration-id 95c6ca90edb66fce3ee9
+pixi run indexes
+pixi run inspect-index --index-id <ID>
+pixi run search --model e5 --index-id <ID> --query 'Как предотвратить SQL-инъекции?' --top-k 5
+pixi run search --model e5 --index-id <ID> --query 'How to prevent SQL injection?' --reranking
+pixi run real-smoke --offline --demos
+```
+
+В PowerShell замените `<ID>` полным ID из списка индексов (угловые скобки не вводите). Команды подготовки/индексирования/поиска выполняются по одной. Существующие команды сохранены. `real-smoke` отдельно от pytest действительно загружает локальные pretrained weights и обращается к Chroma; он не скачивает недостающие модели автоматически.
+
+| Key | Model / revision | Назначение / input limit |
+| --- | --- | --- |
+| e5 | `intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3` | 384D, 512 токенов; query:/passage: |
+| minilm | `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2@e8f8c211226b894fcb81acc59f3b34ba3efd5f42` | 384D, **128** токенов; без E5-prefix |
+| reranker | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1@1427fd652930e4ba29e8149678df786c240d8825` | 512 токенов на пару; raw logit |
+
+PyTorch **2.8.0+cpu** установлен из официального CPU wheel index, Transformers **4.57.6**, ChromaDB **1.5.9**. Точные transitive dependencies закреплены Pixi. Sentence-transformers/LangChain не обязательны: собственный provider выполняет attention-mask mean pooling по официальным model cards и L2 normalization. Только safetensors, `trust_remote_code=False`, локальные CPU weights; вопрос не отправляется во внешний API.
+
+Prepare — явная сетевая операция с timeout, bounded retries, фактическим byte progress и проверкой всех SHA256. Inference использует `local_files_only=True`. Lazy cache сохраняет одну embedding-модель; при переключении старая выгружается. Reranker — отдельная необязательная модель, выгружается при поиске без reranking. Небольшие batches=8, threads=4. Удаление Python-ссылок не гарантирует немедленное снижение RSS allocator: полный сброс — restart сервера при сохранённых дисковых данных.
+
+Каждый полный input проверяется собственным tokenizer модели, включая prefixes/special tokens. `overflow_policy=split` создаёт отдельные vector segments с origin chunk_id и char ranges, не меняя исходный JSONL. `error` останавливает Build с диагностикой. Минимальный анализ показывает распределение tokens, короткие chunks и heading-only. `include_all` — default; `skip_heading_only` исключает только целиком заголовочные фрагменты с сохранением причины. Автоматического объединения нет.
+
+Индекс идентифицируется source snapshot fingerprint/commit, preprocessing config + JSONL, model/revision/artifacts, embedding policy и schema version. Каждый logical index имеет собственный PersistentClient directory в `data/vector_db/<index_id>/chroma`. Collection generation строится staging, проверяется count и набор IDs; только затем атомарно публикуется в catalog.json. Повторный Build Ready возвращает reused без inference. Resume использует сохранённые batches и SQLite computation cache; Rebuild пишет новое поколение, старое сохраняется. Кеш не заменяет ChromaDB. Размер каталога включает все сохранённые поколения. Физическое повреждение Chroma требует backup/rebuild; транзакции между SDK и JSON catalog не обещаются.
+
+Retrieval: validate → query embedding → Chroma nearest neighbors → threshold/stale/metadata filters → deterministic dedup by origin chunk/text → optional cross-encoder → final Top-K. Metadata pushdown выбирает candidate pool среди подходящих источников; проверки metadata повторяются после retrieval. Top-K=3/5/10/20, pool default=80, не менее 2K, до 500. Пул и итог K — разные значения. Если кандидатов недостаточно после filtering/dedup, показывается фактическое число.
+
+Метрика — **cosine distance**, similarity = **1 − distance**, диапазон similarity −1..1. Threshold применяется к similarity. Cross-encoder score — отдельный **raw logit**, не вероятность. Reranker получает тот же eligible pool; сравнение without/with не выполняет другой retrieval. Для длинных текстов — явные окна до 320 tokens, query до 128, проверка полного pair budget и max raw logit по окнам; transformation сохраняется в metadata. Улучшение качества из изменения порядка не следует.
+
+Search показывает тексты/источники, original/final ranks, similarity/distance/logit, metadata, before/after и Search Execution Details с request_id, snapshot, settings, removed reasons, timings и RSS. Stale index отмечается; изменённые/удалённые документы исключаются. Все мутации и inference сериализованы тем же FileLock, поэтому при занятом CPU/storage запрос получает понятный 409; фоновой очереди поиска нет.
+
+Новые API (старые сохранены):
+
+| Метод / путь | Назначение |
+| --- | --- |
+| GET `/api/embeddings/models` | missing/downloading/ready/error, cache size, memory status |
+| POST `/api/embeddings/prepare` | JSON `{ "model": "e5" }`, 202 |
+| GET `/api/indexes` | каталог, Ready/Building/Stale/Failed/Interrupted |
+| POST `/api/indexes/build` | model, configuration_id, heading_policy, overflow_policy, rebuild; 202 |
+| GET `/api/indexes/{id}` | actual count, identity, analysis/excluded reasons |
+| POST `/api/indexes/{id}/rebuild` | новое поколение для актуального snapshot; 202 |
+| GET `/api/chunks/analysis` | optional configuration_id, анализ коротких chunks |
+| GET `/api/retrieval/configuration` | preprocessing configs, topics, documents, defaults |
+| POST `/api/search` | SearchRequest; настоящий синхронный SearchResponse |
+| GET `/api/search/{request_id}` | diagnostics в памяти до 10 минут, последние 20 запросов |
+
+Search JSON: `query`, `index_id`, `model`, `top_k`, `similarity_threshold`, `topic`, `document_id`, `reranking`, `candidate_pool_size`. Схемы Pydantic доступны в OpenAPI. 422 — validation, 409 — занято, 404 — неизвестный ресурс GET, 400 — прикладная ошибка с действием восстановления. Model/index failures не превращаются в фиктивный успешный ответ.
+
+Локальные JSON-логи сохранены, в PowerShell добавлена последовательность QUERY/EMBEDDING/RETRIEVAL/FILTER/DEDUP/RERANK/RESULT с request_id, настоящими IDs/scores/timings. Полный query не пишется в постоянный лог без `log_queries:true`; диагностика ответа остаётся доступна в памяти. Ключи/токены не логируются. Операционная история первого этапа сохраняется без дальнейшего усечения.
+
+Тесты разделены: обычный pytest — offline unit + real-Chroma integration с mock/tiny models; `real-smoke` — настоящий E2E по подготовленным weights/индексам; browser QA — отдельно. [Ручная приёмка A–R](MANUAL_TESTING_STAGE2.md), [реальные результаты](STAGE2_RESULTS.md), [сохранённые demo queries](configs/demo_queries.json). Преподаватель требует embeddings/vector DB/retriever/filter/reranker: реализовано на этапе №2; генерация/Langfuse и исследовательская оценка остаются в этапах №3–4.
+
 ## Ограничения и дальнейшая работа
 
-Семантический поиск, embeddings, ChromaDB, reranker, filtering, Ollama, AI Chat, Langfuse и evaluation не реализованы. UI честно показывает этапы №2–4. Нет результатов качества RAG и сравнительных выводов об оптимальной стратегии. Рабочая конфигурация — начальная, не «лучшая» по непроведённому эксперименту. Подробнее: [ROADMAP.md](ROADMAP.md).
+Ollama, AI Chat/LLM generation, Langfuse Cloud и полноценная evaluation не реализованы. UI честно показывает этапы №3–4. Нет научных выводов об оптимальной модели/стратегии. Десять демонстрационных запросов и latency/RAM smoke подтверждают работоспособность, а не итоговое качество RAG. Необязательное удаление индексов через UI не реализовано; данные автоматически не удаляются. Подробнее: [ROADMAP.md](ROADMAP.md).
 
 Данные: [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/), авторы OWASP Foundation и участники. [CC BY-SA 4.0](https://github.com/OWASP/CheatSheetSeries/blob/master/LICENSE.md). При распространении raw/chunks сохраняйте атрибуцию, ссылку на источник, указание преобразований и ту же лицензию. Все изменения pipeline — подготовка/нормализация/chunking. Это самостоятельный учебный проект, не официальный продукт OWASP.

@@ -7,7 +7,7 @@ function date(value) { return value ? new Date(value).toLocaleString('ru-RU') : 
 async function api(path, options) {
   const response = await fetch('/api'+path, {signal:AbortSignal.timeout(15000), ...options});
   const body = await response.json();
-  if(!response.ok) throw new Error(typeof body.error==='string' ? body.error : typeof body.detail==='string' ? body.detail : 'Некорректный запрос ('+response.status+')');
+  if(!response.ok) throw new Error(typeof body.error==='string' ? body.error : typeof body.detail==='string' ? body.detail : Array.isArray(body.detail) ? body.detail.map(item=>item.loc.join('.')+': '+item.msg).join('; ') : 'Некорректный запрос ('+response.status+')');
   return body;
 }
 function error(err) { $('connection-error').textContent=err.message || 'Не удалось связаться с сервером'; $('connection-error').classList.remove('hidden'); }
@@ -16,7 +16,7 @@ function navigate() {
   document.querySelectorAll('.page').forEach(el=>el.classList.add('hidden'));
   document.querySelectorAll('nav a').forEach(el=>el.classList.toggle('active',el.dataset.view===view));
   $('breadcrumb').textContent=names[view]||'Dashboard';
-  if(view==='dashboard'||view==='knowledge') $(view).classList.remove('hidden');
+  if(view==='dashboard'||view==='knowledge'||view==='search') $(view).classList.remove('hidden');
   else { $('future').classList.remove('hidden'); $('future-title').textContent=names[view]||'Раздел'; $('future-message').textContent='Будет доступно на этапе №'+(view==='search'?'2':view==='chat'?'3':'4'); }
 }
 function renderDocs() {
@@ -53,6 +53,12 @@ function showOperation(op) {
   const labels={running:'Выполняется',succeeded:'Завершено',partial:'Завершено с ошибками',failed:'Ошибка',interrupted:'Прервано'};
   $('operation-status').textContent=labels[op.status]||op.status;
   $('operation-text').textContent=`${op.kind} · ${date(op.started_at)} · ${op.completed}/${op.total} · ${op.error||op.current||''}`;
+  if(op.total) $('operation-text').textContent += ` · ${(100*op.completed/op.total).toFixed(1)}%`;
+  if(op.units==='bytes') $('operation-text').textContent += ` · ${(op.completed/1048576).toFixed(1)}/${(op.total/1048576).toFixed(1)} MiB`;
+  if(op.batch) $('operation-text').textContent += ` · batch ${op.batch}/${op.batches}`;
+  if(op.elapsed_ms) $('operation-text').textContent += ` · ${(op.elapsed_ms/1000).toFixed(1)} s`;
+  if(op.source_chunks) $('operation-text').textContent += ` · исходных chunks: ${op.source_chunks}, обработано: ${op.processed_source_chunks||0}`;
+  if(op.excluded_chunks) $('operation-text').textContent += ` · исключено: ${op.excluded_chunks}`;
   $('progress').classList.toggle('hidden',!busy);$('progress').max=op.total||1;$('progress').value=op.completed;
   $('operation-details').classList.remove('hidden');$('operation-result').textContent=JSON.stringify(op,null,2);
 }
@@ -62,7 +68,8 @@ async function poll() {
     $('components').replaceChildren();for(const [name,status] of Object.entries(state.components)){const row=element('div',name);row.append(element('small',status));$('components').append(row);}
     showOperation(state.operation);
     const key=state.operation?state.operation.operation_id+state.operation.status:'empty';
-    if(key!==lastStatus){await loadCorpus();lastStatus=key;}
+    if(key!==lastStatus){await loadCorpus();if(window.loadStage2)await window.loadStage2();lastStatus=key;}
+    if(window.updateStage2Busy)window.updateStage2Busy();
     $('connection-error').classList.add('hidden');
   }catch(err){error(err);}finally{setTimeout(poll,2000);}
 }

@@ -1,0 +1,12 @@
+[
+  "How to prevent SQL injection?",
+  "Как предотвратить SQL-инъекции?",
+  "How should passwords be stored securely?",
+  "Как правильно защитить JWT?",
+  "What is cross-site scripting?",
+  "Какие меры защищают от CSRF?",
+  "Explain SSRF prevention techniques.",
+  "How should secrets be managed?",
+  "Что такое безопасная настройка HTTP security headers?",
+  "How to prevent insecure file uploads?"
+]

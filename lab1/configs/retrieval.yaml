@@ -1,0 +1,39 @@
+schema_version: 1
+batch_size: 8
+cpu_threads: 4
+short_chunk_tokens: 32
+heading_policy: include_all
+overflow_policy: split
+candidate_pool_size: 80
+max_candidate_pool: 500
+query_max_chars: 2000
+reranker_passage_tokens: 320
+log_queries: false
+models:
+  e5:
+    repository: intfloat/multilingual-e5-small
+    revision: 614241f622f53c4eeff9890bdc4f31cfecc418b3
+    kind: embedding
+    dimension: 384
+    max_input_tokens: 512
+    query_prefix: 'query: '
+    passage_prefix: 'passage: '
+    license: MIT
+  minilm:
+    repository: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    revision: e8f8c211226b894fcb81acc59f3b34ba3efd5f42
+    kind: embedding
+    dimension: 384
+    max_input_tokens: 128
+    query_prefix: ''
+    passage_prefix: ''
+    license: Apache-2.0
+  reranker:
+    repository: cross-encoder/mmarco-mMiniLMv2-L12-H384-v1
+    revision: 1427fd652930e4ba29e8149678df786c240d8825
+    kind: reranker
+    dimension: 1
+    max_input_tokens: 512
+    query_prefix: ''
+    passage_prefix: ''
+    license: Apache-2.0

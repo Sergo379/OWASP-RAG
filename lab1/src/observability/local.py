@@ -26,7 +26,35 @@ class JsonFormatter(logging.Formatter):
                     for frame in traceback.extract_tb(record.exc_info[2])
                 ],
             }
+        if hasattr(record, "context"):
+            result["context"] = record.context
         return json.dumps(result, ensure_ascii=False)
+
+
+class ConsoleFormatter(logging.Formatter):
+    def format(self, record):
+        context = getattr(record, "context", {})
+        keys = (
+            "request_id",
+            "model",
+            "model_identity",
+            "index_id",
+            "dimension",
+            "duration_ms",
+            "total_ms",
+            "top_k",
+            "pool_size",
+            "candidates",
+            "kept",
+            "returned",
+            "enabled",
+        )
+        fields = [f"{key}={context[key]}" for key in keys if key in context]
+        if isinstance(context.get("removed"), list):
+            fields.append(f"removed={len(context['removed'])}")
+        if isinstance(context.get("ranking"), list):
+            fields.append(f"reranked={len(context['ranking'])}")
+        return f"[{record.name}] {record.getMessage()} {' '.join(fields)}".rstrip()
 
 
 def configure(root: Path):
@@ -44,4 +72,7 @@ def configure(root: Path):
     )
     handler.setFormatter(JsonFormatter())
     logger.addHandler(handler)
+    console = logging.StreamHandler()
+    console.setFormatter(ConsoleFormatter())
+    logger.addHandler(console)
     logger.setLevel(config["level"])

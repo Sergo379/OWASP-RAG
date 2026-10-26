@@ -1,0 +1,3032 @@
+{
+  "tested_at": "2026-10-26T22:45:57.570846+00:00",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "logical_cpus": 12,
+  "ram_total_bytes": 16869548032,
+  "offline_process_network_block": true,
+  "physical_internet_disconnect": "NOT TESTED by this command",
+  "dependencies": {
+    "torch": "2.8.0+cpu",
+    "transformers": "4.57.6",
+    "chromadb": "1.5.9",
+    "numpy": "2.4.6",
+    "tokenizers": "0.22.2",
+    "fastapi": "0.162.0"
+  },
+  "models": {
+    "e5": {
+      "identity": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3",
+      "cold_load_ms": 6198.79,
+      "rss_after_load_bytes": 659615744,
+      "rss_before_model_switch_bytes": 61886464,
+      "files_bytes": 487725595,
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "index": {
+        "collection_name": "owasp_b4f35294b84e0f83fda0e36cd6fed34b_g2",
+        "generation": 2,
+        "vectors_count": 2159,
+        "source_chunks": 2159,
+        "indexed_chunks": 2159,
+        "indexed_documents": 55,
+        "excluded_count": 0,
+        "split_vectors": 0,
+        "dimension": 384,
+        "created_at": "2026-10-26T22:45:02.039746+00:00",
+        "duration_ms": 27701.2,
+        "computed_vectors": 0,
+        "cache_hits": 2159
+      },
+      "index_disk_bytes": 55336216,
+      "reranking_demo": {
+        "rss_after_reranking_bytes": 1214992384,
+        "query": "How to prevent SQL injection?",
+        "timings": {
+          "validation_ms": 0.658,
+          "model_ready_ms": 0.005,
+          "query_embedding_ms": 26.314,
+          "retrieval_ms": 13.044,
+          "filtering_ms": 0.605,
+          "deduplication_ms": 0.062,
+          "reranking_ms": 8542.226,
+          "total_ms": 8607.584
+        },
+        "changed_positions": 80,
+        "before": [
+          {
+            "rank": 1,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+            "retrieval_rank": 1,
+            "vector_similarity": 0.9104277491569519,
+            "vector_distance": 0.0895722508430481,
+            "rerank_score": null
+          },
+          {
+            "rank": 2,
+            "title": "Query Parameterization Cheat Sheet",
+            "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+            "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+            "retrieval_rank": 2,
+            "vector_similarity": 0.9010270833969116,
+            "vector_distance": 0.09897291660308838,
+            "rerank_score": null
+          },
+          {
+            "rank": 3,
+            "title": "Query Parameterization Cheat Sheet",
+            "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+            "chunk_id": "5291fd250c788e90481016e9f4fc6f16a429cdc355b368530e1b2b6f1af4e199",
+            "retrieval_rank": 3,
+            "vector_similarity": 0.8995153307914734,
+            "vector_distance": 0.10048466920852661,
+            "rerank_score": null
+          },
+          {
+            "rank": 4,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "d94fd92902769c78832244de3be300c94b7776f3bc28fc05d7491dba9b5d23c7",
+            "retrieval_rank": 4,
+            "vector_similarity": 0.898345947265625,
+            "vector_distance": 0.101654052734375,
+            "rerank_score": null
+          },
+          {
+            "rank": 5,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+            "retrieval_rank": 5,
+            "vector_similarity": 0.8971599340438843,
+            "vector_distance": 0.10284006595611572,
+            "rerank_score": null
+          }
+        ],
+        "after": [
+          {
+            "rank": 1,
+            "title": "GraphQL Cheat Sheet",
+            "source_path": "cheatsheets/GraphQL_Cheat_Sheet.md",
+            "chunk_id": "79b0d135ceb587f589ebf1b4708aea8e44badfedf9aacbbf9b7d7b77d5804508",
+            "retrieval_rank": 9,
+            "vector_similarity": 0.8916503190994263,
+            "vector_distance": 0.10834968090057373,
+            "rerank_score": 7.947338581085205
+          },
+          {
+            "rank": 2,
+            "title": "NoSQL Security Cheat Sheet",
+            "source_path": "cheatsheets/NoSQL_Security_Cheat_Sheet.md",
+            "chunk_id": "04711802876101216e240fc438610cfe4fb3f143f3dda64adb968b078307a4d1",
+            "retrieval_rank": 24,
+            "vector_similarity": 0.873152494430542,
+            "vector_distance": 0.126847505569458,
+            "rerank_score": 6.52453088760376
+          },
+          {
+            "rank": 3,
+            "title": "Query Parameterization Cheat Sheet",
+            "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+            "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+            "retrieval_rank": 2,
+            "vector_similarity": 0.9010270833969116,
+            "vector_distance": 0.09897291660308838,
+            "rerank_score": 5.455148220062256
+          },
+          {
+            "rank": 4,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "e785ecc5dcde0079f8eb55776bcbdccf7d208054f19ab392d43fe430c833af20",
+            "retrieval_rank": 8,
+            "vector_similarity": 0.8916609287261963,
+            "vector_distance": 0.10833907127380371,
+            "rerank_score": 4.546641826629639
+          },
+          {
+            "rank": 5,
+            "title": "Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "c6dbfb67cdd75191870df8b52a9de256a1c1ec03e4bc88e4d28813c834244446",
+            "retrieval_rank": 7,
+            "vector_similarity": 0.8944767713546753,
+            "vector_distance": 0.10552322864532471,
+            "rerank_score": 4.1170759201049805
+          }
+        ],
+        "comparison": [
+          {
+            "chunk_id": "79b0d135ceb587f589ebf1b4708aea8e44badfedf9aacbbf9b7d7b77d5804508",
+            "original_rank": 9,
+            "new_rank": 1,
+            "vector_similarity": 0.8916503190994263,
+            "vector_distance": 0.10834968090057373,
+            "rerank_score": 7.947338581085205,
+            "delta": 8
+          },
+          {
+            "chunk_id": "04711802876101216e240fc438610cfe4fb3f143f3dda64adb968b078307a4d1",
+            "original_rank": 24,
+            "new_rank": 2,
+            "vector_similarity": 0.873152494430542,
+            "vector_distance": 0.126847505569458,
+            "rerank_score": 6.52453088760376,
+            "delta": 22
+          },
+          {
+            "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+            "original_rank": 2,
+            "new_rank": 3,
+            "vector_similarity": 0.9010270833969116,
+            "vector_distance": 0.09897291660308838,
+            "rerank_score": 5.455148220062256,
+            "delta": -1
+          },
+          {
+            "chunk_id": "e785ecc5dcde0079f8eb55776bcbdccf7d208054f19ab392d43fe430c833af20",
+            "original_rank": 8,
+            "new_rank": 4,
+            "vector_similarity": 0.8916609287261963,
+            "vector_distance": 0.10833907127380371,
+            "rerank_score": 4.546641826629639,
+            "delta": 4
+          },
+          {
+            "chunk_id": "c6dbfb67cdd75191870df8b52a9de256a1c1ec03e4bc88e4d28813c834244446",
+            "original_rank": 7,
+            "new_rank": 5,
+            "vector_similarity": 0.8944767713546753,
+            "vector_distance": 0.10552322864532471,
+            "rerank_score": 4.1170759201049805,
+            "delta": 2
+          },
+          {
+            "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+            "original_rank": 5,
+            "new_rank": 6,
+            "vector_similarity": 0.8971599340438843,
+            "vector_distance": 0.10284006595611572,
+            "rerank_score": 3.450054407119751,
+            "delta": -1
+          },
+          {
+            "chunk_id": "8a252750d4afce8a785987b7fd7318cc2097278ff1fc10ab750c22133d025f19",
+            "original_rank": 19,
+            "new_rank": 7,
+            "vector_similarity": 0.8799590468406677,
+            "vector_distance": 0.12004095315933228,
+            "rerank_score": 3.233581066131592,
+            "delta": 12
+          },
+          {
+            "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+            "original_rank": 1,
+            "new_rank": 8,
+            "vector_similarity": 0.9104277491569519,
+            "vector_distance": 0.0895722508430481,
+            "rerank_score": 2.9105734825134277,
+            "delta": -7
+          },
+          {
+            "chunk_id": "fad02b3a111d1f650239a69fc6ec3fe99d419229c33056c2fa0d55b513794d06",
+            "original_rank": 16,
+            "new_rank": 9,
+            "vector_similarity": 0.8833471536636353,
+            "vector_distance": 0.11665284633636475,
+            "rerank_score": 2.852903127670288,
+            "delta": 7
+          },
+          {
+            "chunk_id": "639c875683013f0109d087ab88ec79da8719ccdfc17c2a6457edd77d1240e400",
+            "original_rank": 36,
+            "new_rank": 10,
+            "vector_similarity": 0.8697754144668579,
+            "vector_distance": 0.1302245855331421,
+            "rerank_score": 2.6274092197418213,
+            "delta": 26
+          },
+          {
+            "chunk_id": "fb1c222bc130c7ec91331958682afd633d6f9adbb1bbdcb660d41052a857212a",
+            "original_rank": 12,
+            "new_rank": 11,
+            "vector_similarity": 0.8854352831840515,
+            "vector_distance": 0.11456471681594849,
+            "rerank_score": 2.578064203262329,
+            "delta": 1
+          },
+          {
+            "chunk_id": "5a4ff5208edf928e5fb65755e5e65e3f22bb2d62fc07f802a47f3b617e166357",
+            "original_rank": 38,
+            "new_rank": 12,
+            "vector_similarity": 0.8694559335708618,
+            "vector_distance": 0.13054406642913818,
+            "rerank_score": 2.221057415008545,
+            "delta": 26
+          },
+          {
+            "chunk_id": "5291fd250c788e90481016e9f4fc6f16a429cdc355b368530e1b2b6f1af4e199",
+            "original_rank": 3,
+            "new_rank": 13,
+            "vector_similarity": 0.8995153307914734,
+            "vector_distance": 0.10048466920852661,
+            "rerank_score": 1.6199575662612915,
+            "delta": -10
+          },
+          {
+            "chunk_id": "d94fd92902769c78832244de3be300c94b7776f3bc28fc05d7491dba9b5d23c7",
+            "original_rank": 4,
+            "new_rank": 14,
+            "vector_similarity": 0.898345947265625,
+            "vector_distance": 0.101654052734375,
+            "rerank_score": 1.3456461429595947,
+            "delta": -10
+          },
+          {
+            "chunk_id": "86f4362dacafa8df091b710925e664f038da336fedb0e12d17e21d82d4f6bfb2",
+            "original_rank": 25,
+            "new_rank": 15,
+            "vector_similarity": 0.872839629650116,
+            "vector_distance": 0.12716037034988403,
+            "rerank_score": 1.2120062112808228,
+            "delta": 10
+          },
+          {
+            "chunk_id": "2c28c1c19f5ee042088343144b1b8ed6054176b14d664c153a07dcf57918246c",
+            "original_rank": 44,
+            "new_rank": 16,
+            "vector_similarity": 0.8668547868728638,
+            "vector_distance": 0.13314521312713623,
+            "rerank_score": 0.4279758930206299,
+            "delta": 28
+          },
+          {
+            "chunk_id": "5d876d3a6e4eaa8f1d34b31eaa7182f8a662dfc2b3a6e40bc63a94b8984d5b16",
+            "original_rank": 20,
+            "new_rank": 17,
+            "vector_similarity": 0.8784909844398499,
+            "vector_distance": 0.12150901556015015,
+            "rerank_score": 0.3630041480064392,
+            "delta": 3
+          },
+          {
+            "chunk_id": "05d79ff0753527a5fb65839fcd239d69dd83843da123f609ea981899aab94836",
+            "original_rank": 30,
+            "new_rank": 18,
+            "vector_similarity": 0.8714886903762817,
+            "vector_distance": 0.12851130962371826,
+            "rerank_score": -0.13650593161582947,
+            "delta": 12
+          },
+          {
+            "chunk_id": "a931207b1aec8dd4773f2c4a8edd830273b6dc301a7310c4e79af28e785bac7d",
+            "original_rank": 17,
+            "new_rank": 19,
+            "vector_similarity": 0.8819477558135986,
+            "vector_distance": 0.11805224418640137,
+            "rerank_score": -0.21331699192523956,
+            "delta": -2
+          },
+          {
+            "chunk_id": "224420bff955895923bd5eed40e4593c05a305247aa66dd18c7e8673921d3d69",
+            "original_rank": 46,
+            "new_rank": 20,
+            "vector_similarity": 0.865881085395813,
+            "vector_distance": 0.134118914604187,
+            "rerank_score": -0.4802733361721039,
+            "delta": 26
+          },
+          {
+            "chunk_id": "05fb8b5c86f2ac59aaed611d02376208ae747dbf0f3e15dbc0509d149afe1181",
+            "original_rank": 77,
+            "new_rank": 21,
+            "vector_similarity": 0.858023464679718,
+            "vector_distance": 0.14197653532028198,
+            "rerank_score": -0.6428483724594116,
+            "delta": 56
+          },
+          {
+            "chunk_id": "a5e1cf3cde4a1aaf3772113e421fcd4d4c08b1e1b8765ca404ac237093c78c7c",
+            "original_rank": 39,
+            "new_rank": 22,
+            "vector_similarity": 0.8685157299041748,
+            "vector_distance": 0.1314842700958252,
+            "rerank_score": -1.0527476072311401,
+            "delta": 17
+          },
+          {
+            "chunk_id": "a9ae6319eb6de38240dda519d53c76f48f3651344c160372b67ca19bc954cd90",
+            "original_rank": 75,
+            "new_rank": 23,
+            "vector_similarity": 0.8583143949508667,
+            "vector_distance": 0.1416856050491333,
+            "rerank_score": -1.560281753540039,
+            "delta": 52
+          },
+          {
+            "chunk_id": "f7c0bf083d2247a3577be3f495e4468450970454fced5d5f4e4cf34b89b44954",
+            "original_rank": 10,
+            "new_rank": 24,
+            "vector_similarity": 0.887913703918457,
+            "vector_distance": 0.11208629608154297,
+            "rerank_score": -1.652456283569336,
+            "delta": -14
+          },
+          {
+            "chunk_id": "eca94a8aa4a86ed40643fe96a650d1f5072d570d13b4ee261933262b5adde075",
+            "original_rank": 69,
+            "new_rank": 25,
+            "vector_similarity": 0.8593488335609436,
+            "vector_distance": 0.1406511664390564,
+            "rerank_score": -1.7448837757110596,
+            "delta": 44
+          },
+          {
+            "chunk_id": "b50661b338de199c2b4f78d48a6830a6ce23483b448c0ce0b45a1e4629fde755",
+            "original_rank": 47,
+            "new_rank": 26,
+            "vector_similarity": 0.8658810257911682,
+            "vector_distance": 0.1341189742088318,
+            "rerank_score": -1.8235942125320435,
+            "delta": 21
+          },
+          {
+            "chunk_id": "bdeb5f460cde9393d66d373f0b2407a1899db9025acb439c0f7c0c6744933e65",
+            "original_rank": 32,
+            "new_rank": 27,
+            "vector_similarity": 0.8705383539199829,
+            "vector_distance": 0.1294616460800171,
+            "rerank_score": -1.9039433002471924,
+            "delta": 5
+          },
+          {
+            "chunk_id": "5e19651d81f65185710bf6b0dbf762594493b9f2a2295191db9006964af231b9",
+            "original_rank": 6,
+            "new_rank": 28,
+            "vector_similarity": 0.8966189026832581,
+            "vector_distance": 0.10338109731674194,
+            "rerank_score": -2.2995941638946533,
+            "delta": -22
+          },
+          {
+            "chunk_id": "0b114c970c306865ddb814863b42955ed77ca7419c8d41c16ca587e7084f61f8",
+            "original_rank": 21,
+            "new_rank": 29,
+            "vector_similarity": 0.878089427947998,
+            "vector_distance": 0.12191057205200195,
+            "rerank_score": -2.533442497253418,
+            "delta": -8
+          },
+          {
+            "chunk_id": "40916c4ccd19c05b4d9cd73179bc92ac4f55b9c4a6cc60db692db2ad4745992d",
+            "original_rank": 18,
+            "new_rank": 30,
+            "vector_similarity": 0.8819347023963928,
+            "vector_distance": 0.11806529760360718,
+            "rerank_score": -2.5674939155578613,
+            "delta": -12
+          },
+          {
+            "chunk_id": "22961bb2d7b1a39f81ff8a48eb67966a62f3f05cc6d9264802829dbfa23baf87",
+            "original_rank": 50,
+            "new_rank": 31,
+            "vector_similarity": 0.8651351928710938,
+            "vector_distance": 0.13486480712890625,
+            "rerank_score": -2.8395535945892334,
+            "delta": 19
+          },
+          {
+            "chunk_id": "09feb91580961d63a09775dd27189908da1e0628499c60c5898ad16af68a51b8",
+            "original_rank": 55,
+            "new_rank": 32,
+            "vector_similarity": 0.8632062077522278,
+            "vector_distance": 0.13679379224777222,
+            "rerank_score": -2.8820340633392334,
+            "delta": 23
+          },
+          {
+            "chunk_id": "51d668d35f5978788f16c005a85074cebfa84fa4926e17f2e02be5c9d3bfff53",
+            "original_rank": 64,
+            "new_rank": 33,
+            "vector_similarity": 0.8616145849227905,
+            "vector_distance": 0.13838541507720947,
+            "rerank_score": -2.9233343601226807,
+            "delta": 31
+          },
+          {
+            "chunk_id": "66bb301562aed55e07e6d8d9e05ab935b35241a8224557503197d603993ad64f",
+            "original_rank": 62,
+            "new_rank": 34,
+            "vector_similarity": 0.8620692491531372,
+            "vector_distance": 0.1379307508468628,
+            "rerank_score": -2.964860200881958,
+            "delta": 28
+          },
+          {
+            "chunk_id": "56e2c6472144335b33cfaffb8c38cf582575c60c65f90008b2971643da036845",
+            "original_rank": 33,
+            "new_rank": 35,
+            "vector_similarity": 0.8704136610031128,
+            "vector_distance": 0.1295863389968872,
+            "rerank_score": -2.9888055324554443,
+            "delta": -2
+          },
+          {
+            "chunk_id": "9e57857364e1814b0ea51dc1c1ff053a0151a4f9f1e81f77aca2079dca1dde8d",
+            "original_rank": 11,
+            "new_rank": 36,
+            "vector_similarity": 0.8863177299499512,
+            "vector_distance": 0.11368227005004883,
+            "rerank_score": -3.0676052570343018,
+            "delta": -25
+          },
+          {
+            "chunk_id": "e8dd7fa7772d8f64df096bf83aaef03610f6576bc190f02e8b5701cfe11a0d95",
+            "original_rank": 49,
+            "new_rank": 37,
+            "vector_similarity": 0.8656818270683289,
+            "vector_distance": 0.13431817293167114,
+            "rerank_score": -3.4071896076202393,
+            "delta": 12
+          },
+          {
+            "chunk_id": "448cbf39b6c9217ed0657dce088dd0a99f1f9c3e25638285eb08e161e6aa6495",
+            "original_rank": 70,
+            "new_rank": 38,
+            "vector_similarity": 0.8591866493225098,
+            "vector_distance": 0.14081335067749023,
+            "rerank_score": -3.548431158065796,
+            "delta": 32
+          },
+          {
+            "chunk_id": "32b5c438b5b1a506c8bc1a5569cbfe0755173f39ed9caeaffdf1c80a9779c538",
+            "original_rank": 22,
+            "new_rank": 39,
+            "vector_similarity": 0.8752779960632324,
+            "vector_distance": 0.12472200393676758,
+            "rerank_score": -3.66404390335083,
+            "delta": -17
+          },
+          {
+            "chunk_id": "5f9b7a3d190a8b852e0d86996e4f222bcfe0d0dbb51d0a24ebf4ba00f6b0f1e4",
+            "original_rank": 41,
+            "new_rank": 40,
+            "vector_similarity": 0.8678772449493408,
+            "vector_distance": 0.13212275505065918,
+            "rerank_score": -3.948833465576172,
+            "delta": 1
+          },
+          {
+            "chunk_id": "36a7ed74de0048bbb1409d7b354d6968221aa6f9a12a6fb63056cde39c83d0e1",
+            "original_rank": 74,
+            "new_rank": 41,
+            "vector_similarity": 0.8583580255508423,
+            "vector_distance": 0.14164197444915771,
+            "rerank_score": -4.2060227394104,
+            "delta": 33
+          },
+          {
+            "chunk_id": "010e6d4aeab3e1ac66a948e60a94dade1ec332280cd3510dd31a97a0481dbca4",
+            "original_rank": 28,
+            "new_rank": 42,
+            "vector_similarity": 0.8718034625053406,
+            "vector_distance": 0.12819653749465942,
+            "rerank_score": -4.20988130569458,
+            "delta": -14
+          },
+          {
+            "chunk_id": "209c289f3f8e168e9953c468b8824e65a1c4b7a6b0054e80e3eea374dd1c2480",
+            "original_rank": 45,
+            "new_rank": 43,
+            "vector_similarity": 0.8665111064910889,
+            "vector_distance": 0.13348889350891113,
+            "rerank_score": -4.256640911102295,
+            "delta": 2
+          },
+          {
+            "chunk_id": "c6a3123e8b1384b447ab5961109a5caa6b5f8068058fce9080be81320c1c55ce",
+            "original_rank": 15,
+            "new_rank": 44,
+            "vector_similarity": 0.8844388127326965,
+            "vector_distance": 0.11556118726730347,
+            "rerank_score": -4.449056625366211,
+            "delta": -29
+          },
+          {
+            "chunk_id": "2d1c7f1dca76ffc1dd6c84f01ba140c23cdcfb174d4713e836797816242fe6b7",
+            "original_rank": 26,
+            "new_rank": 45,
+            "vector_similarity": 0.8727959394454956,
+            "vector_distance": 0.1272040605545044,
+            "rerank_score": -4.5672383308410645,
+            "delta": -19
+          },
+          {
+            "chunk_id": "3aba6198d1c0d426de66f27230bbd3e5794be8cc0f5461525620b4359e15e009",
+            "original_rank": 14,
+            "new_rank": 46,
+            "vector_similarity": 0.884844183921814,
+            "vector_distance": 0.11515581607818604,
+            "rerank_score": -4.707634449005127,
+            "delta": -32
+          },
+          {
+            "chunk_id": "bb574d6d5a5faac7ed2f1316f8e4281ecf84f74dc02dca5985f436ea198c1aa1",
+            "original_rank": 56,
+            "new_rank": 47,
+            "vector_similarity": 0.8631221055984497,
+            "vector_distance": 0.1368778944015503,
+            "rerank_score": -4.71277379989624,
+            "delta": 9
+          },
+          {
+            "chunk_id": "e4e7b6385d7e786d67c96f4f7700089cb445a77d4936b9d31deab0168457044a",
+            "original_rank": 43,
+            "new_rank": 48,
+            "vector_similarity": 0.8669674396514893,
+            "vector_distance": 0.13303256034851074,
+            "rerank_score": -4.771163463592529,
+            "delta": -5
+          },
+          {
+            "chunk_id": "8c6a3996b386d4057fff63ae420308b0f1fa0c3ecc0a9f305599592fa46bf110",
+            "original_rank": 13,
+            "new_rank": 49,
+            "vector_similarity": 0.8850332498550415,
+            "vector_distance": 0.1149667501449585,
+            "rerank_score": -4.823590278625488,
+            "delta": -36
+          },
+          {
+            "chunk_id": "a405051c03b5ef8b43d5f69ccc955ca92e69b378715b2a15545ba05f58e027ca",
+            "original_rank": 40,
+            "new_rank": 50,
+            "vector_similarity": 0.8681350350379944,
+            "vector_distance": 0.13186496496200562,
+            "rerank_score": -4.923583984375,
+            "delta": -10
+          },
+          {
+            "chunk_id": "1275da522dd0d3d877eef1479411cfb29944f2d1eb879e3c302c83ee039623eb",
+            "original_rank": 79,
+            "new_rank": 51,
+            "vector_similarity": 0.8574820160865784,
+            "vector_distance": 0.14251798391342163,
+            "rerank_score": -4.925838947296143,
+            "delta": 28
+          },
+          {
+            "chunk_id": "f5accfe24202cd2e485d722e112ee22780d1dbb1b0edb4a21976550b451711c7",
+            "original_rank": 37,
+            "new_rank": 52,
+            "vector_similarity": 0.8696697354316711,
+            "vector_distance": 0.13033026456832886,
+            "rerank_score": -5.027642726898193,
+            "delta": -15
+          },
+          {
+            "chunk_id": "f87565a0a84a34a1516d6e63123c50cd85bc7a80dd0596d8134804f86717724e",
+            "original_rank": 29,
+            "new_rank": 53,
+            "vector_similarity": 0.8715419173240662,
+            "vector_distance": 0.12845808267593384,
+            "rerank_score": -5.298440456390381,
+            "delta": -24
+          },
+          {
+            "chunk_id": "26d5dd2834a2b349342ac97d4c202c1de0067c1a579d8ff48c4ef0015c953a59",
+            "original_rank": 35,
+            "new_rank": 54,
+            "vector_similarity": 0.8698010444641113,
+            "vector_distance": 0.13019895553588867,
+            "rerank_score": -5.337800979614258,
+            "delta": -19
+          },
+          {
+            "chunk_id": "91db95df783f8fd1211b0076ba988a21a9fd7a0cd7a4bf6b17c0352c6592e380",
+            "original_rank": 78,
+            "new_rank": 55,
+            "vector_similarity": 0.8578504323959351,
+            "vector_distance": 0.14214956760406494,
+            "rerank_score": -5.356642246246338,
+            "delta": 23
+          },
+          {
+            "chunk_id": "5810922126bbaaa0ce3aebcd9098389d5d14a3a188fc95d629af7e5c63b7bd67",
+            "original_rank": 71,
+            "new_rank": 56,
+            "vector_similarity": 0.8585885763168335,
+            "vector_distance": 0.1414114236831665,
+            "rerank_score": -5.443118572235107,
+            "delta": 15
+          },
+          {
+            "chunk_id": "6396ccb7b41d9f032bd65b070a1959d5c53775e3851dab81578c6e4aff289fc1",
+            "original_rank": 53,
+            "new_rank": 57,
+            "vector_similarity": 0.8642673492431641,
+            "vector_distance": 0.13573265075683594,
+            "rerank_score": -5.52374792098999,
+            "delta": -4
+          },
+          {
+            "chunk_id": "b9556d811f544820968236b5765ac63542102c84549029b96f9bdd6cdcfa4442",
+            "original_rank": 65,
+            "new_rank": 58,
+            "vector_similarity": 0.8609700798988342,
+            "vector_distance": 0.13902992010116577,
+            "rerank_score": -5.563499927520752,
+            "delta": 7
+          },
+          {
+            "chunk_id": "e9d9c1c29e379f467bcbf40818424a061e77b937091a6a1f95f4a80ba1a00e88",
+            "original_rank": 61,
+            "new_rank": 59,
+            "vector_similarity": 0.8622373938560486,
+            "vector_distance": 0.13776260614395142,
+            "rerank_score": -5.569410800933838,
+            "delta": 2
+          },
+          {
+            "chunk_id": "929afca501a2762968cfc9eba0657090b4a674511c24f475bdd93d3e7739337b",
+            "original_rank": 23,
+            "new_rank": 60,
+            "vector_similarity": 0.8732508420944214,
+            "vector_distance": 0.1267491579055786,
+            "rerank_score": -5.707831859588623,
+            "delta": -37
+          },
+          {
+            "chunk_id": "5226d962477a4141ccc230111a1802b9da985796ee0a213f969ab65d01691772",
+            "original_rank": 34,
+            "new_rank": 61,
+            "vector_similarity": 0.8701562285423279,
+            "vector_distance": 0.12984377145767212,
+            "rerank_score": -5.716043472290039,
+            "delta": -27
+          },
+          {
+            "chunk_id": "812e68efa179e69a21977d9610a91dafe13c95701d6753a8937310ef851d63ab",
+            "original_rank": 58,
+            "new_rank": 62,
+            "vector_similarity": 0.8626802563667297,
+            "vector_distance": 0.13731974363327026,
+            "rerank_score": -5.8843159675598145,
+            "delta": -4
+          },
+          {
+            "chunk_id": "81a750cd51f80130d89a3ab3f8eb74032ac659125ef7e4d99b3e0dd0d2951e30",
+            "original_rank": 66,
+            "new_rank": 63,
+            "vector_similarity": 0.8609241247177124,
+            "vector_distance": 0.1390758752822876,
+            "rerank_score": -6.008735179901123,
+            "delta": 3
+          },
+          {
+            "chunk_id": "4c7227caadcaefeb34980dbe80fc7a87a790476f5fabbdf9dd6023dd97319b07",
+            "original_rank": 59,
+            "new_rank": 64,
+            "vector_similarity": 0.8624264001846313,
+            "vector_distance": 0.13757359981536865,
+            "rerank_score": -6.045513153076172,
+            "delta": -5
+          },
+          {
+            "chunk_id": "44f6b5e1a79072e6a8e010c82ccd511a95405de459e3156e7362246b96be432e",
+            "original_rank": 57,
+            "new_rank": 65,
+            "vector_similarity": 0.8627905249595642,
+            "vector_distance": 0.1372094750404358,
+            "rerank_score": -6.055059909820557,
+            "delta": -8
+          },
+          {
+            "chunk_id": "c4c69e2ee8cb4d8db748f0dc1483b7c5a8833191ffaa2c5312d9506447ed76fc",
+            "original_rank": 42,
+            "new_rank": 66,
+            "vector_similarity": 0.8673122525215149,
+            "vector_distance": 0.1326877474784851,
+            "rerank_score": -6.1835150718688965,
+            "delta": -24
+          },
+          {
+            "chunk_id": "c74ae73fbe3147cc6b1239bdecd239ce3a00045d9dce52a608a810c3dbcd2534",
+            "original_rank": 72,
+            "new_rank": 67,
+            "vector_similarity": 0.8584284782409668,
+            "vector_distance": 0.1415715217590332,
+            "rerank_score": -6.249316692352295,
+            "delta": 5
+          },
+          {
+            "chunk_id": "9a6bda5b8662240377d6a80d261d4042e51066da366e8aa0e631f36ed9ecd960",
+            "original_rank": 76,
+            "new_rank": 68,
+            "vector_similarity": 0.8582018613815308,
+            "vector_distance": 0.14179813861846924,
+            "rerank_score": -6.292287349700928,
+            "delta": 8
+          },
+          {
+            "chunk_id": "0de7b470ddeb7bc3ebfc4b6549c16dee7827e2d137a6fdb9fac6e200de9b912f",
+            "original_rank": 68,
+            "new_rank": 69,
+            "vector_similarity": 0.8600929975509644,
+            "vector_distance": 0.13990700244903564,
+            "rerank_score": -6.313240051269531,
+            "delta": -1
+          },
+          {
+            "chunk_id": "2eabc5c105a5ec3af6f79883747f08bb4878b1d6fed4f7a049e0228cd3a15d9c",
+            "original_rank": 31,
+            "new_rank": 70,
+            "vector_similarity": 0.8714061975479126,
+            "vector_distance": 0.1285938024520874,
+            "rerank_score": -6.381112575531006,
+            "delta": -39
+          },
+          {
+            "chunk_id": "7b9aa24adb54dcbb56386bfec6cc9a9cd5ffdaf01b5790c98a90e06032e253c3",
+            "original_rank": 54,
+            "new_rank": 71,
+            "vector_similarity": 0.8639365434646606,
+            "vector_distance": 0.13606345653533936,
+            "rerank_score": -6.389840602874756,
+            "delta": -17
+          },
+          {
+            "chunk_id": "61602ad685087583b3c398e747e0b0e9a20b3bc29f704e0faf2ed149cb4a1644",
+            "original_rank": 48,
+            "new_rank": 72,
+            "vector_similarity": 0.865744948387146,
+            "vector_distance": 0.134255051612854,
+            "rerank_score": -6.425976753234863,
+            "delta": -24
+          },
+          {
+            "chunk_id": "22211e02cdadc186a8f09ea8fa336b20e093e3b6b86a004d88d16fdf9f0e5b63",
+            "original_rank": 67,
+            "new_rank": 73,
+            "vector_similarity": 0.860133171081543,
+            "vector_distance": 0.13986682891845703,
+            "rerank_score": -6.6022491455078125,
+            "delta": -6
+          },
+          {
+            "chunk_id": "7b31f26ddef6d07d7851c2766c592a78604d4c9dd83da959dc6e03432008b5bd",
+            "original_rank": 51,
+            "new_rank": 74,
+            "vector_similarity": 0.8648595809936523,
+            "vector_distance": 0.13514041900634766,
+            "rerank_score": -6.6204752922058105,
+            "delta": -23
+          },
+          {
+            "chunk_id": "36d5bacc5ba8355f67d6795f13eced5b1b1c30f94260bdfd65e60d2f65cd0048",
+            "original_rank": 73,
+            "new_rank": 75,
+            "vector_similarity": 0.8583923578262329,
+            "vector_distance": 0.1416076421737671,
+            "rerank_score": -6.647651195526123,
+            "delta": -2
+          },
+          {
+            "chunk_id": "6b4964e14cabb0c35fcd6784d35ab3b48849d37868182e3ebaa46137c6f71212",
+            "original_rank": 80,
+            "new_rank": 76,
+            "vector_similarity": 0.8574013710021973,
+            "vector_distance": 0.14259862899780273,
+            "rerank_score": -6.6699700355529785,
+            "delta": 4
+          },
+          {
+            "chunk_id": "626a36eb6553150a6d7e3780ac6dcde25ac1f952897cf1e693441683a4635eac",
+            "original_rank": 63,
+            "new_rank": 77,
+            "vector_similarity": 0.8620270490646362,
+            "vector_distance": 0.13797295093536377,
+            "rerank_score": -7.2371296882629395,
+            "delta": -14
+          },
+          {
+            "chunk_id": "915d781835a0cd7a2e009e23d7afa2b660d94e513fad932d58da097ac69b3cb3",
+            "original_rank": 27,
+            "new_rank": 78,
+            "vector_similarity": 0.872626006603241,
+            "vector_distance": 0.12737399339675903,
+            "rerank_score": -7.546013355255127,
+            "delta": -51
+          },
+          {
+            "chunk_id": "f4af8973aad31fd6d4bd7b78ae021a6b069379252f2e8cf467922379e9944ac0",
+            "original_rank": 60,
+            "new_rank": 79,
+            "vector_similarity": 0.8622548580169678,
+            "vector_distance": 0.13774514198303223,
+            "rerank_score": -7.636220455169678,
+            "delta": -19
+          },
+          {
+            "chunk_id": "091df4df2343a39a52962ff180b96d7a1b67c3a08ddc8fe6fff10373b33edf6d",
+            "original_rank": 52,
+            "new_rank": 80,
+            "vector_similarity": 0.8645954132080078,
+            "vector_distance": 0.1354045867919922,
+            "rerank_score": -9.824723243713379,
+            "delta": -28
+          }
+        ]
+      }
+    },
+    "minilm": {
+      "identity": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2@e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+      "cold_load_ms": 1557.27,
+      "rss_after_load_bytes": 824627200,
+      "rss_before_model_switch_bytes": 855404544,
+      "files_bytes": 479724528,
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "index": {
+        "collection_name": "owasp_1211ddafcaf5400734f679698eeee7ef_g1",
+        "generation": 1,
+        "vectors_count": 4055,
+        "source_chunks": 2159,
+        "indexed_chunks": 2159,
+        "indexed_documents": 55,
+        "excluded_count": 0,
+        "split_vectors": 3143,
+        "dimension": 384,
+        "created_at": "2026-10-26T22:38:34.427166+00:00",
+        "duration_ms": 224779.73,
+        "computed_vectors": 4038,
+        "cache_hits": 17
+      },
+      "index_disk_bytes": 41100704,
+      "reranking_demo": {
+        "rss_after_reranking_bytes": 1254346752,
+        "query": "How to prevent SQL injection?",
+        "timings": {
+          "validation_ms": 0.413,
+          "model_ready_ms": 0.003,
+          "query_embedding_ms": 15.273,
+          "retrieval_ms": 10.288,
+          "filtering_ms": 0.564,
+          "deduplication_ms": 0.049,
+          "reranking_ms": 6721.762,
+          "total_ms": 6770.89
+        },
+        "changed_positions": 68,
+        "before": [
+          {
+            "rank": 1,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "5d876d3a6e4eaa8f1d34b31eaa7182f8a662dfc2b3a6e40bc63a94b8984d5b16",
+            "retrieval_rank": 1,
+            "vector_similarity": 0.7867600321769714,
+            "vector_distance": 0.21323996782302856,
+            "rerank_score": null
+          },
+          {
+            "rank": 2,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+            "retrieval_rank": 2,
+            "vector_similarity": 0.6888853907585144,
+            "vector_distance": 0.3111146092414856,
+            "rerank_score": null
+          },
+          {
+            "rank": 3,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "bdeb5f460cde9393d66d373f0b2407a1899db9025acb439c0f7c0c6744933e65",
+            "retrieval_rank": 3,
+            "vector_similarity": 0.6783681511878967,
+            "vector_distance": 0.32163184881210327,
+            "rerank_score": null
+          },
+          {
+            "rank": 4,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+            "retrieval_rank": 4,
+            "vector_similarity": 0.6665594577789307,
+            "vector_distance": 0.33344054222106934,
+            "rerank_score": null
+          },
+          {
+            "rank": 5,
+            "title": "Application Logging Vocabulary Cheat Sheet",
+            "source_path": "cheatsheets/Logging_Vocabulary_Cheat_Sheet.md",
+            "chunk_id": "fad02b3a111d1f650239a69fc6ec3fe99d419229c33056c2fa0d55b513794d06",
+            "retrieval_rank": 5,
+            "vector_similarity": 0.6602583527565002,
+            "vector_distance": 0.33974164724349976,
+            "rerank_score": null
+          }
+        ],
+        "after": [
+          {
+            "rank": 1,
+            "title": "GraphQL Cheat Sheet",
+            "source_path": "cheatsheets/GraphQL_Cheat_Sheet.md",
+            "chunk_id": "79b0d135ceb587f589ebf1b4708aea8e44badfedf9aacbbf9b7d7b77d5804508",
+            "retrieval_rank": 14,
+            "vector_similarity": 0.5722823143005371,
+            "vector_distance": 0.4277176856994629,
+            "rerank_score": 7.947338581085205
+          },
+          {
+            "rank": 2,
+            "title": "NoSQL Security Cheat Sheet",
+            "source_path": "cheatsheets/NoSQL_Security_Cheat_Sheet.md",
+            "chunk_id": "04711802876101216e240fc438610cfe4fb3f143f3dda64adb968b078307a4d1",
+            "retrieval_rank": 11,
+            "vector_similarity": 0.6039902567863464,
+            "vector_distance": 0.39600974321365356,
+            "rerank_score": 6.52453088760376
+          },
+          {
+            "rank": 3,
+            "title": "Query Parameterization Cheat Sheet",
+            "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+            "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+            "retrieval_rank": 6,
+            "vector_similarity": 0.6599017381668091,
+            "vector_distance": 0.3400982618331909,
+            "rerank_score": 5.455148220062256
+          },
+          {
+            "rank": 4,
+            "title": "SQL Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "e785ecc5dcde0079f8eb55776bcbdccf7d208054f19ab392d43fe430c833af20",
+            "retrieval_rank": 9,
+            "vector_similarity": 0.61495441198349,
+            "vector_distance": 0.38504558801651,
+            "rerank_score": 4.546641826629639
+          },
+          {
+            "rank": 5,
+            "title": "Injection Prevention Cheat Sheet",
+            "source_path": "cheatsheets/Injection_Prevention_Cheat_Sheet.md",
+            "chunk_id": "c6dbfb67cdd75191870df8b52a9de256a1c1ec03e4bc88e4d28813c834244446",
+            "retrieval_rank": 33,
+            "vector_similarity": 0.5146946310997009,
+            "vector_distance": 0.4853053689002991,
+            "rerank_score": 4.117075443267822
+          }
+        ],
+        "comparison": [
+          {
+            "chunk_id": "79b0d135ceb587f589ebf1b4708aea8e44badfedf9aacbbf9b7d7b77d5804508",
+            "original_rank": 14,
+            "new_rank": 1,
+            "vector_similarity": 0.5722823143005371,
+            "vector_distance": 0.4277176856994629,
+            "rerank_score": 7.947338581085205,
+            "delta": 13
+          },
+          {
+            "chunk_id": "04711802876101216e240fc438610cfe4fb3f143f3dda64adb968b078307a4d1",
+            "original_rank": 11,
+            "new_rank": 2,
+            "vector_similarity": 0.6039902567863464,
+            "vector_distance": 0.39600974321365356,
+            "rerank_score": 6.52453088760376,
+            "delta": 9
+          },
+          {
+            "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+            "original_rank": 6,
+            "new_rank": 3,
+            "vector_similarity": 0.6599017381668091,
+            "vector_distance": 0.3400982618331909,
+            "rerank_score": 5.455148220062256,
+            "delta": 3
+          },
+          {
+            "chunk_id": "e785ecc5dcde0079f8eb55776bcbdccf7d208054f19ab392d43fe430c833af20",
+            "original_rank": 9,
+            "new_rank": 4,
+            "vector_similarity": 0.61495441198349,
+            "vector_distance": 0.38504558801651,
+            "rerank_score": 4.546641826629639,
+            "delta": 5
+          },
+          {
+            "chunk_id": "c6dbfb67cdd75191870df8b52a9de256a1c1ec03e4bc88e4d28813c834244446",
+            "original_rank": 33,
+            "new_rank": 5,
+            "vector_similarity": 0.5146946310997009,
+            "vector_distance": 0.4853053689002991,
+            "rerank_score": 4.117075443267822,
+            "delta": 28
+          },
+          {
+            "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+            "original_rank": 4,
+            "new_rank": 6,
+            "vector_similarity": 0.6665594577789307,
+            "vector_distance": 0.33344054222106934,
+            "rerank_score": 3.450054407119751,
+            "delta": -2
+          },
+          {
+            "chunk_id": "8a252750d4afce8a785987b7fd7318cc2097278ff1fc10ab750c22133d025f19",
+            "original_rank": 22,
+            "new_rank": 7,
+            "vector_similarity": 0.5496754050254822,
+            "vector_distance": 0.4503245949745178,
+            "rerank_score": 3.233581066131592,
+            "delta": 15
+          },
+          {
+            "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+            "original_rank": 2,
+            "new_rank": 8,
+            "vector_similarity": 0.6888853907585144,
+            "vector_distance": 0.3111146092414856,
+            "rerank_score": 2.9105734825134277,
+            "delta": -6
+          },
+          {
+            "chunk_id": "fad02b3a111d1f650239a69fc6ec3fe99d419229c33056c2fa0d55b513794d06",
+            "original_rank": 5,
+            "new_rank": 9,
+            "vector_similarity": 0.6602583527565002,
+            "vector_distance": 0.33974164724349976,
+            "rerank_score": 2.852903127670288,
+            "delta": -4
+          },
+          {
+            "chunk_id": "fb1c222bc130c7ec91331958682afd633d6f9adbb1bbdcb660d41052a857212a",
+            "original_rank": 16,
+            "new_rank": 10,
+            "vector_similarity": 0.5680010318756104,
+            "vector_distance": 0.43199896812438965,
+            "rerank_score": 2.578064441680908,
+            "delta": 6
+          },
+          {
+            "chunk_id": "5a4ff5208edf928e5fb65755e5e65e3f22bb2d62fc07f802a47f3b617e166357",
+            "original_rank": 12,
+            "new_rank": 11,
+            "vector_similarity": 0.5930326581001282,
+            "vector_distance": 0.4069673418998718,
+            "rerank_score": 2.221057415008545,
+            "delta": 1
+          },
+          {
+            "chunk_id": "5291fd250c788e90481016e9f4fc6f16a429cdc355b368530e1b2b6f1af4e199",
+            "original_rank": 51,
+            "new_rank": 12,
+            "vector_similarity": 0.46910154819488525,
+            "vector_distance": 0.5308984518051147,
+            "rerank_score": 1.6199572086334229,
+            "delta": 39
+          },
+          {
+            "chunk_id": "d94fd92902769c78832244de3be300c94b7776f3bc28fc05d7491dba9b5d23c7",
+            "original_rank": 7,
+            "new_rank": 13,
+            "vector_similarity": 0.6465996503829956,
+            "vector_distance": 0.3534003496170044,
+            "rerank_score": 1.3456461429595947,
+            "delta": -6
+          },
+          {
+            "chunk_id": "86f4362dacafa8df091b710925e664f038da336fedb0e12d17e21d82d4f6bfb2",
+            "original_rank": 31,
+            "new_rank": 14,
+            "vector_similarity": 0.5190794467926025,
+            "vector_distance": 0.48092055320739746,
+            "rerank_score": 1.2120062112808228,
+            "delta": 17
+          },
+          {
+            "chunk_id": "2c28c1c19f5ee042088343144b1b8ed6054176b14d664c153a07dcf57918246c",
+            "original_rank": 36,
+            "new_rank": 15,
+            "vector_similarity": 0.5039876103401184,
+            "vector_distance": 0.4960123896598816,
+            "rerank_score": 0.4279758930206299,
+            "delta": 21
+          },
+          {
+            "chunk_id": "5d876d3a6e4eaa8f1d34b31eaa7182f8a662dfc2b3a6e40bc63a94b8984d5b16",
+            "original_rank": 1,
+            "new_rank": 16,
+            "vector_similarity": 0.7867600321769714,
+            "vector_distance": 0.21323996782302856,
+            "rerank_score": 0.3630041480064392,
+            "delta": -15
+          },
+          {
+            "chunk_id": "fe351b6726ef8ed6702acdc3050ae17901d21f63abad4a2d6374345a1f8b1244",
+            "original_rank": 39,
+            "new_rank": 17,
+            "vector_similarity": 0.4994363784790039,
+            "vector_distance": 0.5005636215209961,
+            "rerank_score": 0.18933771550655365,
+            "delta": 22
+          },
+          {
+            "chunk_id": "05d79ff0753527a5fb65839fcd239d69dd83843da123f609ea981899aab94836",
+            "original_rank": 41,
+            "new_rank": 18,
+            "vector_similarity": 0.49183523654937744,
+            "vector_distance": 0.5081647634506226,
+            "rerank_score": -0.13650593161582947,
+            "delta": 23
+          },
+          {
+            "chunk_id": "a931207b1aec8dd4773f2c4a8edd830273b6dc301a7310c4e79af28e785bac7d",
+            "original_rank": 27,
+            "new_rank": 19,
+            "vector_similarity": 0.5305473804473877,
+            "vector_distance": 0.4694526195526123,
+            "rerank_score": -0.21331699192523956,
+            "delta": 8
+          },
+          {
+            "chunk_id": "224420bff955895923bd5eed40e4593c05a305247aa66dd18c7e8673921d3d69",
+            "original_rank": 64,
+            "new_rank": 20,
+            "vector_similarity": 0.4322512745857239,
+            "vector_distance": 0.5677487254142761,
+            "rerank_score": -0.4802733361721039,
+            "delta": 44
+          },
+          {
+            "chunk_id": "a5e1cf3cde4a1aaf3772113e421fcd4d4c08b1e1b8765ca404ac237093c78c7c",
+            "original_rank": 68,
+            "new_rank": 21,
+            "vector_similarity": 0.4233890175819397,
+            "vector_distance": 0.5766109824180603,
+            "rerank_score": -1.0527477264404297,
+            "delta": 47
+          },
+          {
+            "chunk_id": "1a2a58a707576808b884fd0e61fe466e64172a959cc8ee558d666092cbb908cc",
+            "original_rank": 63,
+            "new_rank": 22,
+            "vector_similarity": 0.43601977825164795,
+            "vector_distance": 0.563980221748352,
+            "rerank_score": -1.2600728273391724,
+            "delta": 41
+          },
+          {
+            "chunk_id": "f7c0bf083d2247a3577be3f495e4468450970454fced5d5f4e4cf34b89b44954",
+            "original_rank": 50,
+            "new_rank": 23,
+            "vector_similarity": 0.4692150354385376,
+            "vector_distance": 0.5307849645614624,
+            "rerank_score": -1.652454137802124,
+            "delta": 27
+          },
+          {
+            "chunk_id": "bdeb5f460cde9393d66d373f0b2407a1899db9025acb439c0f7c0c6744933e65",
+            "original_rank": 3,
+            "new_rank": 24,
+            "vector_similarity": 0.6783681511878967,
+            "vector_distance": 0.32163184881210327,
+            "rerank_score": -1.9039433002471924,
+            "delta": -21
+          },
+          {
+            "chunk_id": "5e19651d81f65185710bf6b0dbf762594493b9f2a2295191db9006964af231b9",
+            "original_rank": 19,
+            "new_rank": 25,
+            "vector_similarity": 0.5619820356369019,
+            "vector_distance": 0.43801796436309814,
+            "rerank_score": -2.2995941638946533,
+            "delta": -6
+          },
+          {
+            "chunk_id": "40916c4ccd19c05b4d9cd73179bc92ac4f55b9c4a6cc60db692db2ad4745992d",
+            "original_rank": 8,
+            "new_rank": 26,
+            "vector_similarity": 0.645297646522522,
+            "vector_distance": 0.354702353477478,
+            "rerank_score": -2.5674939155578613,
+            "delta": -18
+          },
+          {
+            "chunk_id": "dff455fced2f1de7c0857cad434e0ba6202a96b51ea613710a33d80950895903",
+            "original_rank": 77,
+            "new_rank": 27,
+            "vector_similarity": 0.41231727600097656,
+            "vector_distance": 0.5876827239990234,
+            "rerank_score": -3.008467674255371,
+            "delta": 50
+          },
+          {
+            "chunk_id": "9e57857364e1814b0ea51dc1c1ff053a0151a4f9f1e81f77aca2079dca1dde8d",
+            "original_rank": 54,
+            "new_rank": 28,
+            "vector_similarity": 0.46077948808670044,
+            "vector_distance": 0.5392205119132996,
+            "rerank_score": -3.0676052570343018,
+            "delta": 26
+          },
+          {
+            "chunk_id": "28b24160d99c9ff9303cf91b852577a39cddbd1060d41e527b941214be4938ea",
+            "original_rank": 44,
+            "new_rank": 29,
+            "vector_similarity": 0.4811171293258667,
+            "vector_distance": 0.5188828706741333,
+            "rerank_score": -3.5071752071380615,
+            "delta": 15
+          },
+          {
+            "chunk_id": "94579246d5040413479d15225002dd9b8644a7c36a6282e30fa7d3a302a92ee8",
+            "original_rank": 65,
+            "new_rank": 30,
+            "vector_similarity": 0.42827630043029785,
+            "vector_distance": 0.5717236995697021,
+            "rerank_score": -3.9047648906707764,
+            "delta": 35
+          },
+          {
+            "chunk_id": "05982044f6da45790dbf1f2403432af61590e654434c87d2550f716a6506f4d3",
+            "original_rank": 75,
+            "new_rank": 31,
+            "vector_similarity": 0.4141038656234741,
+            "vector_distance": 0.5858961343765259,
+            "rerank_score": -4.198092937469482,
+            "delta": 44
+          },
+          {
+            "chunk_id": "36a7ed74de0048bbb1409d7b354d6968221aa6f9a12a6fb63056cde39c83d0e1",
+            "original_rank": 35,
+            "new_rank": 32,
+            "vector_similarity": 0.5046407580375671,
+            "vector_distance": 0.49535924196243286,
+            "rerank_score": -4.2060227394104,
+            "delta": 3
+          },
+          {
+            "chunk_id": "010e6d4aeab3e1ac66a948e60a94dade1ec332280cd3510dd31a97a0481dbca4",
+            "original_rank": 40,
+            "new_rank": 33,
+            "vector_similarity": 0.49511706829071045,
+            "vector_distance": 0.5048829317092896,
+            "rerank_score": -4.20988130569458,
+            "delta": 7
+          },
+          {
+            "chunk_id": "84f969161b4720f275fef7d78b7b26fafa76b7f555ef228dec4247c80ae9014f",
+            "original_rank": 29,
+            "new_rank": 34,
+            "vector_similarity": 0.5261887311935425,
+            "vector_distance": 0.4738112688064575,
+            "rerank_score": -4.298694133758545,
+            "delta": -5
+          },
+          {
+            "chunk_id": "06f1dcb80b582c6be3af28ccffc1c8596eed7d5811cbfb8a5cfe39e4e1b74067",
+            "original_rank": 80,
+            "new_rank": 35,
+            "vector_similarity": 0.4082406163215637,
+            "vector_distance": 0.5917593836784363,
+            "rerank_score": -4.476809024810791,
+            "delta": 45
+          },
+          {
+            "chunk_id": "6f7fca9cd28de92745c2f48275f01773fcec2a867e6c7d4d3f0b1043d84964e9",
+            "original_rank": 78,
+            "new_rank": 36,
+            "vector_similarity": 0.4122418761253357,
+            "vector_distance": 0.5877581238746643,
+            "rerank_score": -4.654634952545166,
+            "delta": 42
+          },
+          {
+            "chunk_id": "3aba6198d1c0d426de66f27230bbd3e5794be8cc0f5461525620b4359e15e009",
+            "original_rank": 28,
+            "new_rank": 37,
+            "vector_similarity": 0.5263473987579346,
+            "vector_distance": 0.47365260124206543,
+            "rerank_score": -4.707634449005127,
+            "delta": -9
+          },
+          {
+            "chunk_id": "e4e7b6385d7e786d67c96f4f7700089cb445a77d4936b9d31deab0168457044a",
+            "original_rank": 53,
+            "new_rank": 38,
+            "vector_similarity": 0.4645819067955017,
+            "vector_distance": 0.5354180932044983,
+            "rerank_score": -4.771163463592529,
+            "delta": 15
+          },
+          {
+            "chunk_id": "8c6a3996b386d4057fff63ae420308b0f1fa0c3ecc0a9f305599592fa46bf110",
+            "original_rank": 25,
+            "new_rank": 39,
+            "vector_similarity": 0.5312586426734924,
+            "vector_distance": 0.46874135732650757,
+            "rerank_score": -4.823590278625488,
+            "delta": -14
+          },
+          {
+            "chunk_id": "39b0733ed56a4e4923381179ea34203576c118a18c0579795a5b30c8f6cfc6d9",
+            "original_rank": 72,
+            "new_rank": 40,
+            "vector_similarity": 0.41740864515304565,
+            "vector_distance": 0.5825913548469543,
+            "rerank_score": -4.976379871368408,
+            "delta": 32
+          },
+          {
+            "chunk_id": "faa4be96e8a007b4da0cf3a9c97dd6c6eedc0e59dd9f188b6cdc85f35fdc9fd5",
+            "original_rank": 21,
+            "new_rank": 41,
+            "vector_similarity": 0.5543698072433472,
+            "vector_distance": 0.44563019275665283,
+            "rerank_score": -5.062777519226074,
+            "delta": -20
+          },
+          {
+            "chunk_id": "178ceea77707e2f37306a5818e2ce04bb5c26db140407f6fa3aaddd54703f500",
+            "original_rank": 79,
+            "new_rank": 42,
+            "vector_similarity": 0.41145920753479004,
+            "vector_distance": 0.58854079246521,
+            "rerank_score": -5.139960289001465,
+            "delta": 37
+          },
+          {
+            "chunk_id": "da1818940c7cf12f5fd0aa78793ac9158d5f3f15c79df73af3f08b77ec769432",
+            "original_rank": 46,
+            "new_rank": 43,
+            "vector_similarity": 0.47730743885040283,
+            "vector_distance": 0.5226925611495972,
+            "rerank_score": -5.165322780609131,
+            "delta": 3
+          },
+          {
+            "chunk_id": "0c8ce460b7b68d985a6b414a891dc8b5b93fa36c2f3977a50354c55b6f0aca8c",
+            "original_rank": 66,
+            "new_rank": 44,
+            "vector_similarity": 0.4280487895011902,
+            "vector_distance": 0.5719512104988098,
+            "rerank_score": -5.310062885284424,
+            "delta": 22
+          },
+          {
+            "chunk_id": "6396ccb7b41d9f032bd65b070a1959d5c53775e3851dab81578c6e4aff289fc1",
+            "original_rank": 24,
+            "new_rank": 45,
+            "vector_similarity": 0.5433043241500854,
+            "vector_distance": 0.45669567584991455,
+            "rerank_score": -5.52374792098999,
+            "delta": -21
+          },
+          {
+            "chunk_id": "edcc079cfdfe34b3c3754609456a75c26c12f004960f7e502e56159a6555e73f",
+            "original_rank": 71,
+            "new_rank": 46,
+            "vector_similarity": 0.4177647829055786,
+            "vector_distance": 0.5822352170944214,
+            "rerank_score": -5.5286431312561035,
+            "delta": 25
+          },
+          {
+            "chunk_id": "cb41a994a10340c9530b00982d4e41eac5e174f3b10b2438701f8573abb064e7",
+            "original_rank": 37,
+            "new_rank": 47,
+            "vector_similarity": 0.5004651546478271,
+            "vector_distance": 0.49953484535217285,
+            "rerank_score": -5.544657230377197,
+            "delta": -10
+          },
+          {
+            "chunk_id": "9349f95d7068890eb2cdd9b0673d39c1c316d9f94b7802b8a456ac85a1018dd2",
+            "original_rank": 74,
+            "new_rank": 48,
+            "vector_similarity": 0.41457515954971313,
+            "vector_distance": 0.5854248404502869,
+            "rerank_score": -5.947708606719971,
+            "delta": 26
+          },
+          {
+            "chunk_id": "1ed7df97582c6b54bea2f9cfc041622098fdda2ce2ea4eab7f1dd40c9166372f",
+            "original_rank": 67,
+            "new_rank": 49,
+            "vector_similarity": 0.4252898693084717,
+            "vector_distance": 0.5747101306915283,
+            "rerank_score": -5.980178356170654,
+            "delta": 18
+          },
+          {
+            "chunk_id": "2f613dca867db1bb3df697486c59761f2f691331b6e1759d816775454c855252",
+            "original_rank": 69,
+            "new_rank": 50,
+            "vector_similarity": 0.42294037342071533,
+            "vector_distance": 0.5770596265792847,
+            "rerank_score": -5.997923374176025,
+            "delta": 19
+          },
+          {
+            "chunk_id": "b1fe1ad525c72c477a5b3ab094293f0a676dbd42b481b55b9b550a027b7725c4",
+            "original_rank": 61,
+            "new_rank": 51,
+            "vector_similarity": 0.4414011836051941,
+            "vector_distance": 0.5585988163948059,
+            "rerank_score": -6.030693531036377,
+            "delta": 10
+          },
+          {
+            "chunk_id": "44f6b5e1a79072e6a8e010c82ccd511a95405de459e3156e7362246b96be432e",
+            "original_rank": 13,
+            "new_rank": 52,
+            "vector_similarity": 0.5754798054695129,
+            "vector_distance": 0.42452019453048706,
+            "rerank_score": -6.055059909820557,
+            "delta": -39
+          },
+          {
+            "chunk_id": "c4c69e2ee8cb4d8db748f0dc1483b7c5a8833191ffaa2c5312d9506447ed76fc",
+            "original_rank": 43,
+            "new_rank": 53,
+            "vector_similarity": 0.4816884994506836,
+            "vector_distance": 0.5183115005493164,
+            "rerank_score": -6.1835150718688965,
+            "delta": -10
+          },
+          {
+            "chunk_id": "a3f1350d3fde105965e7f73c92482421a50da1d787859e4bda843a9aa7752c48",
+            "original_rank": 73,
+            "new_rank": 54,
+            "vector_similarity": 0.41613370180130005,
+            "vector_distance": 0.5838662981987,
+            "rerank_score": -6.368663311004639,
+            "delta": 19
+          },
+          {
+            "chunk_id": "b8c502cd5add388016c3424d0d4c30c7cd04900e32d08fb824bcbac8dbce58fd",
+            "original_rank": 26,
+            "new_rank": 55,
+            "vector_similarity": 0.5310202836990356,
+            "vector_distance": 0.46897971630096436,
+            "rerank_score": -6.800290107727051,
+            "delta": -29
+          },
+          {
+            "chunk_id": "ef5756eca75e799f5a08f5cdf9ea15edc0e3c667a5b6448da0685019825fceed",
+            "original_rank": 30,
+            "new_rank": 56,
+            "vector_similarity": 0.5232574939727783,
+            "vector_distance": 0.4767425060272217,
+            "rerank_score": -6.935816287994385,
+            "delta": -26
+          },
+          {
+            "chunk_id": "6d4a7a45bbd7df598af8cdee9e1cd6a68fc87e54ec67a6a003e8ee5b8265ce09",
+            "original_rank": 60,
+            "new_rank": 57,
+            "vector_similarity": 0.4465259909629822,
+            "vector_distance": 0.5534740090370178,
+            "rerank_score": -7.220446586608887,
+            "delta": 3
+          },
+          {
+            "chunk_id": "626a36eb6553150a6d7e3780ac6dcde25ac1f952897cf1e693441683a4635eac",
+            "original_rank": 49,
+            "new_rank": 58,
+            "vector_similarity": 0.4692152738571167,
+            "vector_distance": 0.5307847261428833,
+            "rerank_score": -7.2371296882629395,
+            "delta": -9
+          },
+          {
+            "chunk_id": "f936ebd82077c36768a34c18874eb8679ce11f11367b75485d10a7061286f974",
+            "original_rank": 32,
+            "new_rank": 59,
+            "vector_similarity": 0.5154391527175903,
+            "vector_distance": 0.48456084728240967,
+            "rerank_score": -7.281673431396484,
+            "delta": -27
+          },
+          {
+            "chunk_id": "5c311106fee79d0ffb102315be8ec7c74660d88585a62068095e7dd8a26a43d8",
+            "original_rank": 15,
+            "new_rank": 60,
+            "vector_similarity": 0.5707366466522217,
+            "vector_distance": 0.4292633533477783,
+            "rerank_score": -7.364883899688721,
+            "delta": -45
+          },
+          {
+            "chunk_id": "915d781835a0cd7a2e009e23d7afa2b660d94e513fad932d58da097ac69b3cb3",
+            "original_rank": 59,
+            "new_rank": 61,
+            "vector_similarity": 0.4536076784133911,
+            "vector_distance": 0.5463923215866089,
+            "rerank_score": -7.546013355255127,
+            "delta": -2
+          },
+          {
+            "chunk_id": "f17d86d70d91c3a6636a63128f2615fb71753fa9a719c8de483e169ff56348cc",
+            "original_rank": 10,
+            "new_rank": 62,
+            "vector_similarity": 0.6102256178855896,
+            "vector_distance": 0.3897743821144104,
+            "rerank_score": -7.719580173492432,
+            "delta": -52
+          },
+          {
+            "chunk_id": "47dec5a10d971876382b2a127ab794451538bd39e8250dffabdbcc54aaf3aeec",
+            "original_rank": 38,
+            "new_rank": 63,
+            "vector_similarity": 0.4999575614929199,
+            "vector_distance": 0.5000424385070801,
+            "rerank_score": -7.782890796661377,
+            "delta": -25
+          },
+          {
+            "chunk_id": "80d02737e65fa0df0a028b58d8cdbd2c70df0b720332421442991bd44e7213b2",
+            "original_rank": 48,
+            "new_rank": 64,
+            "vector_similarity": 0.47039294242858887,
+            "vector_distance": 0.5296070575714111,
+            "rerank_score": -8.17977237701416,
+            "delta": -16
+          },
+          {
+            "chunk_id": "2713f29fa9d4693e9931ed5e9bf3d4ce16b66c481f95f805e9a292455e5273f9",
+            "original_rank": 23,
+            "new_rank": 65,
+            "vector_similarity": 0.5466318726539612,
+            "vector_distance": 0.4533681273460388,
+            "rerank_score": -8.539069175720215,
+            "delta": -42
+          },
+          {
+            "chunk_id": "ae76109dfab5baf18a9f53bca5b4a7ff09def282c10ee2d977164b5b768642a7",
+            "original_rank": 34,
+            "new_rank": 66,
+            "vector_similarity": 0.509719729423523,
+            "vector_distance": 0.49028027057647705,
+            "rerank_score": -9.241581916809082,
+            "delta": -32
+          },
+          {
+            "chunk_id": "224a5abdb00fe9d5717f47786955770ac3c3fd0b8c0d4a526ae372b1b231d28f",
+            "original_rank": 62,
+            "new_rank": 67,
+            "vector_similarity": 0.4401204586029053,
+            "vector_distance": 0.5598795413970947,
+            "rerank_score": -9.467364311218262,
+            "delta": -5
+          },
+          {
+            "chunk_id": "161987adfb57256f36f30e45f4026fafbfc2b073a2ed85315a5b23a3da90c997",
+            "original_rank": 56,
+            "new_rank": 68,
+            "vector_similarity": 0.4592999219894409,
+            "vector_distance": 0.5407000780105591,
+            "rerank_score": -9.831677436828613,
+            "delta": -12
+          }
+        ]
+      }
+    }
+  },
+  "queries": [
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "How to prevent SQL injection?",
+      "request_id": "7de70eb8105c4ac2a1646fe3bce1a8ce",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.725,
+        "model_ready_ms": 69.587,
+        "query_embedding_ms": 24.906,
+        "retrieval_ms": 763.833,
+        "filtering_ms": 0.856,
+        "deduplication_ms": 0.074,
+        "reranking_ms": 0.0,
+        "total_ms": 891.009
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.9104277491569519,
+          "vector_distance": 0.0895722508430481,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Query Parameterization Cheat Sheet",
+          "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+          "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.9010270833969116,
+          "vector_distance": 0.09897291660308838,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Query Parameterization Cheat Sheet",
+          "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+          "chunk_id": "5291fd250c788e90481016e9f4fc6f16a429cdc355b368530e1b2b6f1af4e199",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8995153307914734,
+          "vector_distance": 0.10048466920852661,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "d94fd92902769c78832244de3be300c94b7776f3bc28fc05d7491dba9b5d23c7",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.898345947265625,
+          "vector_distance": 0.101654052734375,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8971599340438843,
+          "vector_distance": 0.10284006595611572,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "Как предотвратить SQL-инъекции?",
+      "request_id": "03fff145a1ba439d979c50753c18806d",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.474,
+        "model_ready_ms": 77.215,
+        "query_embedding_ms": 22.44,
+        "retrieval_ms": 11.304,
+        "filtering_ms": 0.794,
+        "deduplication_ms": 0.062,
+        "reranking_ms": 0.0,
+        "total_ms": 136.684
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8600060343742371,
+          "vector_distance": 0.13999396562576294,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Query Parameterization Cheat Sheet",
+          "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+          "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8567421436309814,
+          "vector_distance": 0.14325785636901855,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Query Parameterization Cheat Sheet",
+          "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+          "chunk_id": "5291fd250c788e90481016e9f4fc6f16a429cdc355b368530e1b2b6f1af4e199",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.849671483039856,
+          "vector_distance": 0.15032851696014404,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "d94fd92902769c78832244de3be300c94b7776f3bc28fc05d7491dba9b5d23c7",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8493636846542358,
+          "vector_distance": 0.15063631534576416,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Query Parameterization Cheat Sheet",
+          "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+          "chunk_id": "40916c4ccd19c05b4d9cd73179bc92ac4f55b9c4a6cc60db692db2ad4745992d",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8487130403518677,
+          "vector_distance": 0.15128695964813232,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "How should passwords be stored securely?",
+      "request_id": "e8a34ee38fac4d72a75269df99380235",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.641,
+        "model_ready_ms": 91.97,
+        "query_embedding_ms": 29.803,
+        "retrieval_ms": 14.368,
+        "filtering_ms": 0.729,
+        "deduplication_ms": 0.065,
+        "reranking_ms": 0.0,
+        "total_ms": 160.702
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Cryptographic Storage Cheat Sheet",
+          "source_path": "cheatsheets/Cryptographic_Storage_Cheat_Sheet.md",
+          "chunk_id": "e716b03aeea9fb8f21f9110363e489784c9bbd3ff1b8f22d86e71554aadf156b",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.9016951322555542,
+          "vector_distance": 0.0983048677444458,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Authentication Cheat Sheet",
+          "source_path": "cheatsheets/Authentication_Cheat_Sheet.md",
+          "chunk_id": "9999971a39bddaab902f9c61546e6987af23bb754dc5982a7b4493f392325c43",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8944991827011108,
+          "vector_distance": 0.10550081729888916,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Key Management Cheat Sheet",
+          "source_path": "cheatsheets/Key_Management_Cheat_Sheet.md",
+          "chunk_id": "eb70f074e7f7ab29a691c05fd7804a434270286130bb73b952b95904253056bb",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8926054239273071,
+          "vector_distance": 0.10739457607269287,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Password Storage Cheat Sheet",
+          "source_path": "cheatsheets/Password_Storage_Cheat_Sheet.md",
+          "chunk_id": "1c1458be79055b67250e8ffc160ae06e41942d65968ba20db9fd96aca2510aac",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8869068622589111,
+          "vector_distance": 0.11309313774108887,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Forgot Password Cheat Sheet",
+          "source_path": "cheatsheets/Forgot_Password_Cheat_Sheet.md",
+          "chunk_id": "cda839f7998403fe1dd6645e6742ab83a0707944c93526168c60020e84f5f107",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8850784301757812,
+          "vector_distance": 0.11492156982421875,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "Как правильно защитить JWT?",
+      "request_id": "9cc88ff9147d4112a832112bd2c53c5c",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.43,
+        "model_ready_ms": 81.48,
+        "query_embedding_ms": 20.431,
+        "retrieval_ms": 12.245,
+        "filtering_ms": 0.77,
+        "deduplication_ms": 0.069,
+        "reranking_ms": 0.0,
+        "total_ms": 137.613
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "6db42f929b22a6c4f23d5d3e9e54df30283f9cf0a19e7499959225fba42bb6e5",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8528138399124146,
+          "vector_distance": 0.14718616008758545,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "b6701550f8d2839bdf44dcf10a27ed5e2b7d09c4771cb7588d17239fb13e9d20",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8521885275840759,
+          "vector_distance": 0.14781147241592407,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "aba5079d6fc6561f571ac4b23129e219944c12ec458cd877d1a2a36c7624e5de",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8480309844017029,
+          "vector_distance": 0.15196901559829712,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "REST Security Cheat Sheet",
+          "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+          "chunk_id": "7b94ebfe15626aab12f1714649ad190b25b960ae4aa26c522eaebefe9a2c00b1",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8478968739509583,
+          "vector_distance": 0.15210312604904175,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "REST Security Cheat Sheet",
+          "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+          "chunk_id": "040e51124a032f673da6f9c8ecaad27253e4adc657beb8c4bb66b252b0c6a897",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8472610116004944,
+          "vector_distance": 0.15273898839950562,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "What is cross-site scripting?",
+      "request_id": "aa28a8a5bed9482b9ae994c0ae1ac169",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.532,
+        "model_ready_ms": 85.582,
+        "query_embedding_ms": 22.387,
+        "retrieval_ms": 15.369,
+        "filtering_ms": 0.859,
+        "deduplication_ms": 0.068,
+        "reranking_ms": 0.0,
+        "total_ms": 149.135
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Cross Site Scripting Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+          "chunk_id": "99a19e28f3e57f7ff96eb1872439936dd1dc1286f9e5f91aba6f710b3c0eec0f",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8838838934898376,
+          "vector_distance": 0.11611610651016235,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "XSS Filter Evasion Cheat Sheet",
+          "source_path": "cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.md",
+          "chunk_id": "6a1048020131d5f8c65822efcb8da76a4d290ac1e3a3521c6677d30c7acb3ace",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8692080974578857,
+          "vector_distance": 0.13079190254211426,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Content Security Policy Cheat Sheet",
+          "source_path": "cheatsheets/Content_Security_Policy_Cheat_Sheet.md",
+          "chunk_id": "2b128abfdfeecbd35345f9c58260a344a66b74e19b70c306c79b3fa3e0eb63eb",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8689994812011719,
+          "vector_distance": 0.13100051879882812,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "DOM based XSS Prevention Cheat Sheet",
+          "source_path": "cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.md",
+          "chunk_id": "f1130e84c51abbab2797dcf9fc55799e65cb992a4a86ae3f682f4f21f0bdddb6",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8660220503807068,
+          "vector_distance": 0.1339779496192932,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "DOM based XSS Prevention Cheat Sheet",
+          "source_path": "cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.md",
+          "chunk_id": "b8e452cb417e77b6b743af15495ec76879321a2dc1aa8f4009d92fc026802875",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8614395260810852,
+          "vector_distance": 0.1385604739189148,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "Какие меры защищают от CSRF?",
+      "request_id": "5b590fec7b294f2b95c65695a050d878",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.627,
+        "model_ready_ms": 80.682,
+        "query_embedding_ms": 27.559,
+        "retrieval_ms": 12.113,
+        "filtering_ms": 0.675,
+        "deduplication_ms": 0.075,
+        "reranking_ms": 0.0,
+        "total_ms": 145.421
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "1eb906e5b19f2e94ee22fda4cbcbe50eace8d67f8f490bbfb8f6a514ef7ff66d",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8422582149505615,
+          "vector_distance": 0.15774178504943848,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "bad5a2a7c893a20c24e70255badd8430b6c07360f2d975ccf1cbc903f1f20b0f",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8334124088287354,
+          "vector_distance": 0.16658759117126465,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "4c4f94daac82736b1e58aaf9bd249ba3cc48e6a4e13aab704215a602fce6fa95",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8286833167076111,
+          "vector_distance": 0.17131668329238892,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "a7014e903cba16aa63e4e3afe0d11b53e86936bfefb8e6056b0cc7d09813389c",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8236250281333923,
+          "vector_distance": 0.17637497186660767,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "b36880b3812d19c0016204c365ccef66be4623475b25aec2cdbb1dec818af971",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8235425353050232,
+          "vector_distance": 0.1764574646949768,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "Explain SSRF prevention techniques.",
+      "request_id": "f63799f9ae1e4ef09453a2abd58c17b6",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.459,
+        "model_ready_ms": 80.591,
+        "query_embedding_ms": 21.092,
+        "retrieval_ms": 11.3,
+        "filtering_ms": 0.718,
+        "deduplication_ms": 0.068,
+        "reranking_ms": 0.0,
+        "total_ms": 136.711
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Server-Side Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "fd0f64ac1463ad642076596d42edc11737edbb4c0c20fa186397748d5d1c83be",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8756532669067383,
+          "vector_distance": 0.12434673309326172,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Server-Side Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "1dd674e20f38cf74e64212d09fb0bc013bdc1abdffb1e860b4eb86f3fec5088e",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.873164176940918,
+          "vector_distance": 0.12683582305908203,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "REST Security Cheat Sheet",
+          "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+          "chunk_id": "929afca501a2762968cfc9eba0657090b4a674511c24f475bdd93d3e7739337b",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8725659847259521,
+          "vector_distance": 0.12743401527404785,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Multifactor Authentication Cheat Sheet",
+          "source_path": "cheatsheets/Multifactor_Authentication_Cheat_Sheet.md",
+          "chunk_id": "1f3caf4842a86e93f6015e1648536b7f11b19e991505ad140825740ae045564f",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8682186603546143,
+          "vector_distance": 0.13178133964538574,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Server-Side Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "2f613dca867db1bb3df697486c59761f2f691331b6e1759d816775454c855252",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8675282597541809,
+          "vector_distance": 0.1324717402458191,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "How should secrets be managed?",
+      "request_id": "4ea0da41dc8a441096252674f22dfd4c",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.417,
+        "model_ready_ms": 81.087,
+        "query_embedding_ms": 24.771,
+        "retrieval_ms": 12.145,
+        "filtering_ms": 0.619,
+        "deduplication_ms": 0.058,
+        "reranking_ms": 0.0,
+        "total_ms": 141.14
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "f3c7ab6dd665e771aea6d8efe2a4fd633260d9c1f02f52da50e96f0a1b0087a5",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.9009243249893188,
+          "vector_distance": 0.09907567501068115,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "bdf2c4ed512c4ca01777e865b4b95a21522c71df8e0393243d0d93f17d2b4939",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8847621083259583,
+          "vector_distance": 0.11523789167404175,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "2238f8a87315ed0224d8d9696f0230d873eb4a70e073dc427ef4840df2cce1a5",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8816127777099609,
+          "vector_distance": 0.11838722229003906,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "e8db981161cfb839273bfa61b32f54e678d491c578787c28e80c67fdcd38b1a0",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8805844783782959,
+          "vector_distance": 0.1194155216217041,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "768bf2107137a53882d80f708daf29711c127a4ad9a620181214ac6218411de1",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.877639651298523,
+          "vector_distance": 0.12236034870147705,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "Что такое безопасная настройка HTTP security headers?",
+      "request_id": "4ada124865e94a1c8d883dc166d6b326",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.399,
+        "model_ready_ms": 80.079,
+        "query_embedding_ms": 20.527,
+        "retrieval_ms": 11.224,
+        "filtering_ms": 0.645,
+        "deduplication_ms": 0.084,
+        "reranking_ms": 0.0,
+        "total_ms": 134.401
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "c67a6e8c85d23ae8cc249d1d4f535f32946a97e1eb9f7a7740943bf5fe856adf",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8705006241798401,
+          "vector_distance": 0.1294993758201599,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "7f99482ea1627096afcaabdf2435498c1b9e9112b1bbc956e5d6ca8cf6c9aded",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8555259704589844,
+          "vector_distance": 0.14447402954101562,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "cb6e2e76547d23107f0d447a0495d0a1dbc075483192185d7ef364208bc3a2e8",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8443669080734253,
+          "vector_distance": 0.1556330919265747,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "c51be3e71750c9cced76339a0173bcd6d91f22e73205950d2f95192b9720cce8",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8422466516494751,
+          "vector_distance": 0.1577533483505249,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "04f62771412306f780df9483a442a01672882d27ce0ea9cd731b89611bcecf5c",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8421667218208313,
+          "vector_distance": 0.1578332781791687,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "e5",
+      "index_id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "query": "How to prevent insecure file uploads?",
+      "request_id": "aed5193900d94416a5f06e662da30dc6",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.647,
+        "model_ready_ms": 78.517,
+        "query_embedding_ms": 25.411,
+        "retrieval_ms": 12.114,
+        "filtering_ms": 0.775,
+        "deduplication_ms": 0.058,
+        "reranking_ms": 0.0,
+        "total_ms": 139.857
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "66d91aca4f2768f5497e782c2ca88e8ac4c4cd28881ed31c922ca142e3e2cc45",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.8921273946762085,
+          "vector_distance": 0.1078726053237915,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "dfee6c04553328c2e819006745a056e1a7a9bf0846a8b9242007811feb167e1c",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.8853292465209961,
+          "vector_distance": 0.1146707534790039,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "6997d19b42a92bd9940f12456d65c02dd64ea19ba8ef3083e06eabde9d16e575",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.8829548358917236,
+          "vector_distance": 0.11704516410827637,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "36f513cee09eed3c5c829da4f3413248f6c8dd333b3f842b7209e82f372a45b7",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.8793195486068726,
+          "vector_distance": 0.12068045139312744,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Input Validation Cheat Sheet",
+          "source_path": "cheatsheets/Input_Validation_Cheat_Sheet.md",
+          "chunk_id": "bc6e24c5f3552ce2b12259de6887d5712fd9045f7acefeff3df565f1540d2fb0",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.8729519844055176,
+          "vector_distance": 0.12704801559448242,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "How to prevent SQL injection?",
+      "request_id": "dc88b618e37c48f8b71d62ddb8173bbe",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.495,
+        "model_ready_ms": 75.275,
+        "query_embedding_ms": 15.878,
+        "retrieval_ms": 42.489,
+        "filtering_ms": 0.665,
+        "deduplication_ms": 0.053,
+        "reranking_ms": 0.0,
+        "total_ms": 156.537
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "5d876d3a6e4eaa8f1d34b31eaa7182f8a662dfc2b3a6e40bc63a94b8984d5b16",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7867600321769714,
+          "vector_distance": 0.21323996782302856,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.6888853907585144,
+          "vector_distance": 0.3111146092414856,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "bdeb5f460cde9393d66d373f0b2407a1899db9025acb439c0f7c0c6744933e65",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.6783681511878967,
+          "vector_distance": 0.32163184881210327,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.6665594577789307,
+          "vector_distance": 0.33344054222106934,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Application Logging Vocabulary Cheat Sheet",
+          "source_path": "cheatsheets/Logging_Vocabulary_Cheat_Sheet.md",
+          "chunk_id": "fad02b3a111d1f650239a69fc6ec3fe99d419229c33056c2fa0d55b513794d06",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.6602583527565002,
+          "vector_distance": 0.33974164724349976,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "Как предотвратить SQL-инъекции?",
+      "request_id": "6afca7ae708f4f38a176c970569947f8",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.405,
+        "model_ready_ms": 77.201,
+        "query_embedding_ms": 17.005,
+        "retrieval_ms": 10.828,
+        "filtering_ms": 0.936,
+        "deduplication_ms": 0.055,
+        "reranking_ms": 0.0,
+        "total_ms": 128.505
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "5d876d3a6e4eaa8f1d34b31eaa7182f8a662dfc2b3a6e40bc63a94b8984d5b16",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7841649055480957,
+          "vector_distance": 0.2158350944519043,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Application Logging Vocabulary Cheat Sheet",
+          "source_path": "cheatsheets/Logging_Vocabulary_Cheat_Sheet.md",
+          "chunk_id": "fad02b3a111d1f650239a69fc6ec3fe99d419229c33056c2fa0d55b513794d06",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.6727054119110107,
+          "vector_distance": 0.32729458808898926,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Query Parameterization Cheat Sheet",
+          "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+          "chunk_id": "c7601d3337497f261997d2a92eed9eb3729a5d35795f60c37d500812f4ad7197",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.6721311807632446,
+          "vector_distance": 0.32786881923675537,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "bdeb5f460cde9393d66d373f0b2407a1899db9025acb439c0f7c0c6744933e65",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.6555131673812866,
+          "vector_distance": 0.3444868326187134,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "SQL Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "16274bd066f4ec435439c4f4677a7c2620f2727b93e2a7209154d4082bcde776",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.6402963399887085,
+          "vector_distance": 0.3597036600112915,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "How should passwords be stored securely?",
+      "request_id": "ca0296fac51f4615b6f73bba1319dbc7",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.41,
+        "model_ready_ms": 76.151,
+        "query_embedding_ms": 15.677,
+        "retrieval_ms": 11.328,
+        "filtering_ms": 0.644,
+        "deduplication_ms": 0.055,
+        "reranking_ms": 0.0,
+        "total_ms": 125.969
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Password Storage Cheat Sheet",
+          "source_path": "cheatsheets/Password_Storage_Cheat_Sheet.md",
+          "chunk_id": "1c1458be79055b67250e8ffc160ae06e41942d65968ba20db9fd96aca2510aac",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7962174415588379,
+          "vector_distance": 0.2037825584411621,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Key Management Cheat Sheet",
+          "source_path": "cheatsheets/Key_Management_Cheat_Sheet.md",
+          "chunk_id": "eb70f074e7f7ab29a691c05fd7804a434270286130bb73b952b95904253056bb",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.7557347416877747,
+          "vector_distance": 0.24426525831222534,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "4b720e8089211cd5238b91d8be7ca737dc1ff70eccc49376657e800f23aef240",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.7547693252563477,
+          "vector_distance": 0.24523067474365234,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Authentication Cheat Sheet",
+          "source_path": "cheatsheets/Authentication_Cheat_Sheet.md",
+          "chunk_id": "9999971a39bddaab902f9c61546e6987af23bb754dc5982a7b4493f392325c43",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.7409424185752869,
+          "vector_distance": 0.25905758142471313,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "f3c7ab6dd665e771aea6d8efe2a4fd633260d9c1f02f52da50e96f0a1b0087a5",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.7118054628372192,
+          "vector_distance": 0.28819453716278076,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "Как правильно защитить JWT?",
+      "request_id": "82845b92078943d6aacb9268a5abea6c",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.564,
+        "model_ready_ms": 81.718,
+        "query_embedding_ms": 19.801,
+        "retrieval_ms": 12.397,
+        "filtering_ms": 0.737,
+        "deduplication_ms": 0.061,
+        "reranking_ms": 0.0,
+        "total_ms": 136.983
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "ac4445f617076dd11aa34ce20d6c9bf83a28e3ab492aebb3a31a0a1aee6fb9d9",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7295047044754028,
+          "vector_distance": 0.27049529552459717,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "14e6690366bf068ec9ca8bbc288cde585f97a40d1ea809c493fc7d0e929fcd23",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.7222846746444702,
+          "vector_distance": 0.2777153253555298,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "e14585474c0a03efb92aa4e3ddb57da0cb992be0ede11a9feb2fa5a76cb1fbb4",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.698009729385376,
+          "vector_distance": 0.301990270614624,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "9f57987c00e92404ab06fdb4ef11ded2f5344c3148bf1f9d16681be1c68803ca",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.6891482472419739,
+          "vector_distance": 0.3108517527580261,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "JSON Web Token Cheat Sheet",
+          "source_path": "cheatsheets/JSON_Web_Token_Cheat_Sheet.md",
+          "chunk_id": "6db42f929b22a6c4f23d5d3e9e54df30283f9cf0a19e7499959225fba42bb6e5",
+          "retrieval_rank": 6,
+          "vector_similarity": 0.6702021956443787,
+          "vector_distance": 0.32979780435562134,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "What is cross-site scripting?",
+      "request_id": "3b881e85a588436e91a2629c6014cfd5",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.654,
+        "model_ready_ms": 78.654,
+        "query_embedding_ms": 16.436,
+        "retrieval_ms": 10.274,
+        "filtering_ms": 0.649,
+        "deduplication_ms": 0.055,
+        "reranking_ms": 0.0,
+        "total_ms": 128.526
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Cross Site Scripting Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+          "chunk_id": "3c0f0e4574c280bd369a07848826e75fe7ba3a2d38e6704a2281bc14bb5ba568",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.5921536684036255,
+          "vector_distance": 0.4078463315963745,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Cross Site Scripting Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+          "chunk_id": "99a19e28f3e57f7ff96eb1872439936dd1dc1286f9e5f91aba6f710b3c0eec0f",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.5690702199935913,
+          "vector_distance": 0.4309297800064087,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "DOM based XSS Prevention Cheat Sheet",
+          "source_path": "cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.md",
+          "chunk_id": "f1130e84c51abbab2797dcf9fc55799e65cb992a4a86ae3f682f4f21f0bdddb6",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.5116814970970154,
+          "vector_distance": 0.4883185029029846,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "XSS Filter Evasion Cheat Sheet",
+          "source_path": "cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.md",
+          "chunk_id": "bd11d62d7058d3f8813ba8ac72f044cf5fc5587c3b5cefe5b4df5ab3ce9d2be5",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.5043293833732605,
+          "vector_distance": 0.4956706166267395,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "51c1a18727264efb6dce9dd14a4f0bf1046299ac4e593c3965342fc778a43e6f",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.4682471752166748,
+          "vector_distance": 0.5317528247833252,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "Какие меры защищают от CSRF?",
+      "request_id": "57db3a337c3c4ef39678c456c0b48d8d",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.423,
+        "model_ready_ms": 78.552,
+        "query_embedding_ms": 19.512,
+        "retrieval_ms": 12.239,
+        "filtering_ms": 0.795,
+        "deduplication_ms": 0.06,
+        "reranking_ms": 0.0,
+        "total_ms": 133.931
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "4c4f94daac82736b1e58aaf9bd249ba3cc48e6a4e13aab704215a602fce6fa95",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7314406633377075,
+          "vector_distance": 0.2685593366622925,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "26b1395bd84057e7b35064fe4a28ab876f451029f8729258ea0d5ab222912c94",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.7067997455596924,
+          "vector_distance": 0.2932002544403076,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "60b12218cb3bbb7fa7fd30be25e64dbed639d176bbd3bf26c17076ed834d166f",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.6702752709388733,
+          "vector_distance": 0.3297247290611267,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Cross Site Scripting Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+          "chunk_id": "c64137e87a8e38405350eed9d3b63984827c6971c404a84150990189a472ade8",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.6590831279754639,
+          "vector_distance": 0.34091687202453613,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "1eb906e5b19f2e94ee22fda4cbcbe50eace8d67f8f490bbfb8f6a514ef7ff66d",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.6522899866104126,
+          "vector_distance": 0.3477100133895874,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "Explain SSRF prevention techniques.",
+      "request_id": "38028e13ebb0400ab15d72606a4529a0",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.455,
+        "model_ready_ms": 78.452,
+        "query_embedding_ms": 18.499,
+        "retrieval_ms": 11.933,
+        "filtering_ms": 0.613,
+        "deduplication_ms": 0.052,
+        "reranking_ms": 0.0,
+        "total_ms": 131.593
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Authorization Cheat Sheet",
+          "source_path": "cheatsheets/Authorization_Cheat_Sheet.md",
+          "chunk_id": "a405051c03b5ef8b43d5f69ccc955ca92e69b378715b2a15545ba05f58e027ca",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.6075484156608582,
+          "vector_distance": 0.39245158433914185,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Server-Side Template Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Server_Side_Template_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "b0ded7e0f83257f4c57cc109ed5cd7caeaee22579bc2498f6a1536be3f79c158",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.5586378574371338,
+          "vector_distance": 0.4413621425628662,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Credential Stuffing Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.md",
+          "chunk_id": "981389c3a4835380f3bc5c724c2d90f2dcaecfdb6acdf86b5654af3d3cc275c9",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.5392031669616699,
+          "vector_distance": 0.4607968330383301,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Server-Side Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "1da9e18858e2b014c9e87b523b8108afe6bb7d60f57918229f61720a8a6974cb",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.526400625705719,
+          "vector_distance": 0.473599374294281,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "84f969161b4720f275fef7d78b7b26fafa76b7f555ef228dec4247c80ae9014f",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.5263679027557373,
+          "vector_distance": 0.4736320972442627,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "How should secrets be managed?",
+      "request_id": "38ef17bdd858472496c7a9078966081b",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.423,
+        "model_ready_ms": 75.912,
+        "query_embedding_ms": 16.988,
+        "retrieval_ms": 10.407,
+        "filtering_ms": 0.581,
+        "deduplication_ms": 0.049,
+        "reranking_ms": 0.0,
+        "total_ms": 125.174
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "b323fd3fb303046a1c22252c8142a2a597d6648bdb706f731763b6d7a5f646f7",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7647714614868164,
+          "vector_distance": 0.2352285385131836,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "bdf2c4ed512c4ca01777e865b4b95a21522c71df8e0393243d0d93f17d2b4939",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.7596163749694824,
+          "vector_distance": 0.24038362503051758,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "2fc382991a26511942dd0fb166e73434677cae8c57ec0d7b09d2c5e2b23ed5a6",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.750028133392334,
+          "vector_distance": 0.24997186660766602,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "276ab1722f4f251300d7670ec3f8b7033f13f2aadd4ccf4cf23917cd9c164459",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.7482826709747314,
+          "vector_distance": 0.25171732902526855,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "Secrets Management Cheat Sheet",
+          "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+          "chunk_id": "5662b23574374997b304d69ab833f3cacae790b4801e0db342744784a5575008",
+          "retrieval_rank": 5,
+          "vector_similarity": 0.7458376288414001,
+          "vector_distance": 0.25416237115859985,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "Что такое безопасная настройка HTTP security headers?",
+      "request_id": "8ad81d045bb347bbaef0720a4d25a2f7",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.413,
+        "model_ready_ms": 76.395,
+        "query_embedding_ms": 17.851,
+        "retrieval_ms": 10.342,
+        "filtering_ms": 0.629,
+        "deduplication_ms": 0.051,
+        "reranking_ms": 0.0,
+        "total_ms": 127.213
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+          "chunk_id": "eb71551309f5a85f79eb26c7dddcaf498423011636bfe4428d19fbd63fc2ecf8",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7513087391853333,
+          "vector_distance": 0.24869126081466675,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "REST Security Cheat Sheet",
+          "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+          "chunk_id": "33a3f874a7a9e187da18c781198ad27820104829da2dfb98c2f637d316871a92",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.7494590282440186,
+          "vector_distance": 0.25054097175598145,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "HTTP Strict Transport Security Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.md",
+          "chunk_id": "5359776ebf1fb557fa1429d47434a39d5bbeaa059b6cfaa2726a6739c2870fbf",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.7321996688842773,
+          "vector_distance": 0.26780033111572266,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "c67a6e8c85d23ae8cc249d1d4f535f32946a97e1eb9f7a7740943bf5fe856adf",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.7259836196899414,
+          "vector_distance": 0.2740163803100586,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "HTTP Security Response Headers Cheat Sheet",
+          "source_path": "cheatsheets/HTTP_Headers_Cheat_Sheet.md",
+          "chunk_id": "c51be3e71750c9cced76339a0173bcd6d91f22e73205950d2f95192b9720cce8",
+          "retrieval_rank": 6,
+          "vector_similarity": 0.7227188944816589,
+          "vector_distance": 0.27728110551834106,
+          "rerank_score": null
+        }
+      ]
+    },
+    {
+      "model": "minilm",
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "query": "How to prevent insecure file uploads?",
+      "request_id": "fe1e88cb348047a88f498317fee34c26",
+      "candidates": 80,
+      "timings": {
+        "validation_ms": 0.435,
+        "model_ready_ms": 78.203,
+        "query_embedding_ms": 18.611,
+        "retrieval_ms": 10.264,
+        "filtering_ms": 0.646,
+        "deduplication_ms": 0.059,
+        "reranking_ms": 0.0,
+        "total_ms": 135.391
+      },
+      "results": [
+        {
+          "rank": 1,
+          "title": "Server-Side Template Injection Prevention Cheat Sheet",
+          "source_path": "cheatsheets/Server_Side_Template_Injection_Prevention_Cheat_Sheet.md",
+          "chunk_id": "8f96aee4a7d144398732173787010bb019626d7096ab9d11788cbf583d084c52",
+          "retrieval_rank": 1,
+          "vector_similarity": 0.7206957936286926,
+          "vector_distance": 0.2793042063713074,
+          "rerank_score": null
+        },
+        {
+          "rank": 2,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "6997d19b42a92bd9940f12456d65c02dd64ea19ba8ef3083e06eabde9d16e575",
+          "retrieval_rank": 2,
+          "vector_similarity": 0.6413752436637878,
+          "vector_distance": 0.35862475633621216,
+          "rerank_score": null
+        },
+        {
+          "rank": 3,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "66d91aca4f2768f5497e782c2ca88e8ac4c4cd28881ed31c922ca142e3e2cc45",
+          "retrieval_rank": 3,
+          "vector_similarity": 0.6228073239326477,
+          "vector_distance": 0.3771926760673523,
+          "rerank_score": null
+        },
+        {
+          "rank": 4,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "e194ad931551e29df68d3d652816785af1233321807df86a2e74601f4396ab7b",
+          "retrieval_rank": 4,
+          "vector_similarity": 0.613526463508606,
+          "vector_distance": 0.38647353649139404,
+          "rerank_score": null
+        },
+        {
+          "rank": 5,
+          "title": "File Upload Cheat Sheet",
+          "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+          "chunk_id": "64bde85517cd4ff7ee5ab877eb3fe0725731532b36058234399fd1d81d5d0031",
+          "retrieval_rank": 6,
+          "vector_similarity": 0.6005990505218506,
+          "vector_distance": 0.3994009494781494,
+          "rerank_score": null
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "e5": "real inference, deterministic normalized 384D vectors, RU/EN search, Top-K, topic/threshold, actual reranking: passed",
+    "minilm": "real inference, deterministic normalized 384D vectors, RU/EN search, Top-K, topic/threshold, actual reranking: passed",
+    "result": "passed"
+  },
+  "batch_size": 8,
+  "cpu_threads": 4,
+  "rss_after_unload_bytes": 556519424,
+  "peak_sampled_rss_bytes": 1254825984
+}

@@ -19,6 +19,9 @@ def create_app(service: Service | None = None) -> FastAPI:
         service = Service(settings)
     app = FastAPI(title="OWASP-RAG", version=__version__)
     app.state.service = service
+    from src.api.stage2 import install_routes
+
+    install_routes(app, service)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"])
 
     @app.middleware("http")

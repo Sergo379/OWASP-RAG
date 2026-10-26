@@ -1,7 +1,7 @@
 [workspace]
 name = "owasp-rag"
-version = "0.1.0"
-description = "OWASP-RAG Foundation and Data Pipeline"
+version = "0.2.0"
+description = "OWASP-RAG CPU semantic retrieval"
 channels = ["conda-forge"]
 platforms = ["win-64"]
 
@@ -19,6 +19,11 @@ tokenizers = ">=0.21,<1"
 filelock = ">=3.17,<4"
 pytest = ">=8,<10"
 ruff = ">=0.11,<1"
+numpy = ">=1.26,<3"
+chromadb = "==1.5.9"
+transformers = "==4.57.6"
+torch = { version = "==2.8.0+cpu", index = "https://download.pytorch.org/whl/cpu" }
+psutil = ">=7,<8"
 
 [tasks]
 app = "python -m uvicorn src.api.app:create_app --factory --host 127.0.0.1 --port 8000"
@@ -29,3 +34,10 @@ test = "python -m pytest -q"
 smoke = "python -m src.cli smoke"
 tokenizer = "python -m src.cli tokenizer"
 lint = "ruff check src tests"
+models = "python -m src.stage2_cli models"
+prepare-model = "python -m src.stage2_cli prepare-model"
+indexes = "python -m src.stage2_cli indexes"
+build-index = "python -m src.stage2_cli build-index"
+inspect-index = "python -m src.stage2_cli inspect-index"
+search = "python -m src.stage2_cli search"
+real-smoke = "python -m src.stage2_smoke"

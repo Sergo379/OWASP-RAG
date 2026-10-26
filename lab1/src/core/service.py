@@ -2,7 +2,9 @@
 
 import logging
 import threading
+import time
 import uuid
+from collections import OrderedDict
 
 from filelock import FileLock, Timeout
 
@@ -27,6 +29,16 @@ class Service:
         self.grabber_factory, self.tokenizer_factory = grabber_factory, tokenizer_factory
         self.operation_path = self.store.root / "manifests/operation.json"
         self.lock_path = self.store.root / ".operation.lock"
+        from src.embeddings.config import load_retrieval
+        from src.embeddings.download import ModelFiles
+        from src.embeddings.provider import ModelManager
+        from src.storage.vectors import VectorStore
+
+        self.retrieval_config, artifacts = load_retrieval(settings.root)
+        self.model_files = ModelFiles(self.store.root / "models", self.retrieval_config, artifacts)
+        self.models = ModelManager(self.model_files)
+        self.vectors = VectorStore(self.store, self.retrieval_config, artifacts)
+        self.search_history = OrderedDict()
 
     def operation(self) -> dict | None:
         operation = read_json(self.operation_path, None)
@@ -47,17 +59,28 @@ class Service:
         return operation
 
     def start(self, kind: str, options: dict | None = None, background: bool = True) -> dict:
-        if kind not in ("grab", "preprocess", "tokenizer"):
+        if kind not in ("grab", "preprocess", "tokenizer", "prepare-model", "build-index"):
             raise AppError("Неизвестная операция")
-        config = self.settings.preprocessing.model_dump()
-        if options:
-            config.update(options)
         from src.core.models import PreprocessingConfig
+        from src.retrieval.models import BuildIndexRequest, PrepareModelRequest
 
         try:
-            config = PreprocessingConfig.model_validate(config)
+            if kind == "prepare-model":
+                config = PrepareModelRequest.model_validate(options or {})
+            elif kind == "build-index":
+                config = BuildIndexRequest.model_validate(
+                    {
+                        "heading_policy": self.retrieval_config.heading_policy,
+                        "overflow_policy": self.retrieval_config.overflow_policy,
+                        **(options or {}),
+                    }
+                )
+            else:
+                config = PreprocessingConfig.model_validate(
+                    {**self.settings.preprocessing.model_dump(), **(options or {})}
+                )
         except ValueError as exc:
-            raise AppError("Некорректные параметры preprocessing") from exc
+            raise AppError("Некорректные параметры операции") from exc
         lock = FileLock(self.lock_path, timeout=0, thread_local=False)
         try:
             lock.acquire()
@@ -76,6 +99,7 @@ class Service:
             "result": None,
         }
         try:
+            operation["parameters"] = config.model_dump()
             write_json(self.operation_path, operation)
             if background:
                 threading.Thread(target=self._execute, args=(operation, config, lock), daemon=True).start()
@@ -97,6 +121,26 @@ class Service:
             log.info("Operation started", extra={"operation": kind})
             if kind == "grab":
                 result = self.grabber_factory(self.settings.corpus, self.store).run(progress)
+            elif kind == "prepare-model":
+                import psutil
+
+                operation["model"] = config.model
+                result = self.model_files.prepare(config.model, progress)
+                progress(current="Загрузка weights в CPU и проверка inference")
+                before = time.perf_counter()
+                self.models.unload(self.retrieval_config.models[config.model].kind)
+                provider = self.models.get(config.model)
+                if config.model == "reranker":
+                    provider.rerank("security", ["Use secure configuration."], 1, 320)
+                else:
+                    provider.embed_query("security")
+                result.update(
+                    load_and_inference_ms=round((time.perf_counter() - before) * 1000, 2),
+                    rss_bytes=psutil.Process().memory_info().rss,
+                    inference_verified=True,
+                )
+            elif kind == "build-index":
+                result = self.vectors.build(config, self.models, progress)
             else:
                 # Empty corpus preprocessing must not trigger an unnecessary network download.
                 if kind == "preprocess" and not any(
@@ -123,11 +167,11 @@ class Service:
         finally:
             try:
                 operation["finished_at"] = now()
-                # Retain compact, durable operation history and last errors across successful runs.
+                # Preserve the stage-1 history; stage 2 never truncates existing operation records.
                 history_path = self.store.root / "manifests/history.json"
                 history = read_json(history_path, [])
                 history.append(operation)
-                write_json(history_path, history[-50:])
+                write_json(history_path, history)
                 write_json(self.operation_path, operation)
             finally:
                 lock.release()
@@ -182,12 +226,42 @@ class Service:
         return {
             "name": "OWASP-RAG",
             "version": __version__,
-            "stage": 1,
+            "stage": 2,
             "operation": self.operation(),
             "components": {
-                "ChromaDB": "Ожидает этап №2",
+                "ChromaDB": f"Persistent · индексов: {len(self.vectors.catalog()['indexes'])}",
+                "Semantic Retrieval": "Доступен на странице Search",
                 "Ollama Generation": "Ожидает этап №3",
                 "Langfuse": "Ожидает настройку на этапе №3",
                 "Evaluation": "Ожидает этап №4",
             },
         }
+
+    def search(self, request) -> dict:
+        from src.retrieval.pipeline import execute_search
+
+        try:
+            with FileLock(self.lock_path, timeout=0):
+                result = execute_search(request, self.vectors, self.models, self.retrieval_config)
+                cutoff = time.monotonic() - 600
+                for key in list(self.search_history):
+                    if self.search_history[key][0] < cutoff:
+                        del self.search_history[key]
+                self.search_history[result["request_id"]] = (time.monotonic(), result)
+                while len(self.search_history) > 20:
+                    self.search_history.popitem(last=False)
+                return result
+        except Timeout as exc:
+            raise BusyError("Ресурсы заняты другой операцией. Повторите поиск после её завершения.") from exc
+
+    def model_statuses(self):
+        operation = self.operation()
+        items = self.model_files.statuses()
+        loaded = list(self.models.loaded.values())
+        for item in items:
+            item["loaded_in_memory"] = any(key == item["key"] for key, _ in loaded)
+            if item["status"] == "downloading" and not (
+                operation and operation["status"] == "running" and operation.get("model") == item["key"]
+            ):
+                item["status"] = "interrupted"
+        return items
