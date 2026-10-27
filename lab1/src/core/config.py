@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import yaml
+from dotenv import load_dotenv
 from pydantic import ValidationError
 
 from .models import CorpusConfig, PreprocessingConfig
@@ -26,6 +27,7 @@ def load_yaml(path: Path) -> dict:
 class Settings:
     def __init__(self, root: Path = ROOT, data_dir: Path | None = None):
         self.root = root
+        load_dotenv(root / ".env", override=False)
         self.data_dir = data_dir or Path(os.environ.get("OWASP_DATA_DIR") or root / "data")
         try:
             self.corpus = CorpusConfig.model_validate(load_yaml(root / "configs/corpus.yaml"))

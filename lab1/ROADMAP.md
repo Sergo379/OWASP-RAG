@@ -1,6 +1,6 @@
 # План следующих этапов
 
-Этап №1 (Foundation & Data Pipeline) принят пользователем. Этап №2 реализует настоящий semantic retrieval; его самостоятельная приёмка описана в MANUAL_TESTING_STAGE2.md. Этапы №3–4 выполняются по отдельному заданию.
+Этапы №1–2 приняты пользователем. Этап №3 реализован по отдельному заданию; фактические результаты — STAGE3_RESULTS.md, самостоятельная приёмка — MANUAL_TESTING_STAGE3.md. Этап №4 ещё не выполняется.
 
 ## Этап №2 — Embeddings & Vector Retrieval
 
@@ -16,10 +16,10 @@
 
 ## Этап №3 — Local LLM, UI & Langfuse
 
-- Ollama, компактная квантованная Qwen3 1.7B; дополнительная Qwen3 4B Instruct для сравнения. Проверить актуальные имена и доступность тегов перед скачиванием.
+- Ollama HTTP API, закреплённые `qwen3:1.7b` / `qwen3:4b`; реальные CPU inference, последовательный запуск, фильтрация thinking. Текущий 4B tag — Thinking-2507; для практичного альтернативного Chat отдельно подготовлен официальный `qwen3:4b-instruct-2507-q4_K_M`. Его имя фиксируется явно, результаты не смешиваются с Thinking.
 - Prompt: System + User Query + Context; citations, проверка ответа и корректный отказ при недостатке источников.
 - Настоящий AI Chat с результатами генерации.
-- Обязательный Langfuse Cloud: полная иерархия query / embedding / retrieval / filtering / reranking / context building / generation / validation / final answer.
+- Langfuse 5 / OTel: реальная иерархия query / embedding / retrieval / filtering / reranking / context / generation / validation / final answer. Cloud-проверка BLOCKED без ключей пользователя; SDK/exporter тестируется локально.
 - IDs документов/chunks, scores, Top-K, model/prompt/snapshot/config, inputs/outputs, timing/errors; локальный fallback при недоступности Langfuse.
 - Актуальный Python SDK по [официальной документации](https://langfuse.com/docs/observability/sdk/overview), без обязательного LangChain.
 
@@ -31,4 +31,4 @@
 - Только реальные измерения: CSV/JSON, графики, отчёт, сохранённые revisions/config/snapshot и связь результатов с Langfuse traces.
 - Разделить tuning и final evaluation, не выбирать параметры по final set. Не объявлять лучший вариант до измерений.
 
-Компоненты этапа №2 используют настоящие weights и ChromaDB. Компоненты этапов №3–4 пока не установлены/не имитируются. Counts, demo queries и timings — технические проверки, не итоговая метрика качества RAG.
+Компоненты этапов №2–3 используют настоящие weights, ChromaDB и Ollama; этап №4 не реализован. Counts, фиксированные demo questions и timings — технические проверки, не итоговая метрика качества RAG.

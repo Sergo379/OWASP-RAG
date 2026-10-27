@@ -1,0 +1,105 @@
+{
+  "kind": "actual required qwen3:4b Thinking-2507 resource-limit case; not a PASS",
+  "case": {
+    "name": "qwen4_minilm",
+    "question": "Which query technique prevents SQL injection? Give a brief recommendation.",
+    "llm": "qwen3:4b",
+    "embedding": "minilm",
+    "retrieval_settings": {
+      "index_id": "1211ddafcaf5400734f679698eeee7ef",
+      "model": "minilm",
+      "top_k": 3,
+      "similarity_threshold": 0,
+      "topic": null,
+      "document_id": "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89",
+      "reranking": false,
+      "candidate_pool_size": 80
+    },
+    "reranking": false,
+    "expected": "completed",
+    "passed": false,
+    "request_id": "4f79dc1164b14ab4b0ffbfe7e9972e3a",
+    "trace_id": "fdf9e6075c77b30ad653b572ee310f84",
+    "status": "failed",
+    "answer": "",
+    "error": "Достигнут num_predict: ответ неполный. Сузьте вопрос или выберите concise_grounded",
+    "sources": [],
+    "validation": {},
+    "total_ms": 345624.57,
+    "generation": null,
+    "memory": {
+      "sample_interval_ms": 250,
+      "peak_python_rss_bytes": 685871104,
+      "peak_all_ollama_rss_bytes": 3333685248,
+      "peak_combined_rss_bytes": 3749527552,
+      "minimum_system_available_bytes": 4019990528,
+      "measurement": "Python + all Ollama processes and descendants; summed RSS may double-count shared pages"
+    },
+    "context": {
+      "context_tokens": 420,
+      "context_token_limit": 1590,
+      "estimated_prompt_tokens": 691,
+      "tokenizer_identity": "Qwen/Qwen3-1.7B@70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "template_reserve_tokens": 192,
+      "excluded": [
+        {
+          "chunk_id": "5d876d3a6e4eaa8f1d34b31eaa7182f8a662dfc2b3a6e40bc63a94b8984d5b16",
+          "reason": "heading_only",
+          "tokens": 38
+        }
+      ],
+      "selected_chunk_ids": [
+        "cf8e4808092760887e971b16f8677200681ae0a10f56a474a736d10ec24b738b",
+        "bdeb5f460cde9393d66d373f0b2407a1899db9025acb439c0f7c0c6744933e65"
+      ],
+      "truncation": "none; whole chunks only"
+    },
+    "stages": [
+      {
+        "name": "INPUT_VALIDATION",
+        "duration_ms": 0.467
+      },
+      {
+        "name": "QUERY_EMBEDDING",
+        "duration_ms": 526.857
+      },
+      {
+        "name": "VECTOR_RETRIEVAL",
+        "duration_ms": 15.049
+      },
+      {
+        "name": "SIMILARITY_FILTERING",
+        "duration_ms": 0.317
+      },
+      {
+        "name": "METADATA_FILTERING",
+        "duration_ms": 0.337
+      },
+      {
+        "name": "DEDUPLICATION",
+        "duration_ms": 0.641
+      },
+      {
+        "name": "RERANKING",
+        "duration_ms": 0.359
+      },
+      {
+        "name": "CONTEXT_BUILDING",
+        "duration_ms": 785.673
+      },
+      {
+        "name": "PROMPT_CONSTRUCTION",
+        "duration_ms": 0.382
+      },
+      {
+        "name": "OLLAMA_GENERATION",
+        "duration_ms": 327693.045,
+        "status": "error",
+        "error_type": "AppError"
+      }
+    ]
+  },
+  "configured_num_predict": 2048,
+  "configured_temperature": 0.6,
+  "internal_reasoning_saved": false
+}

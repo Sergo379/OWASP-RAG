@@ -1,0 +1,6 @@
+{
+  "available": false,
+  "actual_connection_refused": true,
+  "error": "Ollama API недоступен. Запустите Ollama и выполните ollama pull qwen3:1.7b / qwen3:4b.",
+  "production_configuration_changed": false
+}

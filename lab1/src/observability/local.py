@@ -4,6 +4,8 @@ import traceback
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
+from filelock import FileLock, Timeout
+
 from src.core.config import load_yaml
 from src.storage.files import now
 
@@ -57,6 +59,30 @@ class ConsoleFormatter(logging.Formatter):
         return f"[{record.name}] {record.getMessage()} {' '.join(fields)}".rstrip()
 
 
+class SharedRotatingFileHandler(RotatingFileHandler):
+    """CLI + API rotation on Windows: no persistent open handles between writes."""
+    def emit(self, record):
+        try:
+            with FileLock(self.baseFilename+".lock", timeout=2):
+                try:
+                    super().emit(record)
+                finally:
+                    if self.stream:
+                        self.stream.close()
+                        self.stream = None
+        except Timeout:
+            # A blocked logging writer must not block core RAG indefinitely.
+            pass
+
+    def doRollover(self):
+        try:
+            super().doRollover()
+        except PermissionError:
+            # A viewer or a pre-upgrade process can still hold the old log open.
+            # Append this record and retry rotation on the next write.
+            pass
+
+
 def configure(root: Path):
     logger = logging.getLogger("owasp")
     if logger.handlers:
@@ -64,11 +90,12 @@ def configure(root: Path):
     config = load_yaml(root / "configs/logging.yaml")
     folder = root / "logs"
     folder.mkdir(exist_ok=True)
-    handler = RotatingFileHandler(
+    handler = SharedRotatingFileHandler(
         folder / "application.log",
         maxBytes=config["max_bytes"],
         backupCount=config["backup_count"],
         encoding="utf-8",
+        delay=True,
     )
     handler.setFormatter(JsonFormatter())
     logger.addHandler(handler)

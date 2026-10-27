@@ -4,6 +4,7 @@ import json
 import logging
 import time
 import uuid
+from contextlib import contextmanager
 
 import psutil
 
@@ -16,20 +17,38 @@ from src.storage.vectors import corpus_snapshot
 log = logging.getLogger("owasp.search")
 
 
-def filter_candidates(candidates: list[dict], request, manifest):
-    kept, removed = [], []
+@contextmanager
+def observed(observer, name, **fields):
+    if observer is None:
+        from src.observability.tracing import NullSpan
+        yield NullSpan()
+    else:
+        with observer.step(name, **fields) as span:
+            yield span
+
+
+def filter_candidates(candidates: list[dict], request, manifest, observer=None):
+    kept, removed, reasons = [], [], {}
+    # Separate real passes; stale identity retains priority in the public diagnostics.
+    with observed(observer, "SIMILARITY_FILTERING") as span:
+        for candidate in candidates:
+            if candidate["vector_similarity"] < request.similarity_threshold:
+                reasons[candidate["vector_id"]] = "below_threshold"
+        span.update(metadata={"threshold": request.similarity_threshold, "below_threshold": len(reasons)})
+    with observed(observer, "METADATA_FILTERING") as span:
+        for candidate in candidates:
+            meta = candidate["metadata"]
+            doc = manifest.documents.get(meta["document_id"])
+            if not doc or doc.status != "active" or doc.content_sha256 != meta["source_content_sha256"]:
+                reasons[candidate["vector_id"]] = "stale"
+            elif candidate["vector_id"] not in reasons and ((request.topic and meta["topic"] != request.topic) or (
+                request.document_id and meta["document_id"] != request.document_id
+            )):
+                reasons[candidate["vector_id"]] = "metadata_mismatch"
+        span.update(metadata={"removed": len(reasons), "topic": request.topic, "document_id": request.document_id})
     for candidate in candidates:
         meta = candidate["metadata"]
-        doc = manifest.documents.get(meta["document_id"])
-        reason = None
-        if not doc or doc.status != "active" or doc.content_sha256 != meta["source_content_sha256"]:
-            reason = "stale"
-        elif candidate["vector_similarity"] < request.similarity_threshold:
-            reason = "below_threshold"
-        elif (request.topic and meta["topic"] != request.topic) or (
-            request.document_id and meta["document_id"] != request.document_id
-        ):
-            reason = "metadata_mismatch"
+        reason = reasons.get(candidate["vector_id"])
         if reason:
             removed.append(
                 {"vector_id": candidate["vector_id"], "chunk_id": meta["chunk_id"], "reason": reason}
@@ -54,8 +73,8 @@ def deduplicate(candidates: list[dict]):
     return kept, removed
 
 
-def execute_search(request, vectors, models, config) -> dict:
-    request_id, started = uuid.uuid4().hex, time.perf_counter()
+def execute_search(request, vectors, models, config, *, request_id=None, observer=None) -> dict:
+    request_id, started = request_id or uuid.uuid4().hex, time.perf_counter()
     timings, stages = {}, []
     rss_before = psutil.Process().memory_info().rss
 
@@ -99,7 +118,10 @@ def execute_search(request, vectors, models, config) -> dict:
         timings["model_ready_ms"] = elapsed(step)
         event("MODEL_READY", model_identity=provider.model_identity, duration_ms=timings["model_ready_ms"])
         step = time.perf_counter()
-        embedding = validate_vectors([provider.embed_query(request.query)], provider.dimension)[0]
+        with observed(observer, "QUERY_EMBEDDING", as_type="embedding",
+                      model=provider.model_identity) as span:
+            embedding = validate_vectors([provider.embed_query(request.query)], provider.dimension)[0]
+            span.update(metadata={"dimension": len(embedding), "query_chars": len(request.query)})
         if len(embedding) != identity["model_spec"]["dimension"]:
             raise AppError("Размерность query embedding не соответствует индексу")
         timings["query_embedding_ms"] = elapsed(step)
@@ -113,12 +135,16 @@ def execute_search(request, vectors, models, config) -> dict:
             where_parts.append({"document_id": request.document_id})
         where = {"$and": where_parts} if len(where_parts) > 1 else (where_parts[0] if where_parts else None)
         event("VECTOR_RETRIEVAL_STARTED", pool_size=request.candidate_pool_size, metadata_pushdown=where)
-        response = collection.query(
-            query_embeddings=[embedding.tolist()],
-            n_results=min(request.candidate_pool_size, collection.count()),
-            where=where,
-            include=["documents", "metadatas", "distances"],
-        )
+        with observed(observer, "VECTOR_RETRIEVAL", as_type="retriever") as span:
+            response = collection.query(
+                query_embeddings=[embedding.tolist()],
+                n_results=min(request.candidate_pool_size, collection.count()),
+                where=where,
+                include=["documents", "metadatas", "distances"],
+            )
+            span.update(metadata={"index_id": request.index_id, "snapshot": identity["source_snapshot_fingerprint"],
+                                  "candidate_ids": response["ids"][0], "distances": response["distances"][0],
+                                  "metadata_pushdown": where})
         candidates = [
             {
                 "vector_id": vector_id,
@@ -153,11 +179,13 @@ def execute_search(request, vectors, models, config) -> dict:
         )
         step = time.perf_counter()
         manifest = vectors.store.manifest()
-        kept, filtered = filter_candidates(candidates, request, manifest)
+        kept, filtered = filter_candidates(candidates, request, manifest, observer)
         timings["filtering_ms"] = elapsed(step)
         event("FILTERING_COMPLETED", kept=len(kept), removed=filtered, duration_ms=timings["filtering_ms"])
         step = time.perf_counter()
-        kept, duplicates = deduplicate(kept)
+        with observed(observer, "DEDUPLICATION") as span:
+            kept, duplicates = deduplicate(kept)
+            span.update(metadata={"kept": len(kept), "removed": duplicates})
         timings["deduplication_ms"] = elapsed(step)
         event(
             "DEDUPLICATION_COMPLETED",
@@ -175,13 +203,16 @@ def execute_search(request, vectors, models, config) -> dict:
         if request.reranking and kept:
             step = time.perf_counter()
             event("RERANKING_STARTED", candidates=len(kept), model=config.models["reranker"].identity)
-            reranker = models.get("reranker")
-            scores, transformations = reranker.rerank(
-                request.query,
-                [c["original_text"] for c in kept],
-                config.batch_size,
-                config.reranker_passage_tokens,
-            )
+            with observed(observer, "RERANKING", model=config.models["reranker"].identity) as span:
+                reranker = models.get("reranker")
+                scores, transformations = reranker.rerank(
+                    request.query,
+                    [c["original_text"] for c in kept],
+                    config.batch_size,
+                    config.reranker_passage_tokens,
+                )
+                span.update(metadata={"candidate_ids": [c["metadata"]["chunk_id"] for c in kept],
+                                      "scores": scores, "status": "completed"})
             for candidate, score, transformation in zip(kept, scores, transformations, strict=True):
                 candidate["rerank_score"] = score
                 candidate["rerank_transformation"] = transformation
@@ -201,6 +232,8 @@ def execute_search(request, vectors, models, config) -> dict:
             timings["reranking_ms"] = elapsed(step)
             event("RERANKING_COMPLETED", duration_ms=timings["reranking_ms"], ranking=comparison)
         else:
+            with observed(observer, "RERANKING") as span:
+                span.update(metadata={"status": "skipped", "enabled": request.reranking, "candidates": len(kept)})
             event("RERANKING_SKIPPED", enabled=request.reranking, candidates=len(kept))
 
         def present(items, reranked):

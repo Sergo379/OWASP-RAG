@@ -1,0 +1,90 @@
+{
+  "available": true,
+  "version": "0.40.11",
+  "models": [
+    {
+      "name": "qwen3:1.7b",
+      "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+      "size_bytes": 1359293444,
+      "ready": true,
+      "expected_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7"
+    },
+    {
+      "name": "qwen3:4b",
+      "digest": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7",
+      "size_bytes": 2497293931,
+      "ready": true,
+      "expected_digest": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7"
+    },
+    {
+      "name": "qwen3:4b-instruct-2507-q4_K_M",
+      "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+      "size_bytes": 2497293803,
+      "ready": true,
+      "expected_digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0"
+    }
+  ],
+  "tokenizer": "Qwen/Qwen3-1.7B@70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "inference": [
+    {
+      "model": "qwen3:1.7b",
+      "answer": "READY.",
+      "done_reason": "stop",
+      "prompt_eval_count": 26,
+      "eval_count": 3,
+      "total_duration": 2518735100,
+      "load_duration": 2115101600,
+      "prompt_eval_duration": 309091000,
+      "eval_duration": 90056000,
+      "ttft_ms": 2494.44,
+      "wall_ms": 2585.58,
+      "think_requested": false,
+      "think_supported": true,
+      "structured_thinking_discarded": false,
+      "max_output_tokens": 512,
+      "model_variant": null,
+      "runtime_model": "qwen3:1.7b",
+      "runtime_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7"
+    },
+    {
+      "model": "qwen3:4b",
+      "answer": "READY",
+      "done_reason": "stop",
+      "prompt_eval_count": 20,
+      "eval_count": 179,
+      "total_duration": 21311040800,
+      "load_duration": 4622167600,
+      "prompt_eval_duration": 610782000,
+      "eval_duration": 16068875000,
+      "ttft_ms": 21253.67,
+      "wall_ms": 21357.31,
+      "think_requested": true,
+      "think_supported": true,
+      "structured_thinking_discarded": true,
+      "max_output_tokens": 2048,
+      "model_variant": "Thinking",
+      "runtime_model": "qwen3:4b",
+      "runtime_digest": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7"
+    },
+    {
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "answer": "READY",
+      "done_reason": "stop",
+      "prompt_eval_count": 18,
+      "eval_count": 2,
+      "total_duration": 5786438500,
+      "load_duration": 4915521000,
+      "prompt_eval_duration": 751894000,
+      "eval_duration": 112520000,
+      "ttft_ms": 5723.5,
+      "wall_ms": 5835.21,
+      "think_requested": false,
+      "think_supported": true,
+      "structured_thinking_discarded": false,
+      "max_output_tokens": 512,
+      "model_variant": "Instruct",
+      "runtime_model": "qwen3:4b-instruct-2507-q4_K_M",
+      "runtime_digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0"
+    }
+  ]
+}

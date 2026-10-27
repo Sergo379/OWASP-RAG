@@ -39,6 +39,17 @@ class Service:
         self.models = ModelManager(self.model_files)
         self.vectors = VectorStore(self.store, self.retrieval_config, artifacts)
         self.search_history = OrderedDict()
+        self._chat = None
+        self._chat_init_lock = threading.Lock()
+
+    @property
+    def chat(self):
+        if self._chat is None:
+            with self._chat_init_lock:
+                if self._chat is None:
+                    from src.generation.service import Chat
+                    self._chat = Chat(self)
+        return self._chat
 
     def operation(self) -> dict | None:
         operation = read_json(self.operation_path, None)
@@ -226,13 +237,13 @@ class Service:
         return {
             "name": "OWASP-RAG",
             "version": __version__,
-            "stage": 2,
+            "stage": 3,
             "operation": self.operation(),
             "components": {
                 "ChromaDB": f"Persistent · индексов: {len(self.vectors.catalog()['indexes'])}",
                 "Semantic Retrieval": "Доступен на странице Search",
-                "Ollama Generation": "Ожидает этап №3",
-                "Langfuse": "Ожидает настройку на этапе №3",
+                "Ollama Generation": "AI Chat · Qwen3 1.7B / 4B · CPU · llm-check проверяет API",
+                "Langfuse": "OpenTelemetry SDK · Cloud: настройте локальный .env и langfuse-check",
                 "Evaluation": "Ожидает этап №4",
             },
         }

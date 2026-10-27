@@ -1,7 +1,7 @@
 [workspace]
 name = "owasp-rag"
-version = "0.2.0"
-description = "OWASP-RAG CPU semantic retrieval"
+version = "0.3.0"
+description = "OWASP-RAG local grounded generation and observability"
 channels = ["conda-forge"]
 platforms = ["win-64"]
 
@@ -24,6 +24,8 @@ chromadb = "==1.5.9"
 transformers = "==4.57.6"
 torch = { version = "==2.8.0+cpu", index = "https://download.pytorch.org/whl/cpu" }
 psutil = ">=7,<8"
+langfuse = "==5.0.4"
+python-dotenv = ">=1,<2"
 
 [tasks]
 app = "python -m uvicorn src.api.app:create_app --factory --host 127.0.0.1 --port 8000"
@@ -41,3 +43,7 @@ build-index = "python -m src.stage2_cli build-index"
 inspect-index = "python -m src.stage2_cli inspect-index"
 search = "python -m src.stage2_cli search"
 real-smoke = "python -m src.stage2_smoke"
+llm-check = "python -m src.stage3_cli llm-check"
+rag = "python -m src.stage3_cli rag"
+rag-smoke = "python -m src.stage3_smoke"
+langfuse-check = "python -m src.stage3_cli langfuse-check"

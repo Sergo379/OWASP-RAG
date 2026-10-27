@@ -1,0 +1,10 @@
+{
+  "sdk": "langfuse 5.0.4 / OpenTelemetry",
+  "configured": false,
+  "cloud_verification": "credentials_required",
+  "last_export": "not_attempted",
+  "capture_texts": false,
+  "instrumentation_errors": 0,
+  "delivery": "bounded in-memory SDK queue; no durable replay",
+  "message": "LANGFUSE CLOUD VERIFICATION: BLOCKED — USER CREDENTIALS REQUIRED"
+}

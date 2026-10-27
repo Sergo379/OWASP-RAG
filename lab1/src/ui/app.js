@@ -16,7 +16,7 @@ function navigate() {
   document.querySelectorAll('.page').forEach(el=>el.classList.add('hidden'));
   document.querySelectorAll('nav a').forEach(el=>el.classList.toggle('active',el.dataset.view===view));
   $('breadcrumb').textContent=names[view]||'Dashboard';
-  if(view==='dashboard'||view==='knowledge'||view==='search') $(view).classList.remove('hidden');
+  if(view==='dashboard'||view==='knowledge'||view==='search'||view==='chat') $(view).classList.remove('hidden');
   else { $('future').classList.remove('hidden'); $('future-title').textContent=names[view]||'Раздел'; $('future-message').textContent='Будет доступно на этапе №'+(view==='search'?'2':view==='chat'?'3':'4'); }
 }
 function renderDocs() {
@@ -70,6 +70,7 @@ async function poll() {
     const key=state.operation?state.operation.operation_id+state.operation.status:'empty';
     if(key!==lastStatus){await loadCorpus();if(window.loadStage2)await window.loadStage2();lastStatus=key;}
     if(window.updateStage2Busy)window.updateStage2Busy();
+    if(window.updateChatBusy)window.updateChatBusy();
     $('connection-error').classList.add('hidden');
   }catch(err){error(err);}finally{setTimeout(poll,2000);}
 }

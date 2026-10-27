@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js"></script><script defer src="/static/stage3.js"></script></head>
 <body>
 <aside class="sidebar">
   <a class="brand" href="#dashboard"><span class="brand-icon">O<span>R</span></span><div>OWASP<span class="muted">—RAG</span><small>KNOWLEDGE CONSOLE</small></div></a>
@@ -12,14 +12,14 @@
     <a href="#chat" data-view="chat"><span>◇</span> AI Chat <small>03</small></a>
     <a href="#experiments" data-view="experiments"><span>⌁</span> Experiments <small>04</small></a>
   </nav>
-  <div class="sidebar-bottom"><span class="dot"></span> Local · CPU only<small>Semantic Retrieval<br>Этап 02 / 04 · <span id="version">…</span></small></div>
+  <div class="sidebar-bottom"><span class="dot"></span> Local · CPU only<small>Grounded AI Chat<br>Этап 03 / 04 · <span id="version">…</span></small></div>
 </aside>
 <main>
   <header><div class="breadcrumb">WORKSPACE <span>/</span> <span id="breadcrumb">Dashboard</span></div><a href="https://cheatsheetseries.owasp.org/" target="_blank" rel="noreferrer">OWASP Cheat Sheet Series ↗</a></header>
   <div id="connection-error" role="alert" class="alert hidden"></div>
   <article class="panel operation"><div class="panel-title"><h2>Текущая операция</h2><span id="operation-status" class="badge subtle">Ожидание</span></div><p id="operation-text" class="muted">Операции ещё не запускались.</p><progress id="progress" max="1" value="0" class="hidden"></progress><details id="operation-details" class="hidden"><summary>Результат и параметры операции</summary><pre id="operation-result"></pre></details></article>
   <section class="page" id="dashboard">
-    <div class="page-heading"><div><div class="eyebrow">INTELLIGENT CYBERSECURITY KNOWLEDGE ASSISTANT</div><h1>Обзор системы<span class="accent">.</span></h1><p>От проверенных источников — к структурированным знаниям.</p></div><span class="badge">Этап №2 · Semantic Retrieval</span></div>
+    <div class="page-heading"><div><div class="eyebrow">INTELLIGENT CYBERSECURITY KNOWLEDGE ASSISTANT</div><h1>Обзор системы<span class="accent">.</span></h1><p>От проверенных источников — к структурированным знаниям.</p></div><span class="badge">Этап №3 · Grounded AI Chat</span></div>
     <div class="metrics">
       <article><small>СКАЧАНО ДОКУМЕНТОВ</small><strong id="downloaded">—</strong><span>Markdown из OWASP GitHub</span></article>
       <article><small>ОБРАБОТАНО</small><strong id="processed">—</strong><span>Актуальная версия корпуса</span></article>
@@ -46,7 +46,18 @@
     <details id="search-comparison" class="panel hidden"><summary>Without Reranking / With Reranking · одни исходные candidates</summary><div id="comparison-summary" class="two-columns"></div><div class="table-wrap"><table><thead><tr><th>CHUNK</th><th>ORIGINAL RANK</th><th>NEW RANK</th><th>SIMILARITY</th><th>RAW RERANK SCORE</th><th>Δ</th></tr></thead><tbody id="comparison-table"></tbody></table></div></details>
     <details id="search-diagnostics" class="panel hidden"><summary>Search Execution Details</summary><pre id="search-diagnostics-text"></pre></details>
   </section>
-  <section class="page hidden" id="future"><div class="eyebrow">ROADMAP</div><h1 id="future-title"></h1><article class="panel empty"><span>◇</span><h2 id="future-message"></h2><p>Сейчас доступны сбор, подготовка корпуса и настоящий semantic retrieval.</p><a href="#knowledge">Перейти к документам →</a></article></section>
+  <section class="page hidden" id="chat">
+    <div class="page-heading"><div><div class="eyebrow">LOCAL QWEN3 · OWASP SOURCES · EN / RU</div><h1>AI Chat<span class="accent">.</span></h1><p>Ответы по найденным фрагментам. Откройте цитаты и проверьте, подтверждают ли они выводы.</p></div><button id="chat-refresh">Проверить модели</button></div>
+    <article class="panel"><p id="llm-status" class="muted">Проверка Ollama API…</p><p id="langfuse-status" class="muted"></p><details><summary>Модели и настройки генерации</summary><pre id="llm-config"></pre></details></article>
+    <form class="panel" id="chat-form">
+      <div class="search-settings"><label>LLM<select id="chat-llm"><option>qwen3:1.7b</option><option value="qwen3:4b">qwen3:4b · Thinking-2507 · slow</option><option>qwen3:4b-instruct-2507-q4_K_M</option></select></label><label>Embedding<select id="chat-model"><option value="e5">multilingual-e5-small</option><option value="minilm">multilingual MiniLM</option></select></label><label>Vector Index<select id="chat-index" required></select></label><label>Top-K<select id="chat-k"><option>3</option><option selected>5</option><option>10</option><option>20</option></select></label><label>Similarity threshold<input id="chat-threshold" type="number" value="0" min="-1" max="1" step="0.01"></label><label>Prompt<select id="chat-prompt"><option>strict_grounded</option><option>concise_grounded</option></select></label></div>
+      <details><summary>Retrieval options</summary><div class="search-settings"><label>Candidate Pool<input id="chat-pool" type="number" value="80" min="20" max="500"></label><label>Topic<select id="chat-topic"><option value="">Все темы</option></select></label><label>Document<select id="chat-document"><option value="">Все документы</option></select></label><label><input id="chat-reranking" type="checkbox"> Reranking (CPU)</label></div><p class="muted">Similarity = 1 − cosine distance. История ограничена; предыдущие цитаты не используются как доказательства.</p></details>
+      <label class="query-label" for="chat-query">Вопрос по безопасности веб-приложений</label><textarea id="chat-query" rows="3" maxlength="2000" required placeholder="How can SQL injection be prevented?"></textarea>
+      <div class="chat-actions"><button class="primary" type="submit" id="chat-send" disabled>Отправить</button><button type="button" id="chat-stop" disabled>Остановить</button><button type="button" id="chat-clear">Очистить историю</button><button type="button" id="chat-new">Новый диалог</button></div>
+    </form>
+    <p id="chat-progress" role="status" aria-live="polite" class="muted"></p><div id="chat-messages"></div>
+  </section>
+  <section class="page hidden" id="future"><div class="eyebrow">ROADMAP</div><h1 id="future-title"></h1><article class="panel empty"><span>◇</span><h2 id="future-message"></h2><p>Эксперименты и evaluation запланированы на этап №4.</p><a href="#knowledge">Перейти к документам →</a></article></section>
   <footer>OWASP-RAG <span>Данные: OWASP Cheat Sheet Series · CC BY-SA 4.0</span></footer>
 </main>
 <dialog id="viewer"><div class="dialog-heading"><div><div class="eyebrow">DOCUMENT INSPECTOR</div><h2 id="viewer-title"></h2></div><button id="close-viewer" aria-label="Закрыть">✕</button></div><p id="viewer-meta" class="muted"></p><div class="viewer-toolbar"><button id="show-raw">Исходный Markdown</button><button id="show-chunks">Chunks</button><select id="viewer-config" aria-label="Конфигурация chunks"></select></div><div id="viewer-content"></div><button id="more-chunks" class="hidden">Следующие chunks ↓</button></dialog>

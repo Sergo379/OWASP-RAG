@@ -1,0 +1,31 @@
+schema_version: 1
+base_url: http://127.0.0.1:11434
+default_model: qwen3:1.7b
+models:
+  qwen3:1.7b: 8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7
+  qwen3:4b: 359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7
+  qwen3:4b-instruct-2507-q4_K_M: 0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0
+temperature: 0.1
+num_ctx: 4096
+num_predict: 512
+model_num_predict:
+  qwen3:4b: 2048
+model_temperatures:
+  qwen3:4b: 0.6
+num_thread: 4
+timeout_seconds: 360
+keep_alive: 0
+think: false
+# The pinned 4B legacy template ignores false. Enable the API's structured
+# thinking channel for this model and discard it before any output/persistence.
+thinking_models: [qwen3:4b]
+context_tokens: 2400
+history_tokens: 400
+history_turns: 2
+template_reserve_tokens: 192
+max_messages: 40
+unload_retrieval: true
+tokenizer:
+  model: Qwen/Qwen3-1.7B
+  revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+  sha256: aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4

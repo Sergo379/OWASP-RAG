@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-27T11:32:24.066998+00:00",
+  "browser": "Chromium Codex in-app browser",
+  "sql_answer_request": "c7a8d3fc50184a7ab0a13b27b2af13a5",
+  "multi_document_request": "a26e7a3f418544f8ad70773856c626b1",
+  "actual_stop_request": "c4199197b6ba423b904fb26998d62928",
+  "stop_status": "cancelled",
+  "ollama_ps_after_cancel": [],
+  "weather_request": "93b30ad57e0a4b1aaecea305ced49dbd",
+  "weather_status": "refused",
+  "new_session_history_messages": 0,
+  "clear_session_messages": 0,
+  "persistence_after_server_restart": "verified completed and cancelled messages",
+  "rapid_new_send": "verified correct new session after session-transition guard fix",
+  "standalone_chrome_edge": "NOT TESTED",
+  "screenshots": [
+    "stage3-chat-citations.png",
+    "stage3-chat-status.png",
+    "stage3-chat-refusal.png"
+  ]
+}

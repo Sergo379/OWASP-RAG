@@ -661,3 +661,5 @@ dialog::backdrop {
     font-size:12px
   }
 }
+/* Stage 3: use the existing console typography and panels. */
+.chat-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.chat-message.user{border-left:3px solid var(--accent,#6de4bc)}.chat-message>small{display:block;margin-bottom:14px}.chat-message{overflow-wrap:anywhere}.answer-body p{white-space:pre-wrap;line-height:1.7}.answer-body li{margin:8px 0;line-height:1.65}.answer-body code{background:#172b35;padding:2px 5px;border-radius:4px}.answer-code{padding:18px;overflow:auto;border:1px solid #29404b;border-radius:8px}.citation-group{border-top:1px solid #29404b;margin-top:16px;padding-top:14px}.citation-group details{margin-top:8px}.citation-group pre{max-height:350px;overflow:auto;white-space:pre-wrap}#chat-query{display:block;width:100%;resize:vertical;box-sizing:border-box;margin-top:10px;background:#101e26;color:#e0eaf0;border:1px solid #29404b;border-radius:8px;padding:14px;font:inherit}#chat-progress{overflow-wrap:anywhere}#chat .search-settings{margin-bottom:18px}

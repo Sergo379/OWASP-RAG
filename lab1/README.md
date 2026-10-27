@@ -1,6 +1,6 @@
-# OWASP-RAG · этапы №1–2
+# OWASP-RAG · этапы №1–3
 
-Цель — собственная воспроизводимая RAG-система по безопасности веб-приложений. Требования: [задание преподавателя](https://github.com/Randwow/PAD). Первый этап принят пользователем. Сейчас доступны Foundation, Grabber, Preprocessing, Dashboard, Knowledge Base и настоящий семантический поиск RU/EN с ChromaDB и reranking. Генерации ответов LLM пока нет.
+Цель — собственная воспроизводимая RAG-система по безопасности веб-приложений. Требования: [задание преподавателя](https://github.com/Randwow/PAD). Этапы №1–2 приняты пользователем. Доступны Foundation, Grabber, Preprocessing, Dashboard, Knowledge Base, семантический поиск RU/EN с ChromaDB/reranking и AI Chat на Ollama/Qwen3 с citations, streaming, отменой и Langfuse OpenTelemetry.
 
 ## Обоснование решений
 
@@ -49,7 +49,7 @@ pixi run smoke --network
 | `GITHUB_TOKEN` | Необязательный токен только в окружении; отправляется только GitHub API |
 | `OWASP_DATA_DIR` | Необязательный альтернативный каталог данных |
 
-После изменения YAML перезапустите сервер. `.env.example` служит памяткой; автоматической загрузки `.env` нет. Устанавливайте необходимые переменные в PowerShell до запуска. Для обычного публичного корпуса токен не требуется: discovery использует два API-запроса; файлы скачиваются с raw.githubusercontent.com. Не записывайте токен в команды, публикуемые на защите, или в Git.
+После изменения YAML или `.env` перезапустите сервер. Начиная с этапа №3 локальный `lab1/.env` загружается автоматически без переопределения уже установленных переменных окружения. Копируйте `.env.example` только если `.env` ещё не существует; ключи вводите локально, не в чат или Git. Для публичного корпуса GitHub-токен не требуется.
 
 ```powershell
 # Отдельный пустой корпус для проверки, без изменения основного:
@@ -119,7 +119,7 @@ OpenAPI: `/openapi.json`, Swagger UI: `/docs` (Swagger assets могут тре�
 
 ## Файлы и тесты
 
-`src/core`, `grabber`, `preprocessing`, `storage`, `observability`, `api`, `ui` — действующие модули первого этапа. Этап №2 добавляет `embeddings`, `retrieval`, `storage/vectors.py`, `api/stage2.py`, `ui/stage2.js` и CLI/smoke. Filtering, deduplication и reranking входят в собственный retrieval pipeline. Generation/evaluation — будущие контракты в [ARCHITECTURE.md](ARCHITECTURE.md), без фиктивных функций.
+`src/core`, `grabber`, `preprocessing`, `storage`, `observability`, `api`, `ui` — действующие модули первого этапа. Этап №2 добавляет embeddings, Chroma и retrieval. Этап №3 — `generation/`, `observability/tracing.py`, `api/stage3.py`, `ui/stage3.js`, CLI/smoke. Evaluation остаётся на этапе №4; контракты — в [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ```powershell
 pixi run test
@@ -192,10 +192,36 @@ Search JSON: `query`, `index_id`, `model`, `top_k`, `similarity_threshold`, `top
 
 Локальные JSON-логи сохранены, в PowerShell добавлена последовательность QUERY/EMBEDDING/RETRIEVAL/FILTER/DEDUP/RERANK/RESULT с request_id, настоящими IDs/scores/timings. Полный query не пишется в постоянный лог без `log_queries:true`; диагностика ответа остаётся доступна в памяти. Ключи/токены не логируются. Операционная история первого этапа сохраняется без дальнейшего усечения.
 
-Тесты разделены: обычный pytest — offline unit + real-Chroma integration с mock/tiny models; `real-smoke` — настоящий E2E по подготовленным weights/индексам; browser QA — отдельно. [Ручная приёмка A–R](MANUAL_TESTING_STAGE2.md), [реальные результаты](STAGE2_RESULTS.md), [сохранённые demo queries](configs/demo_queries.json). Преподаватель требует embeddings/vector DB/retriever/filter/reranker: реализовано на этапе №2; генерация/Langfuse и исследовательская оценка остаются в этапах №3–4.
+Тесты разделены: pytest — offline unit/integration, Chroma с tiny models, Ollama HTTP transport fixtures и настоящий локальный Langfuse SDK exporter; `real-smoke` — настоящий retrieval по weights/индексам; `rag-smoke` — настоящие локальные LLM. Browser QA выполняется отдельно. Старые [результаты этапа №2](STAGE2_RESULTS.md) сохранены; новая [приёмка A–U](MANUAL_TESTING_STAGE3.md) и [результаты этапа №3](STAGE3_RESULTS.md) описывают генерацию.
 
 ## Ограничения и дальнейшая работа
 
-Ollama, AI Chat/LLM generation, Langfuse Cloud и полноценная evaluation не реализованы. UI честно показывает этапы №3–4. Нет научных выводов об оптимальной модели/стратегии. Десять демонстрационных запросов и latency/RAM smoke подтверждают работоспособность, а не итоговое качество RAG. Необязательное удаление индексов через UI не реализовано; данные автоматически не удаляются. Подробнее: [ROADMAP.md](ROADMAP.md).
+AI Chat и Langfuse SDK реализованы; настоящий Cloud trace требует пользовательских ключей и отдельной проверки. Проверка citation IDs не доказывает faithfulness; слабая модель может неверно обобщить корректно процитированный текст. Исследовательская evaluation и выбор лучшей модели не выполнялись. Автоматическое удаление старых индексов и durable replay Cloud traces не реализованы. Подробнее: [ROADMAP.md](ROADMAP.md).
+
+## AI Chat: запуск этапа №3
+
+Установите [Ollama для Windows](https://ollama.com/download/windows) из официального дистрибутива; приложение Ollama должно работать в фоне. Не запускайте второй `ollama serve`, если API уже доступен.
+
+```powershell
+ollama pull qwen3:1.7b
+ollama pull qwen3:4b
+ollama pull qwen3:4b-instruct-2507-q4_K_M
+pixi run llm-check --prepare-tokenizer
+pixi run llm-check --inference --output .cache/llm-check.json
+pixi run rag --query "How can SQL injection be prevented?" --output .cache/answer.json
+pixi run rag-smoke
+pixi run langfuse-check
+pixi run app
+```
+
+Откройте [AI Chat](http://127.0.0.1:8000/#chat), выберите LLM, embedding и готовый индекс этой модели. Введите RU/EN-вопрос. Во время streaming текст предварительный; после проверки final заменяет его на ответ с источниками либо отказ. «Остановить» отменяет upstream HTTP-запрос. Cancelled/failed/interrupted не считаются завершённым ответом. Новый диалог изолирован; «Очистить историю» очищает сообщения текущего диалога. Локальные request records остаются в игнорируемом Git каталоге `data/chat/requests`; это не удаление всех диагностических данных.
+
+Настройки `configs/generation.yaml`: CPU 4 threads, `num_ctx=4096`, `num_predict=512`, temperature 0.1, `keep_alive=0`, общий timeout 360 s, контекст максимум 2400 Qwen tokens, запас шаблона 192, история до 2 полных пар / 400 tokens. Результат `prompt_eval_count` — фактическое измерение Ollama; предварительная оценка использует pinned Qwen tokenizer и запас под Go template. Chunks включаются целиком или исключаются с причиной. Retrieval модели освобождаются перед LLM; файлы weights/индексов сохраняются.
+
+Закреплённый `qwen3:4b` по GGUF metadata является **Thinking-2507**, а не hybrid: отключение thinking не поддерживается weights. Рабочая конфигурация использует **исходный `qwen3:4b`, `think=true` и отдельный structured thinking channel API**. Клиент отбрасывает thinking до UI, логов, истории и Cloud; fallback filter скрывает inline prefix до `</think>`. Для 4B выделен максимум 2048 generated tokens (включая скрытый reasoning), для 1.7B — 512. На сложных RAG запросах Thinking-2507 реально исчерпывал даже 2048 tokens: failed/length обработан честно. Для практичного 4B Chat добавлен отдельный официальный `qwen3:4b-instruct-2507-q4_K_M` (другая fine-tune, та же Q4_K_M разрядность), с think=false и лимитом 512. Он выбирается под своим настоящим именем, не выдаётся за Thinking-тег. В обычном Chat приоритетна 1.7B с think=false. Поддержку параметра описывает [Ollama Thinking API](https://docs.ollama.com/capabilities/thinking).
+
+`configs/prompts.yaml` хранит версии `strict_grounded` и `concise_grounded`. История не считается источником. Статус `refused` возможен даже при ненулевых similarity scores: пустая выдача, неподходящий контекст, неизвестный частный факт, instruction override, sentinel модели или некорректные citations. Эвристики и prompt уменьшают ошибки, но не гарантируют защиту от всех prompt injections.
+
+Для Cloud задайте `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` в локальном `.env` и перезапустите сервер. `pixi run langfuse-check` проверяет auth и реальный OTLP export и возвращает ненулевой код при отсутствии ключей/доставки (Python CLI: 2; Pixi может нормализовать код). До настройки: **LANGFUSE CLOUD VERIFICATION: BLOCKED — USER CREDENTIALS REQUIRED**. SDK работает локально; это не доказательство Cloud delivery. По умолчанию экспортируются только технические metadata. `LANGFUSE_CAPTURE_TEXTS=true` включает opt-in текстов с best-effort masking email/key/password; masking не является универсальным DLP. Cloud недоступность не останавливает RAG; очередь SDK ограничена памятью, переживание restart/replay не обещается. «Open in Langfuse» появляется только после auth и успешного экспорта данного trace ID.
 
 Данные: [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/), авторы OWASP Foundation и участники. [CC BY-SA 4.0](https://github.com/OWASP/CheatSheetSeries/blob/master/LICENSE.md). При распространении raw/chunks сохраняйте атрибуцию, ссылку на источник, указание преобразований и ту же лицензию. Все изменения pipeline — подготовка/нормализация/chunking. Это самостоятельный учебный проект, не официальный продукт OWASP.
