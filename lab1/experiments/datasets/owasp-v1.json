@@ -1,0 +1,1771 @@
+[
+  {
+    "id": "OWASP-Q01",
+    "split": "development",
+    "language": "ru",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "session",
+    "question": "Шифрует ли атрибут Secure значение cookie и что именно он гарантирует?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Secure ограничивает отправку cookie защищённым HTTPS-соединением. Шифрование трафика обеспечивает TLS, а сам флаг не шифрует значение cookie."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1",
+        "title": "Session Management Cheat Sheet",
+        "section": "Secure Attribute",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Session_Management_Cheat_Sheet.md",
+        "source_sha256": "3c38656e2be6188be4fc31d8c1fadafaaa6f37accc27e411e3345c235d44c051",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 17581,
+        "char_end": 17930,
+        "line_start": 133,
+        "quote": "The `Secure` cookie attribute instructs web browsers to only send the cookie through an encrypted HTTPS (SSL/TLS) connection. This session protection mechanism is mandatory to prevent the disclosure of the session ID through MitM (Man-in-the-Middle) attacks. It ensures that an attacker cannot simply capture the session ID from web browser traffic.",
+        "anchor": "only send the cookie"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Secure ограничивает отправку cookie защищённым HTTPS-соединением. Шифрование трафика обеспечивает TLS, а сам флаг не шифрует значение cookie.",
+    "relevant_documents": [
+      "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q02",
+    "split": "development",
+    "language": "en",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "session",
+    "question": "What does HttpOnly prevent when set on a session cookie?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "HttpOnly prevents scripts from reading the cookie through document.cookie."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1",
+        "title": "Session Management Cheat Sheet",
+        "section": "HttpOnly Attribute",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Session_Management_Cheat_Sheet.md",
+        "source_sha256": "3c38656e2be6188be4fc31d8c1fadafaaa6f37accc27e411e3345c235d44c051",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 18591,
+        "char_end": 19203,
+        "line_start": 141,
+        "quote": "The `HttpOnly` cookie attribute instructs web browsers not to allow scripts (e.g. JavaScript or VBscript) an ability to access the cookies via the DOM document.cookie object. This session ID protection is mandatory to prevent session ID stealing through XSS attacks. However, if an XSS attack is combined with a CSRF attack, the requests sent to the web application will include the session cookie, as the browser always includes the cookies when sending requests. The `HttpOnly` cookie only protects the confidentiality of the cookie; the attacker cannot use it offline, outside of the context of an XSS attack.",
+        "anchor": "via the DOM document.cookie object"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "HttpOnly prevents scripts from reading the cookie through document.cookie.",
+    "relevant_documents": [
+      "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q03",
+    "split": "development",
+    "language": "ru",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "tls",
+    "question": "Какие версии TLS нужно включить по умолчанию, оставить для совместимости и отключить для веб-приложения?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Использовать TLS 1.3 по умолчанию, допускать TLS 1.2 для совместимости и отключить TLS 1.0/1.1."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df",
+        "title": "Transport Layer Security Cheat Sheet",
+        "section": "Only Support Strong Protocols",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Transport_Layer_Security_Cheat_Sheet.md",
+        "source_sha256": "b259fe4350463fcee9dc46e107ab9c5e6fbacdcfe4e13fcee84c01c310f08f23",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 1815,
+        "char_end": 2300,
+        "line_start": 23,
+        "quote": "Web applications must default to **TLS 1.3** and may support TLS 1.2 for compatibility. **TLS 1.0 and TLS 1.1 are formally deprecated by [RFC 8996](https://datatracker.ietf.org/doc/html/rfc8996) (March 2021) and must be disabled.** They are also forbidden by [PCI DSS](https://www.pcisecuritystandards.org/documents/Migrating-from-SSL-Early-TLS-Info-Supp-v1_1.pdf), disallowed by NIST SP 800-52 Rev. 2, and removed from all mainstream browsers. SSLv2 and SSLv3 must always be disabled.",
+        "anchor": "must default to **TLS 1.3**"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Использовать TLS 1.3 по умолчанию, допускать TLS 1.2 для совместимости и отключить TLS 1.0/1.1.",
+    "relevant_documents": [
+      "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q04",
+    "split": "development",
+    "language": "en",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "password",
+    "question": "What minimum memory, iteration count and parallelism does this OWASP snapshot recommend for Argon2id?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "The recommended Argon2id minimum is 19 MiB of memory, 2 iterations and parallelism of 1."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "dc19169e6992472528961f6c09b15f4665b1c97948dd4bfa44cde68069d4484e",
+        "title": "Password Storage Cheat Sheet",
+        "section": "Introduction",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Password_Storage_Cheat_Sheet.md",
+        "source_sha256": "3869a8bf0a5144ef5c741b74fb3739bf10eb16af669c65a60a233aad943a9323",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 970,
+        "char_end": 1105,
+        "line_start": 11,
+        "quote": "- **Use [Argon2id](#argon2id) with a minimum configuration of 19 MiB of memory, an iteration count of 2, and 1 degree of parallelism.**",
+        "anchor": "minimum configuration of 19 MiB"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "The recommended Argon2id minimum is 19 MiB of memory, 2 iterations and parallelism of 1.",
+    "relevant_documents": [
+      "dc19169e6992472528961f6c09b15f4665b1c97948dd4bfa44cde68069d4484e"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q05",
+    "split": "development",
+    "language": "ru",
+    "category": "multi_document",
+    "difficulty": "medium",
+    "topic": "sql",
+    "question": "Что ставить на первое место для защиты значений в SQL и как передать значение через Java JDBC?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Параметризовать значения SQL вместо конкатенации пользовательского ввода."
+      },
+      {
+        "id": "C2",
+        "text": "В JDBC использовать PreparedStatement с плейсхолдером и привязать значение отдельным вызовом setString."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89",
+        "title": "SQL Injection Prevention Cheat Sheet",
+        "section": "Introduction",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+        "source_sha256": "5597b04e2a6f280e1b33a3a01c1f01884fa04fd9679168e2606fab22b6a6058b",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 490,
+        "char_end": 858,
+        "line_start": 7,
+        "quote": "Use parameterized queries for data values, fixed application-owned choices for dynamic query structure, and least privilege to limit damage. These controls apply regardless of whether data comes from an HTTP request, another service, or previously stored data. For other injection types, see the [Injection Prevention Cheat Sheet](Injection_Prevention_Cheat_Sheet.md).",
+        "anchor": "Use parameterized queries for data values"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "b43210b212533618270a81c19b442e6f6b60b823c91f90e115f4ba0aeec70e3f",
+        "title": "Query Parameterization Cheat Sheet",
+        "section": "Using Java built-in feature",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Query_Parameterization_Cheat_Sheet.md",
+        "source_sha256": "d449b1cc14cf0b2ed21d83716eded31e8b155ca1cc5a6cc4c1b2f8acf9ffd4b6",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 1524,
+        "char_end": 1744,
+        "line_start": 23,
+        "quote": "String query = \"SELECT account_balance FROM user_data WHERE user_name = ? \";  \nPreparedStatement pstmt = connection.prepareStatement( query );\npstmt.setString( 1, custname);\nResultSet results = pstmt.executeQuery( );\n```",
+        "anchor": "PreparedStatement pstmt"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Параметризовать значения SQL вместо конкатенации пользовательского ввода. В JDBC использовать PreparedStatement с плейсхолдером и привязать значение отдельным вызовом setString.",
+    "relevant_documents": [
+      "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89",
+      "b43210b212533618270a81c19b442e6f6b60b823c91f90e115f4ba0aeec70e3f"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q06",
+    "split": "development",
+    "language": "en",
+    "category": "multi_document",
+    "difficulty": "medium",
+    "topic": "authorization",
+    "question": "A signed-in user calls a private REST endpoint. What does authentication establish and where should access control be enforced?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Authentication establishes identity. Authorization decides whether the entity may perform the requested action."
+      },
+      {
+        "id": "C2",
+        "text": "Enforce access control at each private REST endpoint."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "22d5b832259c210d10016093fe9517f622c6795b6d8d6aa1104097578cf4d01e",
+        "title": "Authorization Cheat Sheet",
+        "section": "Introduction",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Authorization_Cheat_Sheet.md",
+        "source_sha256": "fb8b6e5c60ed783025beefb5049142fd9da02d01f5c95de18a19d26479737975",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 46,
+        "char_end": 1053,
+        "line_start": 5,
+        "quote": "Authorization may be defined as \"the process of verifying that a requested action or service is approved for a specific entity\" ([NIST](https://csrc.nist.gov/glossary/term/authorization)). Authorization is distinct from authentication which is the process of verifying an entity's identity. When designing and developing a software solution, it is important to keep these distinctions in mind. A user who has been authenticated (perhaps by providing a username and password) is often not authorized to access every resource and perform every action that is technically possible through a system. For example, a web app may have both regular users and admins, with the admins being able to perform actions the average user is not privileged to perform, even though they have been authenticated. Additionally, authentication is not always required for accessing resources; an unauthenticated user may be authorized to access certain public resources, such as an image or login page, or even an entire web app.",
+        "anchor": "is distinct from authentication"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450",
+        "title": "REST Security Cheat Sheet",
+        "section": "Access Control",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+        "source_sha256": "3e2959541004f37a28d47ea1f742f30f46d06a331317eb4d9371617f2ad7a704",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 3310,
+        "char_end": 3634,
+        "line_start": 35,
+        "quote": "Non-public REST services must perform access control at each API endpoint. Web services in monolithic applications implement this by means of user authentication, authorization logic and session management. This has several drawbacks for modern architectures which compose multiple microservices following the RESTful style.",
+        "anchor": "Non-public REST services must perform access control at each API endpoint"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Authentication establishes identity. Authorization decides whether the entity may perform the requested action. Enforce access control at each private REST endpoint.",
+    "relevant_documents": [
+      "22d5b832259c210d10016093fe9517f622c6795b6d8d6aa1104097578cf4d01e",
+      "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q07",
+    "split": "development",
+    "language": "ru",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "idor",
+    "question": "После перехода на UUID в URL профилей нужно ли серверу проверять доступ к конкретному профилю?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Сервер проверяет полномочия на каждый объект. Сложные идентификаторы дополняют контроль доступа и не заменяют его."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "d471432a992eaa4ff1126cf3b34c4e0685c6fbdfc6b2b3408b78f19cf5b0d7e4",
+        "title": "Insecure Direct Object Reference Prevention Cheat Sheet",
+        "section": "Mitigation",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md",
+        "source_sha256": "3b0cef632300124beb38ba4169cc163cfce44dd768885e58fb56b4285c42da7f",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 3651,
+        "char_end": 3938,
+        "line_start": 68,
+        "quote": "To mitigate IDOR, implement access control checks for each object that users try to access. Web frameworks often provide ways to facilitate this. Additionally, use complex identifiers as a defense-in-depth measure, but remember that access control is crucial even with these identifiers.",
+        "anchor": "implement access control checks for each object"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Сервер проверяет полномочия на каждый объект. Сложные идентификаторы дополняют контроль доступа и не заменяют его.",
+    "relevant_documents": [
+      "d471432a992eaa4ff1126cf3b34c4e0685c6fbdfc6b2b3408b78f19cf5b0d7e4"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q08",
+    "split": "development",
+    "language": "en",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "tls",
+    "question": "For a new private REST service, which transport should endpoints expose and which cipher families should be used for TLS 1.3?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Expose HTTPS endpoints only."
+      },
+      {
+        "id": "C2",
+        "text": "Use standard TLS 1.3 AEAD suites with AES-GCM or ChaCha20-Poly1305."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450",
+        "title": "REST Security Cheat Sheet",
+        "section": "HTTPS",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+        "source_sha256": "3e2959541004f37a28d47ea1f742f30f46d06a331317eb4d9371617f2ad7a704",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2773,
+        "char_end": 3034,
+        "line_start": 27,
+        "quote": "Secure REST services must only provide HTTPS endpoints. This protects authentication credentials in transit, for example passwords, API keys or JSON Web Tokens. It also allows clients to authenticate the service and guarantees integrity of the transmitted data.",
+        "anchor": "Secure REST services must only provide HTTPS endpoints"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df",
+        "title": "Transport Layer Security Cheat Sheet",
+        "section": "Only Support Strong Ciphers",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Transport_Layer_Security_Cheat_Sheet.md",
+        "source_sha256": "b259fe4350463fcee9dc46e107ab9c5e6fbacdcfe4e13fcee84c01c310f08f23",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2785,
+        "char_end": 2865,
+        "line_start": 31,
+        "quote": "For TLS 1.3, use the standard AEAD cipher suites (AES‑GCM or ChaCha20‑Poly1305).",
+        "anchor": "use the standard AEAD cipher suites"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Expose HTTPS endpoints only. Use standard TLS 1.3 AEAD suites with AES-GCM or ChaCha20-Poly1305.",
+    "relevant_documents": [
+      "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df",
+      "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q09",
+    "split": "development",
+    "language": "ru",
+    "category": "unanswerable",
+    "difficulty": "easy",
+    "topic": "outside",
+    "question": "Какая температура воздуха сейчас в Кишинёве?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "Курсор поиска по всему snapshot проверяет уникальный географический маркер; корпус состоит из технических рекомендаций и не содержит живых метеоданных.",
+      "search_markers": [
+        "Кишин",
+        "Chisinau",
+        "Chișinău"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "В этом корпусе нет сведений для ответа.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q10",
+    "split": "development",
+    "language": "en",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "topic": "outside",
+    "question": "What is the production database administrator password for the fictional project BlueQuartz-741?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "The project is fictional and OWASP describes password handling, not project-specific credentials.",
+      "search_markers": [
+        "BlueQuartz-741"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "The requested information is absent from this corpus.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q11",
+    "split": "final",
+    "language": "ru",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "xss",
+    "question": "Зачем кодировать пользовательский текст при выводе в HTML?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Выходное кодирование позволяет отобразить ввод как текст, не интерпретируя его как код."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "603a22cd6dc87d824d455ced1c68d3a1160fbb9ac2a51eb1010fc9ea2a5777f2",
+        "title": "Cross Site Scripting Prevention Cheat Sheet",
+        "section": "Output Encoding",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+        "source_sha256": "199c484557a3d2e6732daec1d2b8d683645163ce1d7dd58f7e5590d93f5a2719",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2775,
+        "char_end": 3056,
+        "line_start": 35,
+        "quote": "When you need to safely display data exactly as a user types it in, output encoding is recommended. Variables should not be interpreted as code instead of text. This section covers each form of output encoding, where to use it, and when you should not use dynamic variables at all.",
+        "anchor": "Variables should not be interpreted as code instead of text"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Выходное кодирование позволяет отобразить ввод как текст, не интерпретируя его как код.",
+    "relevant_documents": [
+      "603a22cd6dc87d824d455ced1c68d3a1160fbb9ac2a51eb1010fc9ea2a5777f2"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q12",
+    "split": "final",
+    "language": "en",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "csrf",
+    "question": "Which CSRF token pattern does OWASP recommend for stateful software?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Use the synchronizer token pattern for stateful applications."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "bceecc686b0c4a741afe3a4015b7b61c92fd927bdb65731ab0da4c8877361f57",
+        "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+        "section": "Introduction",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+        "source_sha256": "8393658c07a3ec99c8195781a376fde895a9a230ec9fe489743bb6821920ab75",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2609,
+        "char_end": 2705,
+        "line_start": 19,
+        "quote": "- **Stateful software should use the [synchronizer token pattern](#synchronizer-token-pattern)**",
+        "anchor": "Stateful software should use"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Use the synchronizer token pattern for stateful applications.",
+    "relevant_documents": [
+      "bceecc686b0c4a741afe3a4015b7b61c92fd927bdb65731ab0da4c8877361f57"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q13",
+    "split": "final",
+    "language": "ru",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "authentication",
+    "question": "Как формулировать сообщение об ошибке входа для неверного пароля и несуществующей учётной записи?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Возвращать одинаковое общее сообщение, не раскрывая, существует ли учётная запись."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "d991a4fd43a8a5b4ca58bd63d37f407e74f118953ccf349e21aa0e067965719e",
+        "title": "Authentication Cheat Sheet",
+        "section": "Authentication Responses",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Authentication_Cheat_Sheet.md",
+        "source_sha256": "92f7483b28548679917a329c7b9be1824f33e934d9eed670aaf3e9a1e7b37e83",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 15092,
+        "char_end": 15261,
+        "line_start": 150,
+        "quote": "Using any of the authentication mechanisms (login, password reset, or password recovery), an application must respond with a generic error message regardless of whether:",
+        "anchor": "respond with a generic error message regardless"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Возвращать одинаковое общее сообщение, не раскрывая, существует ли учётная запись.",
+    "relevant_documents": [
+      "d991a4fd43a8a5b4ca58bd63d37f407e74f118953ccf349e21aa0e067965719e"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q14",
+    "split": "final",
+    "language": "en",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "logging",
+    "question": "May an application write raw access tokens to its logs?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Exclude raw access tokens from logs or apply appropriate removal or masking before recording."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "4161537f4e44bd66052b7a8ab1547e6d794148a00bfadceb5b7106089a96386b",
+        "title": "Logging Cheat Sheet",
+        "section": "Data to exclude",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Logging_Cheat_Sheet.md",
+        "source_sha256": "55ed0b4e9b2a68dba0f5a26c817a20760632d91b315aa42bb33ecfe36cc7195d",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 15655,
+        "char_end": 15952,
+        "line_start": 188,
+        "quote": "The following should usually not be recorded directly in the logs, but instead should be removed, masked, sanitized, hashed, or encrypted:\n\n- Application source code\n- Session identification values (consider replacing with a hashed value if needed to track session specific events)\n- Access tokens",
+        "anchor": "should usually not be recorded directly in the logs"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Exclude raw access tokens from logs or apply appropriate removal or masking before recording.",
+    "relevant_documents": [
+      "4161537f4e44bd66052b7a8ab1547e6d794148a00bfadceb5b7106089a96386b"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q15",
+    "split": "final",
+    "language": "ru",
+    "category": "factual",
+    "difficulty": "medium",
+    "topic": "cryptography",
+    "question": "Какие свойства добавляют аутентифицированные режимы шифрования к конфиденциальности?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Аутентифицированное шифрование даёт целостность и подлинность данных наряду с конфиденциальностью."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "7491311572ca7327da5a73d739e14bc252d8a4d79af6158da8633ff60126239a",
+        "title": "Cryptographic Storage Cheat Sheet",
+        "section": "Cipher Modes",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cryptographic_Storage_Cheat_Sheet.md",
+        "source_sha256": "c706ea15f7adfeba949c7aaf897ae5f834e3d511494afda7ca36b9591942aa59",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 5771,
+        "char_end": 6137,
+        "line_start": 68,
+        "quote": "Where available, authenticated modes should always be used. These provide guarantees of the integrity and authenticity of the data, as well as confidentiality. The most commonly used authenticated modes are **[GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode)** and **[CCM](https://en.wikipedia.org/wiki/CCM_mode)**, which should be used as a first preference.",
+        "anchor": "guarantees of the integrity and authenticity"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Аутентифицированное шифрование даёт целостность и подлинность данных наряду с конфиденциальностью.",
+    "relevant_documents": [
+      "7491311572ca7327da5a73d739e14bc252d8a4d79af6158da8633ff60126239a"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q16",
+    "split": "final",
+    "language": "en",
+    "category": "factual",
+    "difficulty": "easy",
+    "topic": "secrets",
+    "question": "How does OWASP recommend handling rotation of static secrets?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Automate rotation of static secrets where possible. If it must be manual, ensure adequate operational support."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "3ff607330d39309b90bb0d2141d597cf8f0af90ee72a4a8c5772d6ab3b38d1d3",
+        "title": "Secrets Management Cheat Sheet",
+        "section": "2.4 Automate Secrets Management",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+        "source_sha256": "61f10a65e19ae5eac59a9d0d0388d32eb5cd6adbc0e3232fcb66f76984df905a",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 4847,
+        "char_end": 5106,
+        "line_start": 44,
+        "quote": "- **Automated rotation of static secrets:** Key rotation is a challenging process when implemented manually, and can lead to mistakes. It is therefore better to automate the rotation of keys or at least ensure that the process is sufficiently supported by IT.",
+        "anchor": "Automated rotation of static secrets"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Automate rotation of static secrets where possible. If it must be manual, ensure adequate operational support.",
+    "relevant_documents": [
+      "3ff607330d39309b90bb0d2141d597cf8f0af90ee72a4a8c5772d6ab3b38d1d3"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q17",
+    "split": "final",
+    "language": "ru",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "hsts",
+    "question": "Какая директива HSTS распространяет политику на поддомены?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Директива includeSubDomains распространяет HSTS-политику на поддомены."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "fa48041091ccb1e2c440d69f0a1874443e194702c6fc5c5eabf2678d6e90f44b",
+        "title": "HTTP Strict Transport Security Cheat Sheet",
+        "section": "Examples",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.md",
+        "source_sha256": "5475d02d74e8715c1aec0a641bf1bb0ec05b9cdd4f5754d33d147047f2d00bd5",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 1422,
+        "char_end": 1693,
+        "line_start": 22,
+        "quote": "This example sets a long (2 years = 63072000 seconds) max-age for the issuing host. Without `includeSubDomains`, [this policy does not extend to its subdomains](https://www.rfc-editor.org/rfc/rfc6797.html#section-6.1.2); see the [subdomain cookie risks](#problems) below:",
+        "anchor": "does not extend to its subdomains"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Директива includeSubDomains распространяет HSTS-политику на поддомены.",
+    "relevant_documents": [
+      "fa48041091ccb1e2c440d69f0a1874443e194702c6fc5c5eabf2678d6e90f44b"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q18",
+    "split": "final",
+    "language": "en",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "upload",
+    "question": "What kind of filename should the server assign to an uploaded file when the original name is unnecessary?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Generate a random server-side filename, for example a UUID or GUID."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "c81729f10bc2388daef3418a570f9962c533e9b0e47f9d52d69d13ca1bdaf010",
+        "title": "File Upload Cheat Sheet",
+        "section": "Filename Safety",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+        "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+        "source_sha256": "65f9a85b72e016063d1dafdb5b366cd52a94f8e4bf855f3b6bec22afec10bb81",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 6981,
+        "char_end": 7578,
+        "line_start": 96,
+        "quote": "In order to avoid the above mentioned threat, creating a **random string** as a filename, such as generating a UUID/GUID, is essential. If the filename is required by the business needs, proper input validation should be done for client-side (_e.g._ active content that results in XSS and CSRF attacks) and back-end side (_e.g._ special files overwrite or creation) attack vectors. Filename length limits should be taken into consideration based on the system storing the files, as each system has its own filename length limit. If user filenames are required, consider implementing the following:",
+        "anchor": "creating a **random string** as a filename"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Generate a random server-side filename, for example a UUID or GUID.",
+    "relevant_documents": [
+      "c81729f10bc2388daef3418a570f9962c533e9b0e47f9d52d69d13ca1bdaf010"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q19",
+    "split": "final",
+    "language": "ru",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "api",
+    "question": "Как проверять claim aud в JWT, который поступил в REST API?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Проверить, входит ли принимающая сторона API в целевую аудиторию токена."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450",
+        "title": "REST Security Cheat Sheet",
+        "section": "JWT",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+        "source_sha256": "3e2959541004f37a28d47ea1f742f30f46d06a331317eb4d9371617f2ad7a704",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 5998,
+        "char_end": 6077,
+        "line_start": 59,
+        "quote": "- `aud` or audience - is the relying party in the target audience for this JWT?",
+        "anchor": "is the relying party in the target audience"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Проверить, входит ли принимающая сторона API в целевую аудиторию токена.",
+    "relevant_documents": [
+      "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q20",
+    "split": "final",
+    "language": "en",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "mfa",
+    "question": "What sort of recovery codes can an MFA enrollment flow issue to users?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Issue single-use recovery codes when the user sets up MFA."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "dbeb71a358e421b6ff8591f7fef8900a056dd903c2f4eac6681dea55790cb221",
+        "title": "Multifactor Authentication Cheat Sheet",
+        "section": "Resetting MFA",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Multifactor_Authentication_Cheat_Sheet.md",
+        "source_sha256": "aa0c03c9d10c1facfaef0ace5f61536aab46e2a8ea409cf8527086d0d11132f2",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 10352,
+        "char_end": 10442,
+        "line_start": 142,
+        "quote": "- Providing the user with a number of single-use recovery codes when they first setup MFA.",
+        "anchor": "single-use recovery codes"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Issue single-use recovery codes when the user sets up MFA.",
+    "relevant_documents": [
+      "dbeb71a358e421b6ff8591f7fef8900a056dd903c2f4eac6681dea55790cb221"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q21",
+    "split": "final",
+    "language": "ru",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "session",
+    "question": "Что сервер должен сделать с идентификатором сессии при изменении уровня привилегий пользователя?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Обновить или заново сгенерировать идентификатор сессии при изменении уровня привилегий."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1",
+        "title": "Session Management Cheat Sheet",
+        "section": "Renew the Session ID After Any Privilege Level Change",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Session_Management_Cheat_Sheet.md",
+        "source_sha256": "3c38656e2be6188be4fc31d8c1fadafaaa6f37accc27e411e3345c235d44c051",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 32414,
+        "char_end": 33307,
+        "line_start": 273,
+        "quote": "### Renew the Session ID After Any Privilege Level Change\n\nThe session ID must be renewed or regenerated by the web application after any privilege level change within the associated user session. The most common scenario where the session ID regeneration is mandatory is during the authentication process, as the privilege level of the user changes from the unauthenticated (or anonymous) state to the authenticated state though in some cases still not yet the authorized state. Common scenarios to consider include; password changes, permission changes, or switching from a regular user role to an administrator role within the web application. For all sensitive pages of the web application, any previous session IDs must be ignored, only the current session ID must be assigned to every new request received for the protected resource, and the old or previous session ID must be destroyed.",
+        "anchor": "after any privilege level change"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Обновить или заново сгенерировать идентификатор сессии при изменении уровня привилегий.",
+    "relevant_documents": [
+      "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q22",
+    "split": "final",
+    "language": "en",
+    "category": "technical",
+    "difficulty": "medium",
+    "topic": "api",
+    "question": "How narrowly should a REST service configure origins for cross-domain calls?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Allow only the origins needed for the service's cross-domain use cases."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450",
+        "title": "REST Security Cheat Sheet",
+        "section": "CORS",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+        "source_sha256": "3e2959541004f37a28d47ea1f742f30f46d06a331317eb4d9371617f2ad7a704",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 19618,
+        "char_end": 19722,
+        "line_start": 213,
+        "quote": "- Be as specific as possible and as general as necessary when setting the origins of cross-domain calls.",
+        "anchor": "Be as specific as possible"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Allow only the origins needed for the service's cross-domain use cases.",
+    "relevant_documents": [
+      "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q23",
+    "split": "final",
+    "language": "ru",
+    "category": "multi_document",
+    "difficulty": "hard",
+    "topic": "tls",
+    "question": "Публичный браузерный сервис хочет исключить переход на HTTP и распространить политику на поддомены. Как совместить TLS для страниц и директиву HSTS?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Использовать TLS для всех страниц, включая страницы без аутентификации."
+      },
+      {
+        "id": "C2",
+        "text": "Для охвата поддоменов указать includeSubDomains в Strict-Transport-Security."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df",
+        "title": "Transport Layer Security Cheat Sheet",
+        "section": "Use TLS For All Pages",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Transport_Layer_Security_Cheat_Sheet.md",
+        "source_sha256": "b259fe4350463fcee9dc46e107ab9c5e6fbacdcfe4e13fcee84c01c310f08f23",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 16385,
+        "char_end": 16770,
+        "line_start": 185,
+        "quote": "### Use TLS For All Pages\n\nTLS should be used for all pages, not just those that are considered sensitive such as the login page. If there are any pages that do not enforce the use of TLS, these could give an attacker an opportunity to sniff sensitive information such as session tokens, or to inject malicious JavaScript into the responses to carry out other attacks against the user.",
+        "anchor": "Use TLS For All Pages"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "fa48041091ccb1e2c440d69f0a1874443e194702c6fc5c5eabf2678d6e90f44b",
+        "title": "HTTP Strict Transport Security Cheat Sheet",
+        "section": "Examples",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.md",
+        "source_sha256": "5475d02d74e8715c1aec0a641bf1bb0ec05b9cdd4f5754d33d147047f2d00bd5",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 1422,
+        "char_end": 1693,
+        "line_start": 22,
+        "quote": "This example sets a long (2 years = 63072000 seconds) max-age for the issuing host. Without `includeSubDomains`, [this policy does not extend to its subdomains](https://www.rfc-editor.org/rfc/rfc6797.html#section-6.1.2); see the [subdomain cookie risks](#problems) below:",
+        "anchor": "does not extend to its subdomains"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Использовать TLS для всех страниц, включая страницы без аутентификации. Для охвата поддоменов указать includeSubDomains в Strict-Transport-Security.",
+    "relevant_documents": [
+      "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df",
+      "fa48041091ccb1e2c440d69f0a1874443e194702c6fc5c5eabf2678d6e90f44b"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q24",
+    "split": "final",
+    "language": "en",
+    "category": "multi_document",
+    "difficulty": "hard",
+    "topic": "logging",
+    "question": "A REST service crashes while handling a request with an access token. What should the client see and what should the server avoid putting in the diagnostic log?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Return a generic error to the client and keep diagnostic detail on the server."
+      },
+      {
+        "id": "C2",
+        "text": "Avoid writing raw access tokens to the server log."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "d77937a8ef2e4a3ed720e0eae6e1822d85e95cbc84d9265c751fd9800ab43af6",
+        "title": "Error Handling Cheat Sheet",
+        "section": "Objective",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Error_Handling_Cheat_Sheet.md",
+        "source_sha256": "237bcae265acbb98434a0c5b544554c83e8a05c2de3e0d12eaf055c460d99aae",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2926,
+        "char_end": 3331,
+        "line_start": 57,
+        "quote": "The article shows how to configure a global error handler as part of your application's runtime configuration. In some cases, it may be more efficient to define this error handler as part of your code. The outcome being that when an unexpected error occurs then a generic response is returned by the application but the error details are logged server side for investigation, and not returned to the user.",
+        "anchor": "a generic response is returned by the application"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "4161537f4e44bd66052b7a8ab1547e6d794148a00bfadceb5b7106089a96386b",
+        "title": "Logging Cheat Sheet",
+        "section": "Data to exclude",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Logging_Cheat_Sheet.md",
+        "source_sha256": "55ed0b4e9b2a68dba0f5a26c817a20760632d91b315aa42bb33ecfe36cc7195d",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 15655,
+        "char_end": 15952,
+        "line_start": 188,
+        "quote": "The following should usually not be recorded directly in the logs, but instead should be removed, masked, sanitized, hashed, or encrypted:\n\n- Application source code\n- Session identification values (consider replacing with a hashed value if needed to track session specific events)\n- Access tokens",
+        "anchor": "should usually not be recorded directly in the logs"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Return a generic error to the client and keep diagnostic detail on the server. Avoid writing raw access tokens to the server log.",
+    "relevant_documents": [
+      "4161537f4e44bd66052b7a8ab1547e6d794148a00bfadceb5b7106089a96386b",
+      "d77937a8ef2e4a3ed720e0eae6e1822d85e95cbc84d9265c751fd9800ab43af6"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q25",
+    "split": "final",
+    "language": "ru",
+    "category": "multi_document",
+    "difficulty": "hard",
+    "topic": "secrets",
+    "question": "Как ограничить доступ сотрудников к секретам и что делать с DEK при замене KEK в схеме envelope encryption?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Выдавать доступ к отдельным секретам по принципу минимальных привилегий."
+      },
+      {
+        "id": "C2",
+        "text": "Перед уничтожением старого KEK перепаковать сохранённые DEK новым KEK."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "3ff607330d39309b90bb0d2141d597cf8f0af90ee72a4a8c5772d6ab3b38d1d3",
+        "title": "Secrets Management Cheat Sheet",
+        "section": "2.3 Access Control",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Secrets_Management_Cheat_Sheet.md",
+        "source_sha256": "61f10a65e19ae5eac59a9d0d0388d32eb5cd6adbc0e3232fcb66f76984df905a",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 3471,
+        "char_end": 3790,
+        "line_start": 35,
+        "quote": "Therefore, engineers should not have access to all secrets in the secrets management system, and the Least Privilege principle should be applied. The secret management system needs to provide the ability to configure fine-grained access controls on each object and component to accomplish the Least Privilege principle.",
+        "anchor": "fine-grained access controls on each object"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "685e6aa1114f3ec0bddcafe7ccf68654fd8a644d9bd6051f7a3b43a498ee89a4",
+        "title": "Key Management Cheat Sheet",
+        "section": "Cryptoperiods and Rotation",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Key_Management_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Key_Management_Cheat_Sheet.md",
+        "source_sha256": "f0bc89eb98a60966ab985082fed75807ff8f39978ccabf28118fc5a08baab293",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 18313,
+        "char_end": 19012,
+        "line_start": 180,
+        "quote": "- **Handling Existing Encrypted Data (Envelope Encryption)**: To retire a Key Encryption Key (KEK), re-wrap stored Data Encryption Keys (DEKs) under the replacement KEK before destroying the old one. Rewrapping leaves the DEKs unchanged and does not reset their cryptoperiods or usage limits. Replacing a DEK for existing ciphertext requires re-encrypting that data. Managed services may retain old wrapping-key versions automatically; check the provider's [rotation behavior](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html). For key IDs and data-migration choices, see the [Cryptographic Storage Cheat Sheet](Cryptographic_Storage_Cheat_Sheet.md#key-lifetimes-and-rotation).",
+        "anchor": "re-wrap stored Data Encryption Keys"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Выдавать доступ к отдельным секретам по принципу минимальных привилегий. Перед уничтожением старого KEK перепаковать сохранённые DEK новым KEK.",
+    "relevant_documents": [
+      "3ff607330d39309b90bb0d2141d597cf8f0af90ee72a4a8c5772d6ab3b38d1d3",
+      "685e6aa1114f3ec0bddcafe7ccf68654fd8a644d9bd6051f7a3b43a498ee89a4"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q26",
+    "split": "final",
+    "language": "en",
+    "category": "multi_document",
+    "difficulty": "hard",
+    "topic": "xss",
+    "question": "A page renders a user's display name as plain HTML text. How should output encoding and a Content Security Policy complement each other?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Encode user input for the HTML output context to render it as data."
+      },
+      {
+        "id": "C2",
+        "text": "Use CSP as a second layer. Continue to fix unsafe output handling."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "603a22cd6dc87d824d455ced1c68d3a1160fbb9ac2a51eb1010fc9ea2a5777f2",
+        "title": "Cross Site Scripting Prevention Cheat Sheet",
+        "section": "Output Encoding",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+        "source_sha256": "199c484557a3d2e6732daec1d2b8d683645163ce1d7dd58f7e5590d93f5a2719",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2775,
+        "char_end": 3056,
+        "line_start": 35,
+        "quote": "When you need to safely display data exactly as a user types it in, output encoding is recommended. Variables should not be interpreted as code instead of text. This section covers each form of output encoding, where to use it, and when you should not use dynamic variables at all.",
+        "anchor": "safely display data exactly as a user types it in"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "47b34d7e6ae49097ed3100eeddd5a03bf320ee70513717e49172ba7a52839396",
+        "title": "Content Security Policy Cheat Sheet",
+        "section": "Defense in Depth",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Content_Security_Policy_Cheat_Sheet.md",
+        "source_sha256": "4d5e2f4d1c42ae58672fabb8088b2254ce5e6990432b58e110604942f14b34d0",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2416,
+        "char_end": 2711,
+        "line_start": 76,
+        "quote": "A strong CSP provides an effective __second layer__ of protection against various types of vulnerabilities, especially XSS. Although CSP doesn't prevent web applications from *containing* vulnerabilities, it can make those vulnerabilities significantly more difficult for an attacker to exploit.",
+        "anchor": "A strong CSP provides an effective"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Encode user input for the HTML output context to render it as data. Use CSP as a second layer. Continue to fix unsafe output handling.",
+    "relevant_documents": [
+      "47b34d7e6ae49097ed3100eeddd5a03bf320ee70513717e49172ba7a52839396",
+      "603a22cd6dc87d824d455ced1c68d3a1160fbb9ac2a51eb1010fc9ea2a5777f2"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q27",
+    "split": "final",
+    "language": "ru",
+    "category": "multi_document",
+    "difficulty": "hard",
+    "topic": "authentication",
+    "question": "Как предотвратить раскрытие существования учётной записи в формах входа и сброса пароля, включая время ответа сброса?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Вход возвращает общее сообщение для ошибок независимо от существования учётной записи."
+      },
+      {
+        "id": "C2",
+        "text": "Сброс возвращает одинаковый ответ и по возможности сопоставимое время для существующих и отсутствующих учётных записей."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "d991a4fd43a8a5b4ca58bd63d37f407e74f118953ccf349e21aa0e067965719e",
+        "title": "Authentication Cheat Sheet",
+        "section": "Authentication Responses",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Authentication_Cheat_Sheet.md",
+        "source_sha256": "92f7483b28548679917a329c7b9be1824f33e934d9eed670aaf3e9a1e7b37e83",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 15092,
+        "char_end": 15261,
+        "line_start": 150,
+        "quote": "Using any of the authentication mechanisms (login, password reset, or password recovery), an application must respond with a generic error message regardless of whether:",
+        "anchor": "respond with a generic error message regardless"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "ba0dbf1e661e14603280cf450d549617b6d325aaaf9d3757d50e093deb04a5fc",
+        "title": "Forgot Password Cheat Sheet",
+        "section": "Forgot Password Request",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Forgot_Password_Cheat_Sheet.md",
+        "source_sha256": "c3cc207d452c280cfc1a660eecdbc3cc4def29903da1aef10b3095607a4472dc",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 1992,
+        "char_end": 2250,
+        "line_start": 33,
+        "quote": "- Ensure that responses return in a consistent amount of time to prevent an attacker enumerating which accounts exist. This could be achieved by using asynchronous calls or by making sure that the same logic is followed, instead of using a quick exit method.",
+        "anchor": "Ensure that responses return in a consistent amount of time"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Вход возвращает общее сообщение для ошибок независимо от существования учётной записи. Сброс возвращает одинаковый ответ и по возможности сопоставимое время для существующих и отсутствующих учётных записей.",
+    "relevant_documents": [
+      "ba0dbf1e661e14603280cf450d549617b6d325aaaf9d3757d50e093deb04a5fc",
+      "d991a4fd43a8a5b4ca58bd63d37f407e74f118953ccf349e21aa0e067965719e"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q28",
+    "split": "final",
+    "language": "en",
+    "category": "multi_document",
+    "difficulty": "hard",
+    "topic": "upload",
+    "question": "An upload form checks the extension in JavaScript. What should the server do about filename choice and validation?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Generate a safe random storage filename when the original name is unnecessary."
+      },
+      {
+        "id": "C2",
+        "text": "Validate on the server even if JavaScript already checks the input."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "c81729f10bc2388daef3418a570f9962c533e9b0e47f9d52d69d13ca1bdaf010",
+        "title": "File Upload Cheat Sheet",
+        "section": "Filename Safety",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+        "source_path": "cheatsheets/File_Upload_Cheat_Sheet.md",
+        "source_sha256": "65f9a85b72e016063d1dafdb5b366cd52a94f8e4bf855f3b6bec22afec10bb81",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 6981,
+        "char_end": 7578,
+        "line_start": 96,
+        "quote": "In order to avoid the above mentioned threat, creating a **random string** as a filename, such as generating a UUID/GUID, is essential. If the filename is required by the business needs, proper input validation should be done for client-side (_e.g._ active content that results in XSS and CSRF attacks) and back-end side (_e.g._ special files overwrite or creation) attack vectors. Filename length limits should be taken into consideration based on the system storing the files, as each system has its own filename length limit. If user filenames are required, consider implementing the following:",
+        "anchor": "creating a **random string** as a filename"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "f07a1aa61e02aa428623bcd6d042e7a5386ee7e314a26de6d4a1600f3dd97641",
+        "title": "Input Validation Cheat Sheet",
+        "section": "Common Pitfalls",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Input_Validation_Cheat_Sheet.md",
+        "source_sha256": "163390e3dcf5cc965aeac5e633692682403c08067a7f2ae54bdb49372e886810",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 6309,
+        "char_end": 6571,
+        "line_start": 68,
+        "quote": "- **Client-only checks:** Validate on the server even when the browser checks the same fields. [Client-side validation is bypassable](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation); use it for immediate feedback.",
+        "anchor": "Validate on the server even when the browser checks"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Generate a safe random storage filename when the original name is unnecessary. Validate on the server even if JavaScript already checks the input.",
+    "relevant_documents": [
+      "c81729f10bc2388daef3418a570f9962c533e9b0e47f9d52d69d13ca1bdaf010",
+      "f07a1aa61e02aa428623bcd6d042e7a5386ee7e314a26de6d4a1600f3dd97641"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q29",
+    "split": "final",
+    "language": "ru",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "authorization",
+    "question": "Новый маршрут отсутствует в матрице разрешений. Какое решение должно быть по умолчанию и когда выполняется проверка?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "При отсутствии явного разрешения доступ запрещается."
+      },
+      {
+        "id": "C2",
+        "text": "Проверять разрешения на каждом запросе."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "22d5b832259c210d10016093fe9517f622c6795b6d8d6aa1104097578cf4d01e",
+        "title": "Authorization Cheat Sheet",
+        "section": "Deny by Default",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Authorization_Cheat_Sheet.md",
+        "source_sha256": "fb8b6e5c60ed783025beefb5049142fd9da02d01f5c95de18a19d26479737975",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 6301,
+        "char_end": 6917,
+        "line_start": 30,
+        "quote": "### Deny by Default\n\nEven when no access control rules are explicitly matched, the application cannot remain neutral when an entity is requesting access to a particular resource. The application must always make a decision, whether implicitly or explicitly, to either deny or permit the requested access. Logic errors and other mistakes relating to access control may happen, especially when access requirements are complex; consequently, one should not rely entirely on explicitly defined rules for matching all possible requests. For security purposes an application should be configured to deny access by default.",
+        "anchor": "Deny by Default"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "22d5b832259c210d10016093fe9517f622c6795b6d8d6aa1104097578cf4d01e",
+        "title": "Authorization Cheat Sheet",
+        "section": "Validate the Permissions on Every Request",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Authorization_Cheat_Sheet.md",
+        "source_sha256": "fb8b6e5c60ed783025beefb5049142fd9da02d01f5c95de18a19d26479737975",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 7678,
+        "char_end": 8389,
+        "line_start": 41,
+        "quote": "Permission should be validated correctly on every request, regardless of whether the request was initiated by an AJAX script, server-side, or any other source. The technology used to perform such checks should allow for global, application-wide configuration rather than needing to be applied individually to every method or class. Remember an attacker only needs to find one way in. Even if just a single access control check is \"missed\", the confidentiality and/or integrity of a resource can be jeopardized. Validating permissions correctly on just the majority of requests is insufficient. Specific technologies that can help developers in performing such consistent permission checks include the following:",
+        "anchor": "Permission should be validated correctly on every request"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "При отсутствии явного разрешения доступ запрещается. Проверять разрешения на каждом запросе.",
+    "relevant_documents": [
+      "22d5b832259c210d10016093fe9517f622c6795b6d8d6aa1104097578cf4d01e"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q30",
+    "split": "final",
+    "language": "en",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "sql",
+    "question": "A service uses a restricted database account but concatenates user input into SQL values. Which change addresses injection and what does least privilege do?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Bind data values as parameters instead of concatenating user input into SQL."
+      },
+      {
+        "id": "C2",
+        "text": "Least privilege limits possible damage, while leaving the injection defect in place."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89",
+        "title": "SQL Injection Prevention Cheat Sheet",
+        "section": "Introduction",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+        "source_sha256": "5597b04e2a6f280e1b33a3a01c1f01884fa04fd9679168e2606fab22b6a6058b",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 490,
+        "char_end": 858,
+        "line_start": 7,
+        "quote": "Use parameterized queries for data values, fixed application-owned choices for dynamic query structure, and least privilege to limit damage. These controls apply regardless of whether data comes from an HTTP request, another service, or previously stored data. For other injection types, see the [Injection Prevention Cheat Sheet](Injection_Prevention_Cheat_Sheet.md).",
+        "anchor": "Use parameterized queries for data values"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89",
+        "title": "SQL Injection Prevention Cheat Sheet",
+        "section": "Hardening",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md",
+        "source_sha256": "5597b04e2a6f280e1b33a3a01c1f01884fa04fd9679168e2606fab22b6a6058b",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 4785,
+        "char_end": 4966,
+        "line_start": 48,
+        "quote": "Use least privilege alongside parameterized queries and allow-list mapping. It limits the damage an attacker can cause through a database account; it does not prevent SQL injection.",
+        "anchor": "it does not prevent SQL injection"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Bind data values as parameters instead of concatenating user input into SQL. Least privilege limits possible damage, while leaving the injection defect in place.",
+    "relevant_documents": [
+      "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q31",
+    "split": "final",
+    "language": "ru",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "csrf",
+    "question": "У stateful-приложения стоит SameSite. Можно ли отказаться от CSRF-токенов только на этом основании?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "SameSite дополняет защиту. Для stateful-приложения сохранять synchronizer token pattern."
+      },
+      {
+        "id": "C2",
+        "text": "Использовать synchronizer token pattern для stateful-приложения."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "bceecc686b0c4a741afe3a4015b7b61c92fd927bdb65731ab0da4c8877361f57",
+        "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+        "section": "Limitations of SameSite",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+        "source_sha256": "8393658c07a3ec99c8195781a376fde895a9a230ec9fe489743bb6821920ab75",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 36571,
+        "char_end": 36785,
+        "line_start": 374,
+        "quote": "`SameSite` is useful as a defense-in-depth control but it does not replace a proper CSRF defense in most deployments. Treat the following as known gaps when reasoning about how much protection it actually provides:",
+        "anchor": "is useful as a defense-in-depth control"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "bceecc686b0c4a741afe3a4015b7b61c92fd927bdb65731ab0da4c8877361f57",
+        "title": "Cross-Site Request Forgery Prevention Cheat Sheet",
+        "section": "Introduction",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+        "source_sha256": "8393658c07a3ec99c8195781a376fde895a9a230ec9fe489743bb6821920ab75",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2609,
+        "char_end": 2705,
+        "line_start": 19,
+        "quote": "- **Stateful software should use the [synchronizer token pattern](#synchronizer-token-pattern)**",
+        "anchor": "Stateful software should use"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "SameSite дополняет защиту. Для stateful-приложения сохранять synchronizer token pattern. Использовать synchronizer token pattern для stateful-приложения.",
+    "relevant_documents": [
+      "bceecc686b0c4a741afe3a4015b7b61c92fd927bdb65731ab0da4c8877361f57"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q32",
+    "split": "final",
+    "language": "en",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "websocket",
+    "question": "A browser has opened an authenticated WebSocket. What should the server validate at the handshake and for each subsequent action?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Validate the Origin header during the handshake against trusted origins."
+      },
+      {
+        "id": "C2",
+        "text": "Check authorization for each message action even after the connection is established."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "3c978dc2d9d2c767b4ad7a8900eb4f43bfbb622bb869a77fd35aff75fb11caf1",
+        "title": "WebSocket Security Cheat Sheet",
+        "section": "Origin Header Validation",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/WebSocket_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/WebSocket_Security_Cheat_Sheet.md",
+        "source_sha256": "f4fb80c64c2e4d9de6af9a5a00b9050bfdfb0df9a18e09f8621da3c136f224f9",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 4051,
+        "char_end": 4257,
+        "line_start": 83,
+        "quote": "#### Origin Header Validation\n\nValidate the `Origin` header on every handshake. Always use an explicit allowlist of trusted origins. Browsers include this header and malicious JavaScript cannot override it.",
+        "anchor": "Origin Header Validation"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "3c978dc2d9d2c767b4ad7a8900eb4f43bfbb622bb869a77fd35aff75fb11caf1",
+        "title": "WebSocket Security Cheat Sheet",
+        "section": "Message-Level Authorization",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/WebSocket_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/WebSocket_Security_Cheat_Sheet.md",
+        "source_sha256": "f4fb80c64c2e4d9de6af9a5a00b9050bfdfb0df9a18e09f8621da3c136f224f9",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 6507,
+        "char_end": 6602,
+        "line_start": 128,
+        "quote": "Don't assume WebSocket connection equals unlimited access. Check authorization for each action:",
+        "anchor": "Check authorization for each action"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Validate the Origin header during the handshake against trusted origins. Check authorization for each message action even after the connection is established.",
+    "relevant_documents": [
+      "3c978dc2d9d2c767b4ad7a8900eb4f43bfbb622bb869a77fd35aff75fb11caf1"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q33",
+    "split": "final",
+    "language": "ru",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "cryptography",
+    "question": "Если зашифрованные данные находятся в БД, где по возможности держать ключи и какой режим шифрования предпочесть?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "По возможности держать ключи отдельно от зашифрованных данных."
+      },
+      {
+        "id": "C2",
+        "text": "Предпочесть аутентифицированный режим, например GCM или CCM."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "7491311572ca7327da5a73d739e14bc252d8a4d79af6158da8633ff60126239a",
+        "title": "Cryptographic Storage Cheat Sheet",
+        "section": "Separation of Keys and Data",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cryptographic_Storage_Cheat_Sheet.md",
+        "source_sha256": "c706ea15f7adfeba949c7aaf897ae5f834e3d511494afda7ca36b9591942aa59",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 19996,
+        "char_end": 20353,
+        "line_start": 182,
+        "quote": "Where possible, encryption keys should be stored in a separate location from encrypted data. For example, if the data is stored in a database, the keys should be stored in the filesystem. This means that if an attacker only has access to one of these (for example through directory traversal or SQL injection), they cannot access both the keys and the data.",
+        "anchor": "encryption keys should be stored in a separate location"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "7491311572ca7327da5a73d739e14bc252d8a4d79af6158da8633ff60126239a",
+        "title": "Cryptographic Storage Cheat Sheet",
+        "section": "Cipher Modes",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Cryptographic_Storage_Cheat_Sheet.md",
+        "source_sha256": "c706ea15f7adfeba949c7aaf897ae5f834e3d511494afda7ca36b9591942aa59",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 5771,
+        "char_end": 6137,
+        "line_start": 68,
+        "quote": "Where available, authenticated modes should always be used. These provide guarantees of the integrity and authenticity of the data, as well as confidentiality. The most commonly used authenticated modes are **[GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode)** and **[CCM](https://en.wikipedia.org/wiki/CCM_mode)**, which should be used as a first preference.",
+        "anchor": "authenticated modes should always be used"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "По возможности держать ключи отдельно от зашифрованных данных. Предпочесть аутентифицированный режим, например GCM или CCM.",
+    "relevant_documents": [
+      "7491311572ca7327da5a73d739e14bc252d8a4d79af6158da8633ff60126239a"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q34",
+    "split": "final",
+    "language": "en",
+    "category": "engineering",
+    "difficulty": "hard",
+    "topic": "api",
+    "question": "How should a REST endpoint handle an oversized JSON request and when should the limit be applied?",
+    "answerable": true,
+    "expected_claims": [
+      {
+        "id": "C1",
+        "text": "Set a request size limit and reject requests exceeding it with HTTP 413."
+      },
+      {
+        "id": "C2",
+        "text": "Apply the limit before buffering or parsing the input."
+      }
+    ],
+    "source_evidence": [
+      {
+        "claim_id": "C1",
+        "document_id": "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450",
+        "title": "REST Security Cheat Sheet",
+        "section": "Input validation",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html",
+        "source_path": "cheatsheets/REST_Security_Cheat_Sheet.md",
+        "source_sha256": "3e2959541004f37a28d47ea1f742f30f46d06a331317eb4d9371617f2ad7a704",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 10552,
+        "char_end": 10690,
+        "line_start": 139,
+        "quote": "- Define an appropriate request size limit and reject requests exceeding the limit with HTTP response status 413 Request Entity Too Large.",
+        "anchor": "reject requests exceeding the limit with HTTP response status 413"
+      },
+      {
+        "claim_id": "C2",
+        "document_id": "f07a1aa61e02aa428623bcd6d042e7a5386ee7e314a26de6d4a1600f3dd97641",
+        "title": "Input Validation Cheat Sheet",
+        "section": "Parse Safely, Then Validate",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "source_path": "cheatsheets/Input_Validation_Cheat_Sheet.md",
+        "source_sha256": "163390e3dcf5cc965aeac5e633692682403c08067a7f2ae54bdb49372e886810",
+        "source_revision": "a5fbb7f886c02e3418e17f5525874a868cca49e4",
+        "char_start": 2190,
+        "char_end": 2530,
+        "line_start": 32,
+        "quote": "Apply request size limits before buffering or parsing input, and configure parser limits such as maximum nesting depth. JSON explicitly supports [implementation limits on size, depth, and numbers](https://www.rfc-editor.org/info/rfc8259/#section-9). A schema check after parsing cannot protect a parser that has already exhausted resources.",
+        "anchor": "Apply request size limits before buffering or parsing"
+      }
+    ],
+    "absence": null,
+    "reference_answer": "Set a request size limit and reject requests exceeding it with HTTP 413. Apply the limit before buffering or parsing the input.",
+    "relevant_documents": [
+      "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450",
+      "f07a1aa61e02aa428623bcd6d042e7a5386ee7e314a26de6d4a1600f3dd97641"
+    ],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q35",
+    "split": "final",
+    "language": "ru",
+    "category": "unanswerable",
+    "difficulty": "easy",
+    "topic": "outside",
+    "question": "Какой номер вагона указан в моём билете NorthRail-2036?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "Номер вагона находится в частном билете. OWASP snapshot не содержит транспортных бронирований.",
+      "search_markers": [
+        "NorthRail-2036"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "В этом корпусе нет сведений для ответа.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q36",
+    "split": "final",
+    "language": "en",
+    "category": "unanswerable",
+    "difficulty": "easy",
+    "topic": "outside",
+    "question": "What is the serial number printed on the fictional CedarMeter-X723 device in my office?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "The question requires a device label that was never supplied and is outside the corpus.",
+      "search_markers": [
+        "CedarMeter-X723"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "The requested information is absent from this corpus.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q37",
+    "split": "final",
+    "language": "ru",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "topic": "outside",
+    "question": "Какой точный лимит запросов в минуту выставлен в моём продакшне QuincePortal-809?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "Документы дают общие рекомендации по ограничениям запросов. Настройки вымышленного экземпляра отсутствуют.",
+      "search_markers": [
+        "QuincePortal-809"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "В этом корпусе нет сведений для ответа.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q38",
+    "split": "final",
+    "language": "en",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "topic": "outside",
+    "question": "Who approved the access review for the fictional company JuniperForge-190 on 22 August 2025?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "A private approval record for an invented organization is required.",
+      "search_markers": [
+        "JuniperForge-190"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "The requested information is absent from this corpus.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q39",
+    "split": "final",
+    "language": "ru",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "topic": "outside",
+    "question": "Какое значение max-age сейчас отправляет частный сервис LumenDesk-440?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "Рекомендации HSTS содержат примеры, но не телеметрию этого вымышленного сервиса.",
+      "search_markers": [
+        "LumenDesk-440"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "В этом корпусе нет сведений для ответа.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  },
+  {
+    "id": "OWASP-Q40",
+    "split": "final",
+    "language": "en",
+    "category": "unanswerable",
+    "difficulty": "medium",
+    "topic": "outside",
+    "question": "What was the exact TLS handshake latency of my service FrostHarbor-28 at 10:35 UTC yesterday?",
+    "answerable": false,
+    "expected_claims": [],
+    "source_evidence": [],
+    "absence": {
+      "reason": "The corpus contains guidance, not live measurements of the invented service.",
+      "search_markers": [
+        "FrostHarbor-28"
+      ],
+      "searched_documents": 55,
+      "hits": 0
+    },
+    "reference_answer": "The requested information is absent from this corpus.",
+    "relevant_documents": [],
+    "source_snapshot": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "annotation_origin": "Codex source annotation before inference; verify exact offsets against the pinned OWASP raw snapshot."
+  }
+]

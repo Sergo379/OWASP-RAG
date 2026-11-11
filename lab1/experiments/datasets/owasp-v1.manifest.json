@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "dataset_version": "owasp-v1",
+  "sha256": "fa61317c559ed9192095e503abeda0f4c6096df5695608d4d0fd4a1a075d3610",
+  "corpus_snapshot": {
+    "commit": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+    "documents": {
+      "00d76261bd356624a00f6a00236aead602474bbfbe916e66c26b3fcf7d7ab075": {
+        "sha256": "b5ad6125f2f908949df3a7866daa03a9f8487e94ea84f384eb852948375f15e2",
+        "topic": "Secure Configuration"
+      },
+      "171a2d38002d3cb05c50c25ac860b12f8ad818b8f97f0e7100a24a2a16b6f4ae": {
+        "sha256": "3653eed28e7fd30cddc3d4533d42801d0af5b4f93c3eb36c56f42318a75f16f2",
+        "topic": "Authentication"
+      },
+      "18d41543cd7f17fc26d63629b5c8bf7a0bc05afe610ae14c16122ed16cac57c1": {
+        "sha256": "3c38656e2be6188be4fc31d8c1fadafaaa6f37accc27e411e3345c235d44c051",
+        "topic": "Session Management"
+      },
+      "1a086a1586ffff13a6ad81df3ad421d8f94cfb7b6ec3c58fccc8cdf6403d604f": {
+        "sha256": "118a4e2b9b9301b3c8d0e0832bf1450898d4d130c225358d5749fcb8c6c38af3",
+        "topic": "XSS"
+      },
+      "1b87bac7d98cbe05f3bf4480d5047f0c8efb1cbb3de48cc5ff2bc72c697c42f4": {
+        "sha256": "cd31d4f3adb876949f1b3090862e88437becd740f3e8d54fd9809b892e82a45d",
+        "topic": "Authentication"
+      },
+      "22d5b832259c210d10016093fe9517f622c6795b6d8d6aa1104097578cf4d01e": {
+        "sha256": "fb8b6e5c60ed783025beefb5049142fd9da02d01f5c95de18a19d26479737975",
+        "topic": "Authorization"
+      },
+      "23731e4f5f477abfc0f9031a02267a9ee90d1f44f5734992d817aae30831dbb4": {
+        "sha256": "8e2feed29bcd0d14e8aa883eb06463296a3e647de272d8d192ed988aa7ebed7c",
+        "topic": "Input Validation"
+      },
+      "2549eca61de0c84a2bef4d2e0583c00f1052008d899189939dab46bfb9edfd40": {
+        "sha256": "df04323a8b10ef16cf3a248dc1431fc3d19edde6d905e70754f36ab0f3a045d6",
+        "topic": "Secure Configuration"
+      },
+      "2b4d4be7ea2b4918fd0207f6725a182e70857286580c328c0cbaf3959bc3fc2d": {
+        "sha256": "3ae2f474449eceadd74cc2c28edfdc405d935166550b2bd67965729b7d707652",
+        "topic": "API Security"
+      },
+      "36a515d19a986a82751e8d5985a9032bd6f86ba3f5dd62225bc1c69c290d825f": {
+        "sha256": "01388cb77bda4b3c4930c7a5762d3ab2f9044eee01cd4fb3f236dfb085b2a6e7",
+        "topic": "Injection"
+      },
+      "373dfd9c7ac572a72a8cafb8ba01583553297c28e9a066855b86d3c977761b3c": {
+        "sha256": "159b9845f76df328d3ce2b524003fec70bda3b6268fa53ad81c100e36b855782",
+        "topic": "Session Management"
+      },
+      "3c978dc2d9d2c767b4ad7a8900eb4f43bfbb622bb869a77fd35aff75fb11caf1": {
+        "sha256": "f4fb80c64c2e4d9de6af9a5a00b9050bfdfb0df9a18e09f8621da3c136f224f9",
+        "topic": "API Security"
+      },
+      "3ff607330d39309b90bb0d2141d597cf8f0af90ee72a4a8c5772d6ab3b38d1d3": {
+        "sha256": "61f10a65e19ae5eac59a9d0d0388d32eb5cd6adbc0e3232fcb66f76984df905a",
+        "topic": "Cryptography"
+      },
+      "4143f322e26b4aabe6b4c3a65107ae190f1aa08a13a4fd5c3799b8713a8fc69c": {
+        "sha256": "fafcc12af83a78c909a973f7e81af1a661eac709a5a6c9ddad8792c2edda7658",
+        "topic": "Injection"
+      },
+      "4161537f4e44bd66052b7a8ab1547e6d794148a00bfadceb5b7106089a96386b": {
+        "sha256": "55ed0b4e9b2a68dba0f5a26c817a20760632d91b315aa42bb33ecfe36cc7195d",
+        "topic": "Logging and Monitoring"
+      },
+      "4501341d824849d081899c8927c0c4e59614de60d0bfef7d81bcf9aa4482e82d": {
+        "sha256": "f325d48b32fd86e2b5450f51ccf773b639263f3c16b6daf6634587c262e5d4ea",
+        "topic": "Input Validation"
+      },
+      "47b34d7e6ae49097ed3100eeddd5a03bf320ee70513717e49172ba7a52839396": {
+        "sha256": "4d5e2f4d1c42ae58672fabb8088b2254ce5e6990432b58e110604942f14b34d0",
+        "topic": "XSS"
+      },
+      "48ba83a2f098146672cad28739922bbbd726acff0d297601ef691149dd443340": {
+        "sha256": "8c559909d5d50710d30758f889a200d6e916fbe766ec4dcc22af252fdd93104d",
+        "topic": "Injection"
+      },
+      "4ce07b78514450e43e3d85f0d08d511ff496fb496e7f5305ad903b2d4f670353": {
+        "sha256": "756ce54bcd8097a40d01237dbafffd563058341d3de8bb7507dce51fdc3ac710",
+        "topic": "Authorization"
+      },
+      "4fed95aec793754890cab779654bcf6f44c4b61df1603993faacd0617663eed5": {
+        "sha256": "97cccf208eea18f602b662d84be24b026e4cfd227dc5a3d4aec5a4a43e63b3fa",
+        "topic": "XSS"
+      },
+      "541fcc25556ac839ed41504af40324cb3df050af5772e1ec759a0add2278f4df": {
+        "sha256": "b259fe4350463fcee9dc46e107ab9c5e6fbacdcfe4e13fcee84c01c310f08f23",
+        "topic": "Cryptography"
+      },
+      "55a58bb1c5ff7696445018754b294a334c05563e265f9dd540501ac8fff0c127": {
+        "sha256": "01d29bea979845416ea4ba7b68a4ecfa03da555ede0b6b0084d4c6b9cf2e8518",
+        "topic": "Secure Configuration"
+      },
+      "5721255d7bd1c1d2d16060685e6ab3e6fb7a49e7890b27f11db805fadc21c450": {
+        "sha256": "3e2959541004f37a28d47ea1f742f30f46d06a331317eb4d9371617f2ad7a704",
+        "topic": "API Security"
+      },
+      "59313a2318349f2744e7a03b312bf7212df9c1370c5f37760c6ca4832d82e360": {
+        "sha256": "57ed3a4f3a515241b3570f76fae9da5314c93e199b726a7acf085b030e643be6",
+        "topic": "XSS"
+      },
+      "5fedfd4ac84ae15d4b47b4e1f0b7c9bf9967c923f1e313ede85c4ece839d286d": {
+        "sha256": "c6fee32563e221b3633a0fe2f2bd6262c412199b7a59f8a8a104db2c35d744da",
+        "topic": "API Security"
+      },
+      "603a22cd6dc87d824d455ced1c68d3a1160fbb9ac2a51eb1010fc9ea2a5777f2": {
+        "sha256": "199c484557a3d2e6732daec1d2b8d683645163ce1d7dd58f7e5590d93f5a2719",
+        "topic": "XSS"
+      },
+      "685e6aa1114f3ec0bddcafe7ccf68654fd8a644d9bd6051f7a3b43a498ee89a4": {
+        "sha256": "f0bc89eb98a60966ab985082fed75807ff8f39978ccabf28118fc5a08baab293",
+        "topic": "Cryptography"
+      },
+      "6ee32f8955cfe1f3ccd8b006f9a2b6a596196d2ef2e8092a2c2154022ff63adc": {
+        "sha256": "3cf39e97ae23146663d92365442955186f4b4866432ece534dd1a133a124011a",
+        "topic": "Logging and Monitoring"
+      },
+      "74611dfaedef5961fecdb213c516b0d662c7ea02d5f490cc061b0cec8de3ce1e": {
+        "sha256": "2dfdad6b9701f3023f3a3063435166ddafde144225ba612a5b2ded3f43991cde",
+        "topic": "Authorization"
+      },
+      "7491311572ca7327da5a73d739e14bc252d8a4d79af6158da8633ff60126239a": {
+        "sha256": "c706ea15f7adfeba949c7aaf897ae5f834e3d511494afda7ca36b9591942aa59",
+        "topic": "Cryptography"
+      },
+      "7fba10b95b7d890442313471d746571b8d7a237eefaa320780a986bda5282d2c": {
+        "sha256": "21c44f4373bedc1ae87790f1442996e755a772d57ff38b11b42156fac95dbbd5",
+        "topic": "Authorization"
+      },
+      "8eb57f17b1f830c371036d4b25b19c7859da27420206b3fd00a00f2bc1bffe89": {
+        "sha256": "5597b04e2a6f280e1b33a3a01c1f01884fa04fd9679168e2606fab22b6a6058b",
+        "topic": "Injection"
+      },
+      "a271244033af5ab9c9eecb45efdeeaf1242de953f3a7d41b1103b4968d37d2df": {
+        "sha256": "d3ad6e7fce8b568ef9dd2242dde9c2fe26ba88aa80c274407faec503625acc04",
+        "topic": "Authentication"
+      },
+      "a3a486bd3a6ad69ae92b3f755bcc9f53c668f54f9c2704e4f16e26a9494687dc": {
+        "sha256": "421639d8a75fb326981a6823b1a1876da00c7ad6ce8f4f32d7ad6cb631313972",
+        "topic": "XSS"
+      },
+      "ab301c7d73125cd0a6a10d6f5f14b845976de2f4c1ba880982ade891796bf3db": {
+        "sha256": "32fe63596ec14694967ea56b7b758d8eebaf52b7043e35387353fac5d50d1bb6",
+        "topic": "Cryptography"
+      },
+      "ae2c521abe26370427dac7999a1f59f762dec72194d14584021f7a44fb5fd871": {
+        "sha256": "9363b0048b473dba0b9c3a87bc18b12b3fc910475cf24f6fa63171d1ea9b1afb",
+        "topic": "Injection"
+      },
+      "b43210b212533618270a81c19b442e6f6b60b823c91f90e115f4ba0aeec70e3f": {
+        "sha256": "d449b1cc14cf0b2ed21d83716eded31e8b155ca1cc5a6cc4c1b2f8acf9ffd4b6",
+        "topic": "Injection"
+      },
+      "ba0dbf1e661e14603280cf450d549617b6d325aaaf9d3757d50e093deb04a5fc": {
+        "sha256": "c3cc207d452c280cfc1a660eecdbc3cc4def29903da1aef10b3095607a4472dc",
+        "topic": "Authentication"
+      },
+      "bceecc686b0c4a741afe3a4015b7b61c92fd927bdb65731ab0da4c8877361f57": {
+        "sha256": "8393658c07a3ec99c8195781a376fde895a9a230ec9fe489743bb6821920ab75",
+        "topic": "Session Management"
+      },
+      "be3cc543053a854e8fc7b336fa9a1d1d2cb681a99439b8ae1cd18a7ddc49eb90": {
+        "sha256": "f25441070ffcd5664758dff186c7804b8cb42e81258b4133760af2eee57e5a09",
+        "topic": "Input Validation"
+      },
+      "c81729f10bc2388daef3418a570f9962c533e9b0e47f9d52d69d13ca1bdaf010": {
+        "sha256": "65f9a85b72e016063d1dafdb5b366cd52a94f8e4bf855f3b6bec22afec10bb81",
+        "topic": "Input Validation"
+      },
+      "d471432a992eaa4ff1126cf3b34c4e0685c6fbdfc6b2b3408b78f19cf5b0d7e4": {
+        "sha256": "3b0cef632300124beb38ba4169cc163cfce44dd768885e58fb56b4285c42da7f",
+        "topic": "Authorization"
+      },
+      "d77937a8ef2e4a3ed720e0eae6e1822d85e95cbc84d9265c751fd9800ab43af6": {
+        "sha256": "237bcae265acbb98434a0c5b544554c83e8a05c2de3e0d12eaf055c460d99aae",
+        "topic": "Logging and Monitoring"
+      },
+      "d991a4fd43a8a5b4ca58bd63d37f407e74f118953ccf349e21aa0e067965719e": {
+        "sha256": "92f7483b28548679917a329c7b9be1824f33e934d9eed670aaf3e9a1e7b37e83",
+        "topic": "Authentication"
+      },
+      "db9a0151d9b714da66ef4d0a66332133475b5a58eeb597123c08027432db3bb3": {
+        "sha256": "a604ef0656402d012870a28e16f8492b2160f7bd084f378855fd55b6e2dac030",
+        "topic": "Session Management"
+      },
+      "dbeb71a358e421b6ff8591f7fef8900a056dd903c2f4eac6681dea55790cb221": {
+        "sha256": "aa0c03c9d10c1facfaef0ace5f61536aab46e2a8ea409cf8527086d0d11132f2",
+        "topic": "Authentication"
+      },
+      "dc19169e6992472528961f6c09b15f4665b1c97948dd4bfa44cde68069d4484e": {
+        "sha256": "3869a8bf0a5144ef5c741b74fb3739bf10eb16af669c65a60a233aad943a9323",
+        "topic": "Authentication"
+      },
+      "ee8d642e6e00dc5a511812c808a599f71018d46aa9abe87e3b0c0bb28fc025b7": {
+        "sha256": "81e50e16cbc6a3cc7a4bdb88a495f086db43bf58f518099e08913da79a4909e9",
+        "topic": "Secure Configuration"
+      },
+      "eea1a496c3c81fc7f0c751233cb2877bb09c48f4f3950db7392be39a87b05f59": {
+        "sha256": "4b0b507d99441512b9cdd7a13a00ec96fc37139c4f83a4b15f9ab0a13f2ede45",
+        "topic": "API Security"
+      },
+      "ef67088d080bf018ff9065d708baf4be2fad7f632b2d25d98815228dc088e5a6": {
+        "sha256": "b3aaa8d67fbf17075644f89f8888a21d0362ff86233fa6c6ee0c6f937b159f80",
+        "topic": "Injection"
+      },
+      "f07a1aa61e02aa428623bcd6d042e7a5386ee7e314a26de6d4a1600f3dd97641": {
+        "sha256": "163390e3dcf5cc965aeac5e633692682403c08067a7f2ae54bdb49372e886810",
+        "topic": "Input Validation"
+      },
+      "f54567ab957a110ff95e0a559071a0b1205b350d6e91f44894390f3e4eef3276": {
+        "sha256": "b497005071ae30fce01d1e911a4a7ee5375157496b92b8f1a497b3224fb32d6d",
+        "topic": "Injection"
+      },
+      "f9ddcbfdd07b3b99883e1d1e07b0d33378637643b9b9f152663dad042eff9916": {
+        "sha256": "bc2f45482f97fd76345dc982d770676b9b5a12861aa6b813945ab4efebfaa44d",
+        "topic": "Injection"
+      },
+      "fa48041091ccb1e2c440d69f0a1874443e194702c6fc5c5eabf2678d6e90f44b": {
+        "sha256": "5475d02d74e8715c1aec0a641bf1bb0ec05b9cdd4f5754d33d147047f2d00bd5",
+        "topic": "Secure Configuration"
+      },
+      "fff1065128e3d033cc995feeb08b561e3bf1d2526ced1c9b5b6df13ddd247f5b": {
+        "sha256": "0dff0e10cb807bcbef848c98c2c311af9a0296aafffa81d37c18bfba0867fd38",
+        "topic": "API Security"
+      }
+    }
+  },
+  "expected_count": 40,
+  "annotation": "Development was authored for configuration selection. Final labels were authored before evaluation. OWASP excerpts CC BY-SA 4.0."
+}
