@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 205" role="img">
+<title>Пиковая память процесса</title><desc>final; n — сохранённые запросы на вариант. </desc>
+<rect width="930" height="205" fill="#fff"/>
+<g font-family="Segoe UI, Arial, sans-serif" fill="#182b49">
+<text x="24" y="30" font-size="19" text-anchor="start">Пиковая память процесса</text>
+<text x="24" y="52" font-size="12" text-anchor="start">final; n — сохранённые запросы на вариант. </text>
+<path d="M230.0,72 V152" stroke="#dce3ed"/>
+<text x="230.0" y="169" font-size="12" text-anchor="middle">0</text>
+<path d="M355.0,72 V152" stroke="#dce3ed"/>
+<text x="355.0" y="169" font-size="12" text-anchor="middle">3e+02</text>
+<path d="M480.0,72 V152" stroke="#dce3ed"/>
+<text x="480.0" y="169" font-size="12" text-anchor="middle">5.9e+02</text>
+<path d="M605.0,72 V152" stroke="#dce3ed"/>
+<text x="605.0" y="169" font-size="12" text-anchor="middle">8.9e+02</text>
+<path d="M730.0,72 V152" stroke="#dce3ed"/>
+<text x="730.0" y="169" font-size="12" text-anchor="middle">1.2e+03</text>
+<path d="M855.0,72 V152" stroke="#dce3ed"/>
+<text x="855.0" y="169" font-size="12" text-anchor="middle">1.5e+03</text>
+<text x="220" y="95.0" font-size="12" text-anchor="end">final-retrieval (n=30)</text>
+<rect x="230" y="75.0" width="560.0" height="11" fill="#3155a4"/>
+<text x="795.0095792288006" y="85.0" font-size="11" text-anchor="start">1.32e+03</text>
+<rect x="230" y="89.0" width="578.7" height="11" fill="#1d846a"/>
+<text x="813.7037037037037" y="99.0" font-size="11" text-anchor="start">1.37e+03</text>
+<text x="220" y="135.0" font-size="12" text-anchor="end">final-generation (n=0)</text>
+<text x="542.5" y="189" font-size="12" text-anchor="middle">MiB</text>
+<rect x="24" y="190" width="9" height="9" fill="#3155a4"/>
+<text x="36" y="199" font-size="11" text-anchor="start">Python</text>
+<rect x="199" y="190" width="9" height="9" fill="#1d846a"/>
+<text x="211" y="199" font-size="11" text-anchor="start">Python + Ollama</text>
+</g></svg>

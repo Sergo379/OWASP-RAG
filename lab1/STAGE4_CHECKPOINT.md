@@ -7,4 +7,4 @@
 - Retrieval `146eb445217746c3b693edabdb51d6b3` завершил 200/200 задач. Threshold `0c58239054014b6a8fa20b6a3b3e8a06` завершил 80/80. Чекпоинты и исследовательские индексы следует оставить на диске.
 - Проверены `pixi run eval-check`, `pixi run lint`, 245 тестов и Stage 1 smoke. В браузере открылись реальные результаты поиска и абзац Secure в Question Inspector.
 - Development generation `acaaa3811cda402aafda5cc192af2d6b` завершил 13/13 задач с двумя сохранёнными timeout 4B Instruct.
-- Выбор `00c35cd42e6054c6` сохранён в `experiments/manifests/selection.json` до final. Следующая команда `pixi run eval-run --suite final --offline`. После создания run сохраняйте и используйте его ID для Resume.
+- Выбор `00c35cd42e6054c6` сохранён в `experiments/manifests/selection.json` до final. Независимый run `831cc8a09ec74f01b35018a86e3ed9ae` завершил 30/30 поисковых задач и перешёл к генерации. При остановке выполните `pixi run eval-resume --run-id 831cc8a09ec74f01b35018a86e3ed9ae --offline`.

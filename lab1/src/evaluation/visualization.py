@@ -139,6 +139,33 @@ def generate_charts(folder, summary, manifest):
         1,
         notes="Отказы на ответимых вопросах считаются ошибками.",
     )
+    reviewed = [
+        (
+            f"{name} (n={configs[name]['reviewed']})",
+            [
+                configs[name]["review_metrics"].get(key, {}).get("mean")
+                for key in (
+                    "correctness",
+                    "faithfulness",
+                    "completeness",
+                    "citation_support",
+                )
+            ],
+        )
+        for name in gen
+        if configs[name]["reviewed"]
+    ]
+    manual_figure = bar_chart(
+        folder / "reviewed-quality.svg",
+        "Ручная оценка ответов",
+        f"{split}. n — ответы с оценкой.",
+        "Баллы, 0–2",
+        reviewed,
+        ["Correctness", "Faithfulness", "Completeness", "Citation support"],
+        2,
+    )
+    if manual_figure:
+        output.append(manual_figure)
     labels = list(configs)
     chart(
         "latency",

@@ -194,7 +194,8 @@ function evalChunks(label, rows) {
     const item = element('li', (row.source_id ? '[' + row.source_id + '] ' : '') +
       row.title + ' · ' + (row.section || 'без раздела') + score);
     const content = row.original_text || row.text;
-    if (content) item.append(evalDetails('Фрагмент', content));
+    if (row.prompt_text) item.append(evalDetails('Текст для модели', row.prompt_text));
+    if (content && content !== row.prompt_text) item.append(evalDetails('Исходный фрагмент', content));
     list.append(item);
   }
   details.append(list);
