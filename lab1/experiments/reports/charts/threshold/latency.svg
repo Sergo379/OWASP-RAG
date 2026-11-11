@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 413" role="img">
+<title>Задержка запросов</title><desc>development; n — сохранённые запросы на вариант. Холодные загрузки включены в распределение.</desc>
+<rect width="930" height="413" fill="#fff"/>
+<g font-family="Segoe UI, Arial, sans-serif" fill="#182b49">
+<text x="24" y="30" font-size="19" text-anchor="start">Задержка запросов</text>
+<text x="24" y="52" font-size="12" text-anchor="start">development; n — сохранённые запросы на вариант. Холодные загрузки включены в распределение.</text>
+<path d="M230.0,72 V360" stroke="#dce3ed"/>
+<text x="230.0" y="377" font-size="12" text-anchor="middle">0</text>
+<path d="M355.0,72 V360" stroke="#dce3ed"/>
+<text x="355.0" y="377" font-size="12" text-anchor="middle">2.9e+03</text>
+<path d="M480.0,72 V360" stroke="#dce3ed"/>
+<text x="480.0" y="377" font-size="12" text-anchor="middle">5.9e+03</text>
+<path d="M605.0,72 V360" stroke="#dce3ed"/>
+<text x="605.0" y="377" font-size="12" text-anchor="middle">8.8e+03</text>
+<path d="M730.0,72 V360" stroke="#dce3ed"/>
+<text x="730.0" y="377" font-size="12" text-anchor="middle">1.2e+04</text>
+<path d="M855.0,72 V360" stroke="#dce3ed"/>
+<text x="855.0" y="377" font-size="12" text-anchor="middle">1.5e+04</text>
+<text x="220" y="93.0" font-size="12" text-anchor="end">threshold-e5-off (n=10)</text>
+<rect x="230" y="75.0" width="27.2" height="11" fill="#3155a4"/>
+<text x="262.22434502714805" y="85.0" font-size="11" text-anchor="start">637</text>
+<rect x="230" y="89.0" width="578.7" height="11" fill="#1d846a"/>
+<text x="813.7037037037037" y="99.0" font-size="11" text-anchor="start">1.35e+04</text>
+<text x="220" y="129.0" font-size="12" text-anchor="end">threshold-e5-low (n=10)</text>
+<rect x="230" y="111.0" width="26.6" height="11" fill="#3155a4"/>
+<text x="261.56576919724455" y="121.0" font-size="11" text-anchor="start">622</text>
+<rect x="230" y="125.0" width="29.5" height="11" fill="#1d846a"/>
+<text x="264.52364733560785" y="135.0" font-size="11" text-anchor="start">691</text>
+<text x="220" y="165.0" font-size="12" text-anchor="end">threshold-e5-medium (n=10)</text>
+<rect x="230" y="147.0" width="27.3" height="11" fill="#3155a4"/>
+<text x="262.3383293054006" y="157.0" font-size="11" text-anchor="start">640</text>
+<rect x="230" y="161.0" width="31.0" height="11" fill="#1d846a"/>
+<text x="266.00834755507213" y="171.0" font-size="11" text-anchor="start">726</text>
+<text x="220" y="201.0" font-size="12" text-anchor="end">threshold-e5-strict (n=10)</text>
+<rect x="230" y="183.0" width="27.7" height="11" fill="#3155a4"/>
+<text x="262.7143685010521" y="193.0" font-size="11" text-anchor="start">649</text>
+<rect x="230" y="197.0" width="30.2" height="11" fill="#1d846a"/>
+<text x="265.1900826772964" y="207.0" font-size="11" text-anchor="start">707</text>
+<text x="220" y="237.0" font-size="12" text-anchor="end">threshold-minilm-off (n=10)</text>
+<rect x="230" y="219.0" width="28.3" height="11" fill="#3155a4"/>
+<text x="263.25321492044714" y="229.0" font-size="11" text-anchor="start">661</text>
+<rect x="230" y="233.0" width="118.9" height="11" fill="#1d846a"/>
+<text x="353.86767057039026" y="243.0" font-size="11" text-anchor="start">2.78e+03</text>
+<text x="220" y="273.0" font-size="12" text-anchor="end">threshold-minilm-low (n=10)</text>
+<rect x="230" y="255.0" width="27.1" height="11" fill="#3155a4"/>
+<text x="262.0682653746336" y="265.0" font-size="11" text-anchor="start">634</text>
+<rect x="230" y="269.0" width="28.3" height="11" fill="#1d846a"/>
+<text x="263.3492355156496" y="279.0" font-size="11" text-anchor="start">664</text>
+<text x="220" y="309.0" font-size="12" text-anchor="end">threshold-minilm-medium (n=10)</text>
+<rect x="230" y="291.0" width="27.0" height="11" fill="#3155a4"/>
+<text x="261.99881121070683" y="301.0" font-size="11" text-anchor="start">632</text>
+<rect x="230" y="305.0" width="29.5" height="11" fill="#1d846a"/>
+<text x="264.5472621784903" y="315.0" font-size="11" text-anchor="start">692</text>
+<text x="220" y="345.0" font-size="12" text-anchor="end">threshold-minilm-strict (n=10)</text>
+<rect x="230" y="327.0" width="28.6" height="11" fill="#3155a4"/>
+<text x="263.60828117975916" y="337.0" font-size="11" text-anchor="start">670</text>
+<rect x="230" y="341.0" width="30.5" height="11" fill="#1d846a"/>
+<text x="265.52616437132104" y="351.0" font-size="11" text-anchor="start">715</text>
+<text x="542.5" y="397" font-size="12" text-anchor="middle">мс</text>
+<rect x="24" y="398" width="9" height="9" fill="#3155a4"/>
+<text x="36" y="407" font-size="11" text-anchor="start">Медиана</text>
+<rect x="199" y="398" width="9" height="9" fill="#1d846a"/>
+<text x="211" y="407" font-size="11" text-anchor="start">p95</text>
+</g></svg>

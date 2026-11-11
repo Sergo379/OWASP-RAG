@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 525" role="img">
+<title>Сводка конфигураций поиска</title><desc>development; n — сохранённые запросы на вариант. </desc>
+<rect width="930" height="525" fill="#fff"/>
+<g font-family="Segoe UI, Arial, sans-serif" fill="#182b49">
+<text x="24" y="30" font-size="19" text-anchor="start">Сводка конфигураций поиска</text>
+<text x="24" y="52" font-size="12" text-anchor="start">development; n — сохранённые запросы на вариант. </text>
+<path d="M230.0,72 V472" stroke="#dce3ed"/>
+<text x="230.0" y="489" font-size="12" text-anchor="middle">0</text>
+<path d="M355.0,72 V472" stroke="#dce3ed"/>
+<text x="355.0" y="489" font-size="12" text-anchor="middle">0.2</text>
+<path d="M480.0,72 V472" stroke="#dce3ed"/>
+<text x="480.0" y="489" font-size="12" text-anchor="middle">0.4</text>
+<path d="M605.0,72 V472" stroke="#dce3ed"/>
+<text x="605.0" y="489" font-size="12" text-anchor="middle">0.6</text>
+<path d="M730.0,72 V472" stroke="#dce3ed"/>
+<text x="730.0" y="489" font-size="12" text-anchor="middle">0.8</text>
+<path d="M855.0,72 V472" stroke="#dce3ed"/>
+<text x="855.0" y="489" font-size="12" text-anchor="middle">1</text>
+<text x="220" y="100.0" font-size="12" text-anchor="end">threshold-e5-off (n=10)</text>
+<rect x="230" y="75.0" width="507.8" height="11" fill="#3155a4"/>
+<text x="742.8125" y="85.0" font-size="11" text-anchor="start">0.812</text>
+<rect x="230" y="89.0" width="546.9" height="11" fill="#1d846a"/>
+<text x="781.875" y="99.0" font-size="11" text-anchor="start">0.875</text>
+<rect x="230" y="103.0" width="546.9" height="11" fill="#b36822"/>
+<text x="781.875" y="113.0" font-size="11" text-anchor="start">0.875</text>
+<text x="220" y="150.0" font-size="12" text-anchor="end">threshold-e5-low (n=10)</text>
+<rect x="230" y="125.0" width="429.7" height="11" fill="#3155a4"/>
+<text x="664.6875" y="135.0" font-size="11" text-anchor="start">0.688</text>
+<rect x="230" y="139.0" width="468.8" height="11" fill="#1d846a"/>
+<text x="703.75" y="149.0" font-size="11" text-anchor="start">0.75</text>
+<rect x="230" y="153.0" width="468.8" height="11" fill="#b36822"/>
+<text x="703.75" y="163.0" font-size="11" text-anchor="start">0.75</text>
+<text x="220" y="200.0" font-size="12" text-anchor="end">threshold-e5-medium (n=10)</text>
+<rect x="230" y="175.0" width="312.5" height="11" fill="#3155a4"/>
+<text x="547.5" y="185.0" font-size="11" text-anchor="start">0.5</text>
+<rect x="230" y="189.0" width="390.6" height="11" fill="#1d846a"/>
+<text x="625.625" y="199.0" font-size="11" text-anchor="start">0.625</text>
+<rect x="230" y="203.0" width="390.6" height="11" fill="#b36822"/>
+<text x="625.625" y="213.0" font-size="11" text-anchor="start">0.625</text>
+<text x="220" y="250.0" font-size="12" text-anchor="end">threshold-e5-strict (n=10)</text>
+<rect x="230" y="225.0" width="195.3" height="11" fill="#3155a4"/>
+<text x="430.3125" y="235.0" font-size="11" text-anchor="start">0.312</text>
+<rect x="230" y="239.0" width="234.4" height="11" fill="#1d846a"/>
+<text x="469.375" y="249.0" font-size="11" text-anchor="start">0.375</text>
+<rect x="230" y="253.0" width="234.4" height="11" fill="#b36822"/>
+<text x="469.375" y="263.0" font-size="11" text-anchor="start">0.375</text>
+<text x="220" y="300.0" font-size="12" text-anchor="end">threshold-minilm-off (n=10)</text>
+<rect x="230" y="275.0" width="468.8" height="11" fill="#3155a4"/>
+<text x="703.75" y="285.0" font-size="11" text-anchor="start">0.75</text>
+<rect x="230" y="289.0" width="507.8" height="11" fill="#1d846a"/>
+<text x="742.8125" y="299.0" font-size="11" text-anchor="start">0.812</text>
+<rect x="230" y="303.0" width="546.9" height="11" fill="#b36822"/>
+<text x="781.875" y="313.0" font-size="11" text-anchor="start">0.875</text>
+<text x="220" y="350.0" font-size="12" text-anchor="end">threshold-minilm-low (n=10)</text>
+<rect x="230" y="325.0" width="390.6" height="11" fill="#3155a4"/>
+<text x="625.625" y="335.0" font-size="11" text-anchor="start">0.625</text>
+<rect x="230" y="339.0" width="429.7" height="11" fill="#1d846a"/>
+<text x="664.6875" y="349.0" font-size="11" text-anchor="start">0.688</text>
+<rect x="230" y="353.0" width="468.8" height="11" fill="#b36822"/>
+<text x="703.75" y="363.0" font-size="11" text-anchor="start">0.75</text>
+<text x="220" y="400.0" font-size="12" text-anchor="end">threshold-minilm-medium (n=10)</text>
+<rect x="230" y="375.0" width="312.5" height="11" fill="#3155a4"/>
+<text x="547.5" y="385.0" font-size="11" text-anchor="start">0.5</text>
+<rect x="230" y="389.0" width="351.6" height="11" fill="#1d846a"/>
+<text x="586.5625" y="399.0" font-size="11" text-anchor="start">0.562</text>
+<rect x="230" y="403.0" width="390.6" height="11" fill="#b36822"/>
+<text x="625.625" y="413.0" font-size="11" text-anchor="start">0.625</text>
+<text x="220" y="450.0" font-size="12" text-anchor="end">threshold-minilm-strict (n=10)</text>
+<rect x="230" y="425.0" width="156.2" height="11" fill="#3155a4"/>
+<text x="391.25" y="435.0" font-size="11" text-anchor="start">0.25</text>
+<rect x="230" y="439.0" width="156.2" height="11" fill="#1d846a"/>
+<text x="391.25" y="449.0" font-size="11" text-anchor="start">0.25</text>
+<rect x="230" y="453.0" width="156.2" height="11" fill="#b36822"/>
+<text x="391.25" y="463.0" font-size="11" text-anchor="start">0.25</text>
+<text x="542.5" y="509" font-size="12" text-anchor="middle">Доля, 0–1</text>
+<rect x="24" y="510" width="9" height="9" fill="#3155a4"/>
+<text x="36" y="519" font-size="11" text-anchor="start">Recall</text>
+<rect x="199" y="510" width="9" height="9" fill="#1d846a"/>
+<text x="211" y="519" font-size="11" text-anchor="start">MRR</text>
+<rect x="374" y="510" width="9" height="9" fill="#b36822"/>
+<text x="386" y="519" font-size="11" text-anchor="start">Hit Rate</text>
+</g></svg>

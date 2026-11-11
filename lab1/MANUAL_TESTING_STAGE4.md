@@ -40,7 +40,7 @@ pixi run eval-run --suite generation --offline
 |---|---|---|
 | F. Retrieval | Полный suite `retrieval`, либо Research / Evaluation → retrieval → группа → Запустить offline. | 200 поисковых задач полного suite. Сохранить manifest, CSV и состояние. Отдельные группы сохраняют меньше задач. |
 | G. Chunking | `--suite retrieval --group chunking`, `--group size`, `--group overlap` для изолированных прогонов. | Сверить стратегию, фактические chunks/segments, cache hits, build duration и RSS в деталях индекса. Различие SHA snapshot делает сравнение недействительным. |
-| H. Embeddings | В `topk` сравнить строки E5/MiniLM при одном K. | Сравнить Recall/MRR и RU/EN разрезы. Сегменты MiniLM могут дробиться при лимите 128; сохранить model identity и counts. |
+| H. Embeddings | В `topk` сравнить строки E5/MiniLM при одном K. | Сравнить Recall/MRR и RU/EN разрезы. Сегменты MiniLM могут дробиться при лимите 128. Сохранить model identity и counts. |
 | I. Top-K | `--suite retrieval --group topk`. | 80 строк по двум моделям и K 3/5/10/20. Сравнить полноту, повторы и медиану времени. |
 | J. Reranker | `--suite retrieval --group reranking`. | 20 строк. JSON содержит парный результат из той же candidate pool для качества и отдельные замеры времени. |
 | K. Threshold | Передать `--parent` от полного retrieval или `topk`. | Для каждой модели четыре уровня. Сверить quantiles и число пустых ответимых/неответимых поисков. |
@@ -69,9 +69,9 @@ pixi run eval-charts --run-id RUN_ID
 
 ## R–T. Ошибки, остановка и offline
 
-- **R. Ошибка/таймаут.** На копии снимка проверьте запуск с недоступной Ollama или посмотрите сохранённый ошибочный запрос. Ожидается отдельный статус и отсутствие семантического балла. Сохраните ошибку и параметры; верните Ollama штатно перед Resume.
+- **R. Ошибка/таймаут.** На копии снимка проверьте запуск с недоступной Ollama или посмотрите сохранённый ошибочный запрос. Ожидается отдельный статус и отсутствие семантического балла. Сохраните ошибку и параметры. Для Resume снова запустите Ollama.
 - **S. Stop и Resume.** Во время тестового retrieval run нажмите Stop или выполните `pixi run eval-stop --run-id RUN_ID`. Текущий быстрый поиск завершается, сборка останавливается на границе batch, активная генерация получает отмену. Возобновление: `pixi run eval-resume --run-id RUN_ID --offline`. Опция `--retry-errors` добавляет новую попытку для ошибок. Успешные строки и предыдущие попытки должны остаться на диске. После перезагрузки проверьте, что worker действительно остановлен, затем используйте тот же run ID.
-- **T. Offline.** Запустите `pixi run eval-run --suite retrieval --group topk --offline` с уже подготовленными моделями. Опция блокирует внешние TCP-подключения из процесса Python; Ollama остаётся доступной по loopback. Для проверки без физической сети отключите её самостоятельно до запуска. Сохраните manifest с `offline: true`.
+- **T. Offline.** Запустите `pixi run eval-run --suite retrieval --group topk --offline` с уже подготовленными моделями. Опция блокирует внешние TCP-подключения из процесса Python. Ollama остаётся доступной по loopback. Для проверки без физической сети отключите её самостоятельно до запуска. Сохраните manifest с `offline: true`.
 
 ## U–X. Итоги, tracing и регрессия
 

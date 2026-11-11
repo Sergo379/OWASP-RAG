@@ -128,7 +128,18 @@ def export_csv(rows):
         "finished_at",
         "index_id",
         "index_generation",
+        "model",
+        "strategy",
+        "size",
+        "overlap",
+        "k",
+        "pool",
+        "threshold",
+        "rerank",
+        "llm",
         "model_digest",
+        "mode",
+        "answer_format",
         "recall",
         "precision",
         "mrr",
@@ -148,7 +159,7 @@ def export_csv(rows):
     writer = csv.DictWriter(stream, fieldnames=fields)
     writer.writeheader()
     for row in rows:
-        flat = {**row, **row.get("scores", {})}
+        flat = {**row.get("parameters", {}), **row, **row.get("scores", {})}
         writer.writerow({key: safe_csv(flat.get(key)) for key in fields})
     return stream.getvalue().encode("utf-8-sig")
 
