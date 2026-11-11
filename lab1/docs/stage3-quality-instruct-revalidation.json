@@ -1,0 +1,197 @@
+{
+  "checked_at": "2026-11-03T13:30:42.094433+00:00",
+  "kind": "Offline revalidation of recorded real drafts; NOT a new generation run or measured latency",
+  "cases": [
+    {
+      "name": "secure",
+      "original_status": "refused",
+      "recorded_draft": "Атрибут Secure не шифрует содержимое cookie. Он не обеспечивает шифрования значения самого cookie, а лишь указывает браузеру, что cookie должен передаваться только через защищённое соединение HTTPS [S1]. Таким образом, защита, предоставляемая атрибутом Secure, заключается в предотвращении передачи cookie по нешифрованным HTTP-соединениям, что снижает риск утечки сессионных идентификаторов в случае атаки типа «man-in-the-middle» [S2]. Без атрибута Secure браузер может отправлять cookie по нешифрованному HTTP-трафику, что позволяет атакующему перехватывать и использовать сессионные данные [S2]. Важно отметить, что атрибут Secure не защищает от модификации cookie во время передачи — для этого требуется использование префикса `__Secure-` [S1].",
+      "current_validation": {
+        "valid": true,
+        "used_source_ids": [
+          "S1",
+          "S2"
+        ],
+        "unknown_source_ids": [],
+        "reasons": [],
+        "evidence": [
+          {
+            "claim_index": 1,
+            "source_id": "S1",
+            "chunk_id": "07e19ec787be3ac808650a8ab4fca2e9f9a2d9480070184634fc4cf4949aba54",
+            "char_start": 26,
+            "char_end": 470,
+            "quote": "All cookies must be marked with the \"[Secure](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#Secure_and_HttpOnly_cookies)\" attribute. This instructs the browser to only send them over encrypted HTTPS connections. This is important even if the website does not listen on HTTP, as an attacker performing an active man in the middle attack could redirect the user to a spoofed web server served over HTTP in order to steal their cookie.",
+            "matched_terms": 9,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S2",
+            "chunk_id": "1cafc56bdc9a0e6b432db05a1cf565291f07e1e9277db6f75e062eca440ea106",
+            "char_start": 22,
+            "char_end": 371,
+            "quote": "The `Secure` cookie attribute instructs web browsers to only send the cookie through an encrypted HTTPS (SSL/TLS) connection. This session protection mechanism is mandatory to prevent the disclosure of the session ID through MitM (Man-in-the-Middle) attacks. It ensures that an attacker cannot simply capture the session ID from web browser traffic.",
+            "matched_terms": 8,
+            "support_status": "literal span; semantic support unverified"
+          }
+        ],
+        "checks": [
+          "current-source IDs and text",
+          "known Secure/cookie confusion",
+          "cited technical literals",
+          "exact quotations",
+          "lexical evidence spans; not entailment"
+        ],
+        "faithfulness": "not proven by citation-ID validation or lexical evidence alignment; human review required",
+        "citation_aliases_normalized": {}
+      },
+      "current_rendered_answer": "Атрибут Secure не шифрует содержимое cookie. Он не обеспечивает шифрования значения самого cookie, а лишь указывает браузеру, что cookie должен передаваться только через защищённое соединение HTTPS [S1]. Таким образом, защита, предоставляемая атрибутом Secure, заключается в предотвращении передачи cookie по нешифрованным HTTP-соединениям, что снижает риск утечки сессионных идентификаторов в случае атаки типа «man-in-the-middle» [S2]. Без атрибута Secure браузер может отправлять cookie по нешифрованному HTTP-трафику, что позволяет атакующему перехватывать и использовать сессионные данные [S2]. Важно отметить, что атрибут Secure не защищает от модификации cookie во время передачи — для этого требуется использование префикса `__Secure-` [S1].",
+      "complete_generation": true
+    },
+    {
+      "name": "tls",
+      "original_status": "failed",
+      "recorded_draft": "Для защиты передаваемых данных веб-приложения с REST API OWASP рекомендует использовать TLS 1.3 по умолчанию и поддерживать TLS 1.2 для совместимости, при этом полностью отключить TLS 1.0 и TLS 1.1 в соответствии с RFC 8996 (март 2021), что запрещено PCI DSS и NIST SP 800-52 Rev. 2 и недопустимо для современных браузеров [S2]. Сертификаты должны быть проверены на подлинность и использовать современные криптографические параметры, при этом в TLS 1.2 предпочтительны криптосистемы на основе ECDHE с аутентифицированным шифрованием, обеспечивая передачу секретов с поддержкой прямого защищённого ключа (forward secrecy), в то время как DHE (`TLS_DHE_*`) не рекомендуются из-за уязвимостей в параметризации по RFC 9325, с. 4.1 [S4]. Весь трафик, включая API-эндпоинты, должен быть защищён HTTPS, и для API-сервисов рекомендуется полностью отключить HTTP и возвращать ошибку при попытке подключения по HTTP, а не перенаправлять [S3]. Для предотвращения подмены и несанкционированного доступа к данным в транзите следует включить HTTP Strict Transport Security (HSTS) с указанием длительности (например, 365 дней), что заставляет браузер всегда использовать HTTPS и блокирует доступ к HTTP-версии [S5]. Ключевые параметры безопасности включают использование атрибута \"Secure\" для всех кук, а также префикс `__Secure-` для предотвращения модификации кук в процессе перехвата по HTTP, что предотвращает атаки на сессии, включая фиксацию сессий [S8]. Для предотвращения кэширования чувствительных данных в браузере или прокси-серверах следует использовать заголовок `Cache-Control: no-store`, который запрещает хранение и передачу любых частей ответа в кэше [S10]. Конфигурация TLS должна быть проверена с помощью инструментов, таких как SSL Labs Server Test, CryptCheck или Mozilla Observatory, которые позволяют выявить уязвимости, несовместимые протоколы и слабые шифры [S1]. В случае высокой привилегированности сервиса может быть рассмотрена реализация mTLS с использованием клиентских сертификатов, однако важно понимать, что mTLS не обеспечивает конфиденциальность данных от атакующего, который подделал сертификат сервера [S6].  \n\nПроверка конфигурации TLS должна включать:  \n- Проверку отключения TLS 1.0 и 1.1, поддержки только TLS 1.2 и 1.3 [S2];  \n- Проверку наличия ECDHE-шифров с аутентификацией и отсутствия DHE (`TLS_DHE_*`) в TLS 1.2 [S4];  \n- Убедиться, что все API-энд",
+      "current_validation": {
+        "valid": false,
+        "used_source_ids": [
+          "S1",
+          "S10",
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S8"
+        ],
+        "unknown_source_ids": [],
+        "reasons": [
+          "uncited_factual_blocks",
+          "technical_literal_not_in_cited_source"
+        ],
+        "evidence": [
+          {
+            "claim_index": 1,
+            "source_id": "S1",
+            "chunk_id": "d1a467afd8538101e870eafc664426b241915ab888846bc7f86f53ae8d5d04bb",
+            "char_start": 494,
+            "char_end": 787,
+            "quote": "- [SSL Labs Server Test](https://www.ssllabs.com/ssltest)\n- [CryptCheck](https://cryptcheck.fr/)\n- [Hardenize](https://www.hardenize.com/)\n- [ImmuniWeb](https://www.immuniweb.com/ssl/)\n- [Observatory by Mozilla](https://observatory.mozilla.org)\n- [Scanigma](https://scanigma.com)\n- [Stellastra",
+            "matched_terms": 7,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S10",
+            "chunk_id": "8152452b4aabe28f02c753d60c0c823d02aa2983b807305985cdd4c867b9b0ba",
+            "char_start": 679,
+            "char_end": 1000,
+            "quote": "`no-store` is the strongest cache directive: it forbids both shared and private caches from storing any part of the response. The legacy combination `Cache-Control: no-cache, no-store, must-revalidate` plus `Pragma: no-cache` and `Expires: 0` is only required if you must support pre-HTTP/1.1 caches (effectively obsolete",
+            "matched_terms": 6,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S2",
+            "chunk_id": "a908a357f1c3e035e47555428983e89c6f0370adc353c982bb507db56cb8be31",
+            "char_start": 35,
+            "char_end": 520,
+            "quote": "Web applications must default to **TLS 1.3** and may support TLS 1.2 for compatibility. **TLS 1.0 and TLS 1.1 are formally deprecated by [RFC 8996](https://datatracker.ietf.org/doc/html/rfc8996) (March 2021) and must be disabled.** They are also forbidden by [PCI DSS](https://www.pcisecuritystandards.org/documents/Migrating-from-SSL-Early-TLS-Info-Supp-v1_1.pdf), disallowed by NIST SP 800-52 Rev. 2, and removed from all mainstream browsers. SSLv2 and SSLv3 must always be disabled.",
+            "matched_terms": 15,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S3",
+            "chunk_id": "4ed5bbc5a4962b826b119126fdedae6a9ede1d9c2fa68203800f22c3d9ee9af8",
+            "char_start": 387,
+            "char_end": 863,
+            "quote": "For public facing applications, it may be appropriate to have the web server listening for unencrypted HTTP connections on port 80, and then immediately redirecting them with a permanent redirect (HTTP 301) in order to provide a better experience to users who manually type in the domain name. This should then be supported with the [HTTP Strict Transport Security (HSTS)](#use-http-strict-transport-security) header to prevent them accessing the site over HTTP in the future.",
+            "matched_terms": 5,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S4",
+            "chunk_id": "66c3d999c9051669bd5b58289106f7d4531ddcca9f98fd904172a5bcede8c6b3",
+            "char_start": 1,
+            "char_end": 414,
+            "quote": "TLS 1.2, prefer [ECDHE cipher suites with authenticated encryption](https://www.rfc-editor.org/rfc/rfc9325.html#section-4.2). Ephemeral Diffie-Hellman provides forward secrecy; finite-field DHE suites (`TLS_DHE_*`) are nevertheless discouraged in TLS 1.2 because of construction and parameter-negotiation weaknesses, as explained in [RFC 9325 Section 4.1](https://www.rfc-editor.org/rfc/rfc9325.html#section-4.1).",
+            "matched_terms": 12,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S5",
+            "chunk_id": "c35bd38ebaf6ad7566f73cc6a5d350cd4d2edebcb1b0d583d351f1fb3017db3a",
+            "char_start": 40,
+            "char_end": 355,
+            "quote": "HTTP Strict Transport Security (HSTS) instructs the user's browser to always request the site over HTTPS, and also prevents the user from bypassing certificate warnings. See the [HTTP Strict Transport Security Cheat Sheet](HTTP_Strict_Transport_Security_Cheat_Sheet.md) for further information on implementing HSTS.",
+            "matched_terms": 5,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S6",
+            "chunk_id": "585ecfd92e7a68701a028d8507d5ed8c65335bef3eb619cb283f6ab92a433845",
+            "char_start": 40,
+            "char_end": 562,
+            "quote": "A typical TLS connection authenticates the server, while mutual TLS (mTLS) also authenticates the client using a client certificate and proof of its private key. In TLS 1.3, this proof is bound to the handshake transcript by [CertificateVerify](https://www.rfc-editor.org/rfc/rfc8446.html#section-4.4.3). This [channel binding](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/#verifimpers) prevents an intermediary from relaying the client's authentication onto a separate TLS connection to the legitimate server.",
+            "matched_terms": 11,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 1,
+            "source_id": "S8",
+            "chunk_id": "07e19ec787be3ac808650a8ab4fca2e9f9a2d9480070184634fc4cf4949aba54",
+            "char_start": 26,
+            "char_end": 470,
+            "quote": "All cookies must be marked with the \"[Secure](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#Secure_and_HttpOnly_cookies)\" attribute. This instructs the browser to only send them over encrypted HTTPS connections. This is important even if the website does not listen on HTTP, as an attacker performing an active man in the middle attack could redirect the user to a spoofed web server served over HTTP in order to steal their cookie.",
+            "matched_terms": 7,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 3,
+            "source_id": "S2",
+            "chunk_id": "a908a357f1c3e035e47555428983e89c6f0370adc353c982bb507db56cb8be31",
+            "char_start": 35,
+            "char_end": 520,
+            "quote": "Web applications must default to **TLS 1.3** and may support TLS 1.2 for compatibility. **TLS 1.0 and TLS 1.1 are formally deprecated by [RFC 8996](https://datatracker.ietf.org/doc/html/rfc8996) (March 2021) and must be disabled.** They are also forbidden by [PCI DSS](https://www.pcisecuritystandards.org/documents/Migrating-from-SSL-Early-TLS-Info-Supp-v1_1.pdf), disallowed by NIST SP 800-52 Rev. 2, and removed from all mainstream browsers. SSLv2 and SSLv3 must always be disabled.",
+            "matched_terms": 5,
+            "support_status": "literal span; semantic support unverified"
+          },
+          {
+            "claim_index": 4,
+            "source_id": "S4",
+            "chunk_id": "66c3d999c9051669bd5b58289106f7d4531ddcca9f98fd904172a5bcede8c6b3",
+            "char_start": 1,
+            "char_end": 414,
+            "quote": "TLS 1.2, prefer [ECDHE cipher suites with authenticated encryption](https://www.rfc-editor.org/rfc/rfc9325.html#section-4.2). Ephemeral Diffie-Hellman provides forward secrecy; finite-field DHE suites (`TLS_DHE_*`) are nevertheless discouraged in TLS 1.2 because of construction and parameter-negotiation weaknesses, as explained in [RFC 9325 Section 4.1](https://www.rfc-editor.org/rfc/rfc9325.html#section-4.1).",
+            "matched_terms": 6,
+            "support_status": "literal span; semantic support unverified"
+          }
+        ],
+        "checks": [
+          "current-source IDs and text",
+          "known Secure/cookie confusion",
+          "cited technical literals",
+          "exact quotations",
+          "lexical evidence spans; not entailment"
+        ],
+        "faithfulness": "not proven by citation-ID validation or lexical evidence alignment; human review required",
+        "citation_aliases_normalized": {}
+      },
+      "current_rendered_answer": "Ответ локальной модели не прошёл проверку по выбранным источникам. Откройте диагностику и контекст; попробуйте уточнить вопрос или выбрать другую локальную модель.",
+      "complete_generation": false
+    }
+  ],
+  "artifact_note": "Fixed public development questions only. Source text is interned by SHA256; *_text_sha256/text_sha256 resolve in source_texts. Citation IDs/status do not prove correctness. No scientific benchmark.",
+  "source_attribution": {
+    "source": "OWASP Cheat Sheet Series contributors",
+    "url": "https://github.com/OWASP/CheatSheetSeries",
+    "license": "CC BY-SA 4.0",
+    "transformation": "Existing local preprocessing and retrieval; prompt-only Markdown HTTP destination removal recorded per request."
+  },
+  "source_texts": {}
+}

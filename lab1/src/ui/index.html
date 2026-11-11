@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js"></script><script defer src="/static/stage3.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js"></script><script defer src="/static/stage3.js"></script><script defer src="/static/evaluation.js"></script></head>
 <body>
 <aside class="sidebar">
   <a class="brand" href="#dashboard"><span class="brand-icon">O<span>R</span></span><div>OWASP<span class="muted">—RAG</span><small>KNOWLEDGE CONSOLE</small></div></a>
@@ -10,7 +10,7 @@
     <a href="#knowledge" data-view="knowledge"><span>▤</span> Knowledge Base</a>
     <a href="#search" data-view="search"><span>⌕</span> Search <small>02</small></a>
     <a href="#chat" data-view="chat"><span>◇</span> AI Chat <small>03</small></a>
-    <a href="#experiments" data-view="experiments"><span>⌁</span> Experiments <small>04</small></a>
+    <a href="#experiments" data-view="experiments"><span>⌁</span> Research / Evaluation</a>
   </nav>
   <div class="sidebar-bottom"><span class="dot"></span> Local · CPU only<small>Grounded AI Chat<br>Этап 03 / 04 · <span id="version">…</span></small></div>
 </aside>
@@ -50,14 +50,52 @@
     <div class="page-heading"><div><div class="eyebrow">LOCAL QWEN3 · OWASP SOURCES · EN / RU</div><h1>AI Chat<span class="accent">.</span></h1><p>Ответы по найденным фрагментам. Откройте цитаты и проверьте, подтверждают ли они выводы.</p></div><button id="chat-refresh">Проверить модели</button></div>
     <article class="panel"><p id="llm-status" class="muted">Проверка Ollama API…</p><p id="langfuse-status" class="muted"></p><details><summary>Модели и настройки генерации</summary><pre id="llm-config"></pre></details></article>
     <form class="panel" id="chat-form">
-      <div class="search-settings"><label>LLM<select id="chat-llm"><option>qwen3:1.7b</option><option value="qwen3:4b">qwen3:4b · Thinking-2507 · slow</option><option>qwen3:4b-instruct-2507-q4_K_M</option></select></label><label>Embedding<select id="chat-model"><option value="e5">multilingual-e5-small</option><option value="minilm">multilingual MiniLM</option></select></label><label>Vector Index<select id="chat-index" required></select></label><label>Top-K<select id="chat-k"><option>3</option><option selected>5</option><option>10</option><option>20</option></select></label><label>Similarity threshold<input id="chat-threshold" type="number" value="0" min="-1" max="1" step="0.01"></label><label>Prompt<select id="chat-prompt"><option>strict_grounded</option><option>concise_grounded</option></select></label></div>
+      <div class="search-settings"><label>LLM<select id="chat-llm"><option>qwen3:1.7b</option><option value="qwen3:4b">qwen3:4b · Thinking-2507 · slow</option><option>qwen3:4b-instruct-2507-q4_K_M</option></select></label><label>Embedding<select id="chat-model"><option value="e5">multilingual-e5-small</option><option value="minilm">multilingual MiniLM</option></select></label><label>Vector Index<select id="chat-index" required></select></label><label>Top-K<select id="chat-k"><option>3</option><option selected>5</option><option>10</option><option>20</option></select></label><label>Similarity threshold<input id="chat-threshold" type="number" value="0" min="-1" max="1" step="0.01"></label><label>Retrieval strategy<select id="chat-strategy"><option value="hybrid_context">Chat hybrid · semantic + lexical</option><option value="baseline">Baseline semantic · unchanged Search</option></select></label><label>Формат ответа<select id="chat-answer-format"><option value="evidence_bound">Выбранные абзацы источников</option><option value="prose">Свободный текст по контексту</option></select></label><label>Prompt<select id="chat-prompt"><option>strict_grounded</option><option>concise_grounded</option><option>technical_grounded</option></select></label></div>
       <details><summary>Retrieval options</summary><div class="search-settings"><label>Candidate Pool<input id="chat-pool" type="number" value="80" min="20" max="500"></label><label>Topic<select id="chat-topic"><option value="">Все темы</option></select></label><label>Document<select id="chat-document"><option value="">Все документы</option></select></label><label><input id="chat-reranking" type="checkbox"> Reranking (CPU)</label></div><p class="muted">Similarity = 1 − cosine distance. История ограничена; предыдущие цитаты не используются как доказательства.</p></details>
       <label class="query-label" for="chat-query">Вопрос по безопасности веб-приложений</label><textarea id="chat-query" rows="3" maxlength="2000" required placeholder="How can SQL injection be prevented?"></textarea>
       <div class="chat-actions"><button class="primary" type="submit" id="chat-send" disabled>Отправить</button><button type="button" id="chat-stop" disabled>Остановить</button><button type="button" id="chat-clear">Очистить историю</button><button type="button" id="chat-new">Новый диалог</button></div>
     </form>
     <p id="chat-progress" role="status" aria-live="polite" class="muted"></p><div id="chat-messages"></div>
   </section>
-  <section class="page hidden" id="future"><div class="eyebrow">ROADMAP</div><h1 id="future-title"></h1><article class="panel empty"><span>◇</span><h2 id="future-message"></h2><p>Эксперименты и evaluation запланированы на этап №4.</p><a href="#knowledge">Перейти к документам →</a></article></section>
+  <section class="page hidden" id="experiments">
+    <div class="page-heading">
+      <div><h1>Research / Evaluation<span class="accent">.</span></h1><p>Сравнение поиска и ответов по зафиксированному корпусу OWASP.</p></div>
+      <button id="eval-refresh" type="button">Обновить</button>
+    </div>
+    <p id="eval-error" class="error hidden" role="alert"></p>
+    <div class="eval-summary" id="eval-summary"></div>
+    <article class="panel">
+      <h2>Эксперименты</h2>
+      <form id="eval-start">
+        <div class="search-settings">
+          <label>Suite<select id="eval-suite"></select></label>
+          <label id="eval-group-label">Группа<select id="eval-group"></select></label>
+          <label id="eval-parent-label" class="hidden">Development run<select id="eval-parent"></select></label>
+        </div>
+        <div class="chat-actions"><button class="primary" id="eval-launch" type="submit">Запустить offline</button><a id="eval-report" class="hidden" href="/api/evaluation/report">Скачать отчёт</a></div>
+      </form>
+      <p id="eval-operation" class="muted" role="status" aria-live="polite"></p>
+    </article>
+    <article class="panel">
+      <h2>Результаты</h2>
+      <div class="search-settings">
+        <label>Run<select id="eval-run"></select></label>
+        <label><input id="eval-retry" type="checkbox"> Повторить ошибочные запросы при Resume</label>
+      </div>
+      <div class="chat-actions">
+        <button type="button" id="eval-stop" disabled>Stop</button><button type="button" id="eval-resume" disabled>Resume</button>
+        <button type="button" id="eval-charts" disabled>Построить графики</button>
+        <a id="eval-json" class="hidden" download>JSON</a><a id="eval-csv" class="hidden" download>CSV</a>
+      </div>
+      <div id="eval-results" class="eval-overflow"></div>
+      <div id="eval-figures" class="eval-figures"></div>
+    </article>
+    <article class="panel">
+      <h2>Question Inspector</h2>
+      <label>Запрос и конфигурация<select id="eval-question"></select></label>
+      <div id="eval-inspector"></div>
+    </article>
+  </section>
   <footer>OWASP-RAG <span>Данные: OWASP Cheat Sheet Series · CC BY-SA 4.0</span></footer>
 </main>
 <dialog id="viewer"><div class="dialog-heading"><div><div class="eyebrow">DOCUMENT INSPECTOR</div><h2 id="viewer-title"></h2></div><button id="close-viewer" aria-label="Закрыть">✕</button></div><p id="viewer-meta" class="muted"></p><div class="viewer-toolbar"><button id="show-raw">Исходный Markdown</button><button id="show-chunks">Chunks</button><select id="viewer-config" aria-label="Конфигурация chunks"></select></div><div id="viewer-content"></div><button id="more-chunks" class="hidden">Следующие chunks ↓</button></dialog>

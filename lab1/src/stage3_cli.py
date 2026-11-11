@@ -24,8 +24,12 @@ def main():
         "--llm", choices=["qwen3:1.7b", "qwen3:4b", "qwen3:4b-instruct-2507-q4_K_M"], default="qwen3:1.7b"
     )
     parser.add_argument(
-        "--prompt-mode", choices=["strict_grounded", "concise_grounded"], default="strict_grounded"
+        "--prompt-mode",
+        choices=["strict_grounded", "concise_grounded", "technical_grounded"],
+        default="strict_grounded",
     )
+    parser.add_argument("--retrieval-strategy", choices=["baseline", "hybrid_context"])
+    parser.add_argument("--answer-format", choices=["prose", "evidence_bound"])
     parser.add_argument("--reranking", action="store_true")
     parser.add_argument("--inference", action="store_true", help="Actually run each Qwen model, sequentially")
     parser.add_argument(
@@ -94,6 +98,9 @@ def main():
                 session_id=session["session_id"],
                 llm=args.llm,
                 prompt_mode=args.prompt_mode,
+                retrieval_strategy=args.retrieval_strategy or chat.config.default_retrieval_strategy,
+                answer_format=args.answer_format
+                or chat.config.preferred_answer_format(args.prompt_mode, args.llm),
                 retrieval=SearchRequest(
                     query=args.query, index_id=index_id, model=args.model, reranking=args.reranking
                 ),

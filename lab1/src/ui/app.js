@@ -1,7 +1,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 let docs = [], stats = {}, lastStatus = '', selected = null, chunkOffset = 0, busy = false;
-const names = {dashboard:'Dashboard', knowledge:'Knowledge Base', search:'Search', chat:'AI Chat', experiments:'Experiments'};
+const names = {dashboard:'Dashboard', knowledge:'Knowledge Base', search:'Search', chat:'AI Chat', experiments:'Research / Evaluation'};
 function element(tag, text, cls) { const el=document.createElement(tag); if(text!==undefined) el.textContent=text; if(cls)el.className=cls; return el; }
 function date(value) { return value ? new Date(value).toLocaleString('ru-RU') : '—'; }
 async function api(path, options) {
@@ -16,8 +16,7 @@ function navigate() {
   document.querySelectorAll('.page').forEach(el=>el.classList.add('hidden'));
   document.querySelectorAll('nav a').forEach(el=>el.classList.toggle('active',el.dataset.view===view));
   $('breadcrumb').textContent=names[view]||'Dashboard';
-  if(view==='dashboard'||view==='knowledge'||view==='search'||view==='chat') $(view).classList.remove('hidden');
-  else { $('future').classList.remove('hidden'); $('future-title').textContent=names[view]||'Раздел'; $('future-message').textContent='Будет доступно на этапе №'+(view==='search'?'2':view==='chat'?'3':'4'); }
+  $(Object.hasOwn(names, view) ? view : 'dashboard').classList.remove('hidden');
 }
 function renderDocs() {
   $('documents').replaceChildren();

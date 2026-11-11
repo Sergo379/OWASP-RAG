@@ -21,6 +21,7 @@ log = logging.getLogger("owasp.search")
 def observed(observer, name, **fields):
     if observer is None:
         from src.observability.tracing import NullSpan
+
         yield NullSpan()
     else:
         with observer.step(name, **fields) as span:
@@ -41,11 +42,14 @@ def filter_candidates(candidates: list[dict], request, manifest, observer=None):
             doc = manifest.documents.get(meta["document_id"])
             if not doc or doc.status != "active" or doc.content_sha256 != meta["source_content_sha256"]:
                 reasons[candidate["vector_id"]] = "stale"
-            elif candidate["vector_id"] not in reasons and ((request.topic and meta["topic"] != request.topic) or (
-                request.document_id and meta["document_id"] != request.document_id
-            )):
+            elif candidate["vector_id"] not in reasons and (
+                (request.topic and meta["topic"] != request.topic)
+                or (request.document_id and meta["document_id"] != request.document_id)
+            ):
                 reasons[candidate["vector_id"]] = "metadata_mismatch"
-        span.update(metadata={"removed": len(reasons), "topic": request.topic, "document_id": request.document_id})
+        span.update(
+            metadata={"removed": len(reasons), "topic": request.topic, "document_id": request.document_id}
+        )
     for candidate in candidates:
         meta = candidate["metadata"]
         reason = reasons.get(candidate["vector_id"])
@@ -73,7 +77,9 @@ def deduplicate(candidates: list[dict]):
     return kept, removed
 
 
-def execute_search(request, vectors, models, config, *, request_id=None, observer=None) -> dict:
+def execute_search(
+    request, vectors, models, config, *, request_id=None, observer=None, include_pool=False
+) -> dict:
     request_id, started = request_id or uuid.uuid4().hex, time.perf_counter()
     timings, stages = {}, []
     rss_before = psutil.Process().memory_info().rss
@@ -118,8 +124,9 @@ def execute_search(request, vectors, models, config, *, request_id=None, observe
         timings["model_ready_ms"] = elapsed(step)
         event("MODEL_READY", model_identity=provider.model_identity, duration_ms=timings["model_ready_ms"])
         step = time.perf_counter()
-        with observed(observer, "QUERY_EMBEDDING", as_type="embedding",
-                      model=provider.model_identity) as span:
+        with observed(
+            observer, "QUERY_EMBEDDING", as_type="embedding", model=provider.model_identity
+        ) as span:
             embedding = validate_vectors([provider.embed_query(request.query)], provider.dimension)[0]
             span.update(metadata={"dimension": len(embedding), "query_chars": len(request.query)})
         if len(embedding) != identity["model_spec"]["dimension"]:
@@ -142,9 +149,15 @@ def execute_search(request, vectors, models, config, *, request_id=None, observe
                 where=where,
                 include=["documents", "metadatas", "distances"],
             )
-            span.update(metadata={"index_id": request.index_id, "snapshot": identity["source_snapshot_fingerprint"],
-                                  "candidate_ids": response["ids"][0], "distances": response["distances"][0],
-                                  "metadata_pushdown": where})
+            span.update(
+                metadata={
+                    "index_id": request.index_id,
+                    "snapshot": identity["source_snapshot_fingerprint"],
+                    "candidate_ids": response["ids"][0],
+                    "distances": response["distances"][0],
+                    "metadata_pushdown": where,
+                }
+            )
         candidates = [
             {
                 "vector_id": vector_id,
@@ -211,8 +224,13 @@ def execute_search(request, vectors, models, config, *, request_id=None, observe
                     config.batch_size,
                     config.reranker_passage_tokens,
                 )
-                span.update(metadata={"candidate_ids": [c["metadata"]["chunk_id"] for c in kept],
-                                      "scores": scores, "status": "completed"})
+                span.update(
+                    metadata={
+                        "candidate_ids": [c["metadata"]["chunk_id"] for c in kept],
+                        "scores": scores,
+                        "status": "completed",
+                    }
+                )
             for candidate, score, transformation in zip(kept, scores, transformations, strict=True):
                 candidate["rerank_score"] = score
                 candidate["rerank_transformation"] = transformation
@@ -233,12 +251,14 @@ def execute_search(request, vectors, models, config, *, request_id=None, observe
             event("RERANKING_COMPLETED", duration_ms=timings["reranking_ms"], ranking=comparison)
         else:
             with observed(observer, "RERANKING") as span:
-                span.update(metadata={"status": "skipped", "enabled": request.reranking, "candidates": len(kept)})
+                span.update(
+                    metadata={"status": "skipped", "enabled": request.reranking, "candidates": len(kept)}
+                )
             event("RERANKING_SKIPPED", enabled=request.reranking, candidates=len(kept))
 
-        def present(items, reranked):
+        def present(items, reranked, limit=None):
             output = []
-            for rank, candidate in enumerate(items[: request.top_k], 1):
+            for rank, candidate in enumerate(items[: request.top_k if limit is None else limit], 1):
                 meta = candidate["metadata"]
                 output.append(
                     {
@@ -304,6 +324,21 @@ def execute_search(request, vectors, models, config, *, request_id=None, observe
             "rss_before_bytes": rss_before,
             "rss_after_bytes": psutil.Process().memory_info().rss,
             "stages": stages,
+            "retrieval_strategy": "baseline",
+            "candidate_pool": [
+                {
+                    "vector_id": c["vector_id"],
+                    "chunk_id": c["metadata"]["chunk_id"],
+                    "document_id": c["metadata"]["document_id"],
+                    "title": c["metadata"]["title"],
+                    "section": c["metadata"]["section"],
+                    "url": c["metadata"]["url"],
+                    "retrieval_rank": c["retrieval_rank"],
+                    "vector_similarity": c["vector_similarity"],
+                    "rerank_score": c.get("rerank_score"),
+                }
+                for c in candidates
+            ],
         }
         event("RESULTS_READY", returned=diagnostics["final_result_count"], total_ms=timings["total_ms"])
         return {
@@ -312,6 +347,14 @@ def execute_search(request, vectors, models, config, *, request_id=None, observe
             "without_reranking": present(baseline, False),
             "comparison": comparison,
             "diagnostics": diagnostics,
+            **(
+                {
+                    "all_candidates": present(kept, request.reranking, len(kept)),
+                    "_query_embedding": embedding.tolist(),
+                }
+                if include_pool
+                else {}
+            ),
         }
     except Exception as exc:
         event("SEARCH_FAILED", error_type=type(exc).__name__, total_ms=elapsed(started))

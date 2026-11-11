@@ -16,6 +16,7 @@ lab1/logs/
 lab1/.cache/
 lab1/experiments/results/*
 lab1/experiments/charts/*
+lab1/experiments/runs/
 !**/.gitkeep
 *.pem
 *.key

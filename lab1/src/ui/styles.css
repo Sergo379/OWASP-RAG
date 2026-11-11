@@ -663,3 +663,20 @@ dialog::backdrop {
 }
 /* Stage 3: use the existing console typography and panels. */
 .chat-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.chat-message.user{border-left:3px solid var(--accent,#6de4bc)}.chat-message>small{display:block;margin-bottom:14px}.chat-message{overflow-wrap:anywhere}.answer-body p{white-space:pre-wrap;line-height:1.7}.answer-body li{margin:8px 0;line-height:1.65}.answer-body code{background:#172b35;padding:2px 5px;border-radius:4px}.answer-code{padding:18px;overflow:auto;border:1px solid #29404b;border-radius:8px}.citation-group{border-top:1px solid #29404b;margin-top:16px;padding-top:14px}.citation-group details{margin-top:8px}.citation-group pre{max-height:350px;overflow:auto;white-space:pre-wrap}#chat-query{display:block;width:100%;resize:vertical;box-sizing:border-box;margin-top:10px;background:#101e26;color:#e0eaf0;border:1px solid #29404b;border-radius:8px;padding:14px;font:inherit}#chat-progress{overflow-wrap:anywhere}#chat .search-settings{margin-bottom:18px}
+
+/* Research uses the same typography and surfaces as the Search and Chat pages. */
+.eval-summary {display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 18px}
+.eval-stat {padding:12px 16px;border:1px solid var(--line, #dce3ed);border-radius:8px}
+.eval-stat strong {display:block;font-size:1.25rem}
+.eval-overflow {overflow-x:auto;margin-top:14px}
+.eval-overflow table {min-width:720px}
+.eval-overflow td:not(:first-child) {font-variant-numeric:tabular-nums}
+.eval-figures img {display:block;width:100%;max-width:950px;background:white;border-radius:6px}
+#experiments h2 {margin:0 0 12px}
+#eval-question {width:100%;max-width:700px}
+#eval-inspector pre {white-space:pre-wrap;overflow-wrap:anywhere;max-height:380px;overflow:auto}
+#eval-inspector details {margin:.65rem 0}
+#eval-inspector label {display:block;margin:.5rem 0}
+#eval-inspector textarea {width:min(100%,650px)}
+
+.eval-evidence {padding:10px 14px;border-left:2px solid var(--accent, #54c4b6);margin:12px 0}.eval-evidence p {margin:7px 0}.eval-evidence small {color:var(--muted, #99a8bb)}

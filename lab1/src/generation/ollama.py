@@ -125,10 +125,31 @@ class Ollama:
                 "error": "Ollama API недоступен. Запустите Ollama и выполните ollama pull qwen3:1.7b / qwen3:4b.",
             }
 
-    def stream(self, model, messages, cancel, emit):
-        return asyncio.run(self._stream(model, messages, cancel, emit))
+    def stream(
+        self,
+        model,
+        messages,
+        cancel,
+        emit,
+        *,
+        config=None,
+        evidence_sources=None,
+        query="",
+        mode="strict_grounded",
+    ):
+        return asyncio.run(self._stream(model, messages, cancel, emit, config, evidence_sources, query, mode))
 
-    async def _stream(self, model, messages, cancel, emit):
+    async def _stream(
+        self,
+        model,
+        messages,
+        cancel,
+        emit,
+        override=None,
+        evidence_sources=None,
+        query="",
+        mode="strict_grounded",
+    ):
         cancel.check()
         state = self.status()
         if not state["available"]:
@@ -137,11 +158,27 @@ class Ollama:
             raise AppError(
                 "Модель Ollama отсутствует или digest изменён. Проверьте llm-check и generation.yaml"
             )
-        config = self.config
+        config = override or self.config
         runtime_model = model
         effective_think = model in config.thinking_models
-        max_predict = config.model_num_predict.get(model, config.num_predict)
+        max_predict = (
+            config.num_predict
+            if override is not None
+            else config.model_num_predict.get(model, config.num_predict)
+        )
         started, first = time.perf_counter(), None
+        visible_first = None
+
+        def display(part):
+            nonlocal visible_first
+            visible_first = visible_first or time.perf_counter()
+            emit(part)
+
+        from src.generation.evidence import EvidenceStream, response_schema
+
+        structured = (
+            EvidenceStream(evidence_sources, query, display, mode) if evidence_sources is not None else None
+        )
         done, text, filt = None, "", ThinkingFilter()
         try:
             with self.client() as client:
@@ -187,6 +224,8 @@ class Ollama:
                 "seed": 42,
             },
         }
+        if structured:
+            body["format"] = response_schema(evidence_sources, query, mode)
         if "thinking" not in profile.json().get("capabilities", []):
             body.pop("think")
         try:
@@ -229,14 +268,20 @@ class Ollama:
                             text += part
                             if len(text) > 65536:
                                 raise AppError("Превышен лимит ответа")
-                            emit(part)
+                            if structured:
+                                structured.feed(part)
+                            else:
+                                display(part)
                         if event.get("done"):
                             done = event
                             break
                     tail = filt.feed("", final=True)
                     if tail:
                         text += tail
-                        emit(tail)
+                        if structured:
+                            structured.feed(tail)
+                        else:
+                            display(tail)
         except asyncio.CancelledError as exc:
             cancel.check()
             raise Cancelled("Генерация отменена; upstream соединение закрыто") from exc
@@ -265,7 +310,8 @@ class Ollama:
             )
         }
         metrics.update(
-            ttft_ms=round((first - started) * 1000, 2) if first else None,
+            ttft_ms=round((visible_first - started) * 1000, 2) if visible_first else None,
+            raw_ttft_ms=round((first - started) * 1000, 2) if first else None,
             wall_ms=round((time.perf_counter() - started) * 1000, 2),
             think_requested=effective_think,
             think_supported="thinking" in profile.json().get("capabilities", []),
@@ -274,9 +320,15 @@ class Ollama:
             model_variant=profile.json().get("model_info", {}).get("general.finetune"),
             runtime_model=runtime_model,
             runtime_digest=config.models[model],
+            generation_protocol="evidence_bound" if structured else "prose",
         )
         if done.get("done_reason") == "length":
             raise GenerationError(
                 "Достигнут num_predict: ответ неполный. Сузьте вопрос или выберите concise_grounded", metrics
             )
+        if structured:
+            text, protocol = structured.finish()
+            metrics.update(protocol)
+        else:
+            metrics["generation_protocol"] = "prose"
         return text.strip(), metrics

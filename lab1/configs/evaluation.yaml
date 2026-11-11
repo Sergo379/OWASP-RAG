@@ -1,0 +1,17 @@
+schema_version: 1
+seed: 42
+dataset: owasp-v1
+base: {strategy: section, size: 256, overlap: 0.0, model: e5, k: 5, pool: 80, threshold: -1.0, rerank: false}
+generation:
+  questions: [OWASP-Q01, OWASP-Q03, OWASP-Q05, OWASP-Q07, OWASP-Q09]
+  prompt_questions: [OWASP-Q01, OWASP-Q03, OWASP-Q05]
+  base_model: qwen3:1.7b
+  comparison_model: qwen3:4b-instruct-2507-q4_K_M
+  base_prompt: strict_grounded
+  comparison_prompt: concise_grounded
+  answer_format: evidence_bound
+  retrieval_strategy: baseline
+selection:
+  retrieval_minimum: [hit_rate, recall, mrr]
+  threshold_quantiles: [0.25, 0.5, 0.75]
+  generation_priority: [correctness, faithfulness, completeness, refusal_accuracy, latency_ms, peak_combined_rss_bytes]

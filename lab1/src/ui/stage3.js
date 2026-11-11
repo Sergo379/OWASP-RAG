@@ -35,25 +35,46 @@ function safeMarkdown(target, text, requestId) {
   if(inCode)target.append(element('pre',code.join('\n'),'answer-code'));
 }
 
-function sourceCards(container, sources, requestId) {
+function sourceCards(container, sources, requestId, prefix="source") {
   for(const source of sources||[]) {
     const group=element('section',undefined,'citation-group'), link=element('a',source.title+' ↗');
     try{const url=new URL(source.url);if(url.protocol==='https:'&&['github.com','cheatsheetseries.owasp.org'].includes(url.hostname))link.href=url.href;}catch{}
     link.target='_blank';link.rel='noreferrer noopener';group.append(link);
-    for(const chunk of source.chunks){const details=element('details');details.id='source-'+requestId+'-'+chunk.source_id;details.append(element('summary',`[${chunk.source_id}] ${chunk.section||'OWASP'} · similarity ${score(chunk.vector_similarity)} · rerank ${score(chunk.rerank_score)}`),element('small',chunk.chunk_id),element('pre',chunk.original_text));group.append(details);}
+    for(const chunk of source.chunks){const details=element('details');details.id=prefix+'-'+requestId+'-'+chunk.source_id;details.append(element('summary',`[${chunk.source_id}] ${chunk.section||'OWASP'} · similarity ${score(chunk.vector_similarity)} · rerank ${score(chunk.rerank_score)}`),element('small',chunk.chunk_id),element('pre',prefix==='context-source'?(chunk.prompt_text||chunk.original_text):chunk.original_text));if(prefix==='context-source'&&chunk.prompt_text!==chunk.original_text){const raw=element('details');raw.append(element('summary','Original chunk · исходные Markdown ссылки'),element('pre',chunk.original_text));details.append(raw);}group.append(details);}
     container.append(group);
   }
 }
 
+function renderChatDiagnostics(target, result) {
+  target.replaceChildren();
+  const retrieval=result.diagnostics.retrieval||{};
+  target.append(element('p',`Strategy: ${result.diagnostics.retrieval_strategy||retrieval.retrieval_strategy||'baseline'} · ${result.diagnostics.llm||''} · ${result.diagnostics.prompt_mode||''}`));
+  const pools=[['Retrieved semantic candidates',retrieval.semantic_candidate_pool||retrieval.candidate_pool||[]]];
+  if(retrieval.semantic_candidate_pool)pools.push(['Hybrid candidates · before context budget',retrieval.candidate_pool||[]]);
+  for(const [name,rows] of pools){
+    const details=element('details'),table=element('table'),head=element('tr');
+    for(const title of ['Document / section','Semantic rank','Cosine','Lexical rank','Rerank','Final rank'])head.append(element('th',title));
+    table.append(head);
+    for(const row of rows){const tr=element('tr');tr.append(element('td',row.title+' / '+row.section),element('td',String(row.retrieval_rank??'—')),element('td',score(row.vector_similarity)),element('td',String(row.lexical_rank??'—')),element('td',score(row.rerank_score)),element('td',String(row.final_rank??'—')));table.append(tr);}
+    details.append(element('summary',`${name} (${rows.length})`),table);target.append(details);
+  }
+  const selected=element('details');selected.append(element('summary','Selected context · все фрагменты, переданные LLM'));
+  sourceCards(selected,result.context_sources||[],result.request_id,'context-source');target.append(selected);
+  const evidence=element('details');evidence.append(element('summary','Evidence spans · точные фрагменты, семантическая поддержка требует проверки'));
+  for(const item of result.diagnostics.validation?.evidence||[])evidence.append(element('small',`Claim ${item.claim_index} · [${item.source_id}] · ${item.chunk_id} · chars ${item.char_start}:${item.char_end}`),element('pre',item.quote));
+  target.append(evidence);
+}
+
 function messageCard(message) {
-  const card=element('article',undefined,'panel chat-message '+message.role), status=element('small',message.role==='user'?'Вы':'Qwen3 · '+message.status), content=element('div',undefined,'answer-body');
+  const card=element('article',undefined,'panel chat-message '+message.role), status=element('small',message.role==='user'?'Вы':`${message.llm||'Qwen3'} · ${message.status} · ${message.prompt_mode||''} · ${message.retrieval_strategy||''} · ${message.answer_format||'prose'}`), content=element('div',undefined,'answer-body');
   card.append(status,content);safeMarkdown(content,message.content||'',message.request_id);
   if(message.error)card.append(element('p',message.error,'alert'));
   if(message.role==='assistant'){
     if(['cancelled','failed','interrupted','running'].includes(message.status))card.append(element('p','Частичный ответ · не подтверждён','muted'));
+    if(message.sources?.length)card.append(element('h3','Cited sources · процитированные источники'));
     sourceCards(card,message.sources,message.request_id);
-    const details=element('details'), summary=element('summary','Request '+message.request_id+' · Execution details'), pre=element('pre');details.append(summary,pre);
-    details.addEventListener('toggle',async()=>{if(details.open){try{const result=await api('/chat/requests/'+message.request_id);pre.textContent=JSON.stringify(result.diagnostics,null,2);if(result.trace_url&&!details.querySelector('a')){const link=element('a','Open in Langfuse ↗');link.href=result.trace_url;link.target='_blank';link.rel='noreferrer';details.append(link);}}catch(err){pre.textContent=err.message;}}});card.append(details);
+    const details=element('details'), summary=element('summary','Request '+message.request_id+' · Execution details'), pre=element('pre'), diagnosticViews=element('div'), raw=element('details');raw.append(element('summary','Raw request diagnostics · JSON'),pre);details.append(summary,diagnosticViews,raw);
+    details.addEventListener('toggle',async()=>{if(details.open){try{const result=await api('/chat/requests/'+message.request_id);renderChatDiagnostics(diagnosticViews,result);pre.textContent=JSON.stringify(result.diagnostics,null,2);if(result.trace_url&&!details.querySelector('a.langfuse-trace')){const link=element('a','Open in Langfuse ↗','langfuse-trace');link.href=result.trace_url;link.target='_blank';link.rel='noreferrer';details.append(link);}}catch(err){pre.textContent=err.message;}}});card.append(details);
   }
   $('chat-messages').append(card);return {card,content,status};
 }
@@ -83,7 +104,7 @@ function chatIndexes() {
 async function chatRefresh() {
   try {
     [llmState] = await Promise.all([api('/llm/status')]);
-    if(!$('chat-llm').dataset.initialized){$('chat-llm').value=llmState.config.default_model;$('chat-llm').dataset.initialized='true';}
+    if(!$('chat-llm').dataset.initialized){$('chat-llm').value=llmState.config.default_model;$('chat-llm').dataset.initialized='true';$('chat-strategy').value=llmState.config.default_retrieval_strategy;recommendedAnswerFormat();}
     const tracing=await api('/observability/status');
     $('llm-status').textContent=llmState.available?`Ollama ${llmState.version} · `+llmState.models.map(m=>`${m.name}: ${m.ready?'Ready':'Not ready / digest mismatch'}`).join(' · '):llmState.error;
     $('llm-config').textContent=JSON.stringify(llmState,null,2);
@@ -108,7 +129,7 @@ async function sendChat(event) {
   const sessionId=chatSession.session_id;
   chatRunning=true;chatRequestId=null;chatController=new AbortController();window.updateChatBusy();
   const query=$('chat-query').value.trim();
-  const body={session_id:sessionId,llm:$('chat-llm').value,prompt_mode:$('chat-prompt').value,retrieval:{query,index_id:$('chat-index').value,model:$('chat-model').value,top_k:Number($('chat-k').value),similarity_threshold:Number($('chat-threshold').value),candidate_pool_size:Number($('chat-pool').value),topic:$('chat-topic').value||null,document_id:$('chat-document').value||null,reranking:$('chat-reranking').checked}};
+  const body={session_id:sessionId,llm:$('chat-llm').value,prompt_mode:$('chat-prompt').value,retrieval_strategy:$('chat-strategy').value,answer_format:$('chat-answer-format').value,retrieval:{query,index_id:$('chat-index').value,model:$('chat-model').value,top_k:Number($('chat-k').value),similarity_threshold:Number($('chat-threshold').value),candidate_pool_size:Number($('chat-pool').value),topic:$('chat-topic').value||null,document_id:$('chat-document').value||null,reranking:$('chat-reranking').checked}};
   messageCard({role:'user',content:query,request_id:'pending'});const draft=messageCard({role:'assistant',status:'running',request_id:'pending'});let answer='';
   $('chat-progress').textContent='Retrieval → context → Ollama. Поток до проверки цитат считается предварительным.';
   try {
@@ -120,6 +141,7 @@ async function sendChat(event) {
         if(eventName==='accepted'){chatRequestId=data.request_id;$('chat-progress').textContent='Request '+data.request_id+' · trace '+data.trace_id;}
         if(eventName==='progress')draft.status.textContent=data.stage;
         if(eventName==='token'){answer+=data.text;draft.content.textContent=answer;}
+        if(eventName==='reset'){answer='';draft.content.textContent='';}
         if(eventName==='final'){final=data;chatRequestId=data.request_id;}
       }
     }
@@ -141,6 +163,7 @@ $('chat-stop').addEventListener('click',()=>{if(chatRequestId)api('/chat/request
 $('chat-clear').addEventListener('click',async()=>{if(chatRunning||chatSessionChanging||!chatSession)return;chatSessionChanging=true;window.updateChatBusy();try{chatSession=await api('/chat/sessions/'+chatSession.session_id+'/clear',jsonPost());renderConversation();}catch(err){$('chat-progress').textContent=err.message;}finally{chatSessionChanging=false;window.updateChatBusy();}});
 $('chat-new').addEventListener('click',()=>newConversation().catch(error));
 $('chat-refresh').addEventListener('click',chatRefresh);
-$('chat-model').addEventListener('change',chatIndexes);$('chat-llm').addEventListener('change',window.updateChatBusy);
+function recommendedAnswerFormat(){ $('chat-answer-format').value=($('chat-prompt').value==='concise_grounded'||$('chat-llm').value==='qwen3:4b')?'prose':(llmState?.config.default_answer_format||'evidence_bound'); }
+$('chat-model').addEventListener('change',chatIndexes);$('chat-llm').addEventListener('change',()=>{recommendedAnswerFormat();window.updateChatBusy();});$('chat-prompt').addEventListener('change',recommendedAnswerFormat);
 const stage2Load=window.loadStage2;window.loadStage2=async()=>{await stage2Load();chatIndexes();};
 (async()=>{try{const saved=localStorage.getItem('owasp-chat-session');if(saved){try{chatSession=await api('/chat/sessions/'+saved);renderConversation();}catch{await newConversation();}}else await newConversation();await chatRefresh();const last=chatSession.messages.at(-1);if(last?.status==='running'){chatRunning=true;chatRequestId=last.request_id;window.updateChatBusy();const result=await settleRequest(chatRequestId);$('chat-progress').textContent=result.status;chatSession=await api('/chat/sessions/'+chatSession.session_id);renderConversation();chatRunning=false;window.updateChatBusy();}}catch(err){$('chat-progress').textContent=err.message;}})();

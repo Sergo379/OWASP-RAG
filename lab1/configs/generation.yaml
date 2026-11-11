@@ -25,6 +25,15 @@ history_turns: 2
 template_reserve_tokens: 192
 max_messages: 40
 unload_retrieval: true
+default_retrieval_strategy: hybrid_context
+repair_on_validation_failure: true
+default_answer_format: evidence_bound
+repair_feedback_tokens: 384
+chat_document_focus: true
+mode_budgets:
+  concise_grounded: {num_ctx: 4096, num_predict: 512, context_tokens: 2400}
+  strict_grounded: {num_ctx: 4096, num_predict: 896, context_tokens: 2400}
+  technical_grounded: {num_ctx: 6144, num_predict: 1536, context_tokens: 3600}
 tokenizer:
   model: Qwen/Qwen3-1.7B
   revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e

@@ -1,5 +1,6 @@
 """One serial RAG worker, persistent bounded conversations, and cancellable jobs."""
 
+import json
 import logging
 import queue
 import re
@@ -19,6 +20,7 @@ from src.generation.context import (
     construct_prompt,
     history_messages,
     public_sources,
+    russian,
     validate_answer,
 )
 from src.generation.ollama import Cancellation, Cancelled, GenerationError, Ollama
@@ -207,12 +209,9 @@ class Chat:
         partial, last_checkpoint = "", started
         monitor = ResourceMonitor()
         monitor.start()
-        generation_config = self.config.model_copy(
-            update={
-                "num_predict": self.config.model_num_predict.get(request.llm, self.config.num_predict),
-                "temperature": self.config.model_temperatures.get(request.llm, self.config.temperature),
-            }
-        )
+        generation_config = self.config.for_request(request.prompt_mode, request.llm, request.retrieval.query)
+        evidence_bound = request.answer_format == "evidence_bound"
+        protocol_options = {"query": request.retrieval.query, "mode": request.prompt_mode}
         try:
             trace = self.tracing.request(
                 result["request_id"],
@@ -226,6 +225,8 @@ class Chat:
                     "threshold": request.retrieval.similarity_threshold,
                     "reranking": request.retrieval.reranking,
                     "candidate_pool_size": request.retrieval.candidate_pool_size,
+                    "retrieval_strategy": request.retrieval_strategy,
+                    "answer_format": request.answer_format,
                 },
             )
             result["trace_id"] = trace.trace_id
@@ -238,14 +239,28 @@ class Chat:
                     metadata={"query_chars": len(request.retrieval.query), "session_id": request.session_id},
                 )
             self.emit(job, "progress", {"stage": "Retrieval"})
-            retrieval = execute_search(
-                request.retrieval,
-                self.service.vectors,
-                self.service.models,
-                self.service.retrieval_config,
-                request_id=result["request_id"],
-                observer=trace,
-            )
+            if request.retrieval_strategy == "baseline":
+                retrieval = execute_search(
+                    request.retrieval,
+                    self.service.vectors,
+                    self.service.models,
+                    self.service.retrieval_config,
+                    request_id=result["request_id"],
+                    observer=trace,
+                )
+            else:
+                from src.retrieval.chat import retrieve_for_chat
+
+                retrieval = retrieve_for_chat(
+                    request.retrieval,
+                    self.service.vectors,
+                    self.service.models,
+                    self.service.retrieval_config,
+                    request_id=result["request_id"],
+                    observer=trace,
+                    search=execute_search,
+                    document_focus=self.config.chat_document_focus,
+                )
             cancel.check()
             result["diagnostics"]["retrieval"] = {
                 k: v for k, v in retrieval["diagnostics"].items() if k != "query"
@@ -263,7 +278,16 @@ class Chat:
                     selected_history,
                     generation_config,
                     self.tokenizer,
+                    request.prompt_mode,
+                    evidence_bound,
                 )
+                for source in sources:
+                    source["request_id"] = result["request_id"]
+                result["context_sources"] = public_sources(
+                    sources, [s["source_id"] for s in sources], evidence_bound
+                )
+                if evidence_bound:
+                    protocol_options["evidence_sources"] = sources
                 gate = adequacy(request.retrieval.query, sources)
                 span.update(
                     metadata={**context_info, **history_info, "adequacy_gate": gate},
@@ -277,11 +301,18 @@ class Chat:
                     llm_digest=self.config.models[request.llm],
                     prompt_mode=request.prompt_mode,
                     prompt_version=self.prompts["version"],
+                    retrieval_strategy=request.retrieval_strategy,
+                    answer_format=request.answer_format,
                     generation_config=generation_config.model_dump(exclude={"tokenizer"}),
                 )
             with trace.step("PROMPT_CONSTRUCTION") as span:
                 messages = construct_prompt(
-                    sources, request.retrieval.query, self.prompts[request.prompt_mode], selected_history
+                    sources,
+                    request.retrieval.query,
+                    self.prompts[request.prompt_mode],
+                    selected_history,
+                    request.prompt_mode,
+                    evidence_bound,
                 )
                 span.update(
                     metadata={
@@ -316,14 +347,28 @@ class Chat:
                     model=request.llm,
                     model_parameters={
                         "temperature": generation_config.temperature,
-                        "num_ctx": self.config.num_ctx,
+                        "num_ctx": generation_config.num_ctx,
                         "num_predict": generation_config.num_predict,
                         "think": request.llm in self.config.thinking_models,
                         "num_thread": self.config.num_thread,
                     },
                 ) as span:
                     try:
-                        answer, metrics = self.ollama.stream(request.llm, messages, cancel, token)
+                        remaining_seconds = int(
+                            generation_config.timeout_seconds - (time.perf_counter() - started)
+                        )
+                        if remaining_seconds < 10:
+                            raise AppError("Недостаточно времени запроса для генерации; уточните поиск")
+                        answer, metrics = self.ollama.stream(
+                            request.llm,
+                            messages,
+                            cancel,
+                            token,
+                            config=generation_config.model_copy(
+                                update={"timeout_seconds": remaining_seconds}
+                            ),
+                            **(protocol_options if evidence_bound else {}),
+                        )
                     except GenerationError as exc:
                         result["diagnostics"]["generation"] = exc.metrics
                         span.update(
@@ -346,8 +391,150 @@ class Chat:
                     )
             cancel.check()
             with trace.step("ANSWER_VALIDATION") as span:
-                validation, final = validate_answer(answer, sources, request.retrieval.query)
-                span.update(metadata=validation)
+                validation, final = validate_answer(
+                    answer,
+                    sources,
+                    request.retrieval.query,
+                    result["request_id"],
+                    evidence_bindings=metrics.get("evidence_bindings"),
+                    evidence_errors=metrics.get("evidence_errors"),
+                )
+                span.update(
+                    metadata={k: v for k, v in validation.items() if k not in {"evidence", "evidence_issues"}}
+                )
+            result["diagnostics"]["validation"] = validation
+            result["diagnostics"]["generation_attempts"] = [metrics]
+            if not validation["valid"] and not gate:
+                result["diagnostics"]["rejected_draft"] = answer
+            repairable = {
+                "secure_attribute_is_not_cookie_encryption",
+                "unknown_citations",
+                "missing_citations",
+                "uncited_factual_blocks",
+                "technical_literal_not_in_cited_source",
+                "quotation_not_in_cited_source",
+                "generated_url",
+                "invalid_evidence_structure",
+                "identifier_not_in_selected_evidence",
+            }
+            if (
+                not gate
+                and sources
+                and self.config.repair_on_validation_failure
+                and not validation["valid"]
+                and "model_insufficient_context" not in validation["reasons"]
+                and repairable.intersection(validation["reasons"])
+            ):
+                result["diagnostics"]["first_validation"] = validation
+                self.emit(
+                    job,
+                    "reset",
+                    {"reason": "Validation rejected provisional draft; one source-bound correction"},
+                )
+                self.emit(
+                    job, "progress", {"stage": "Одно исправление отклонённого ответа по тем же источникам"}
+                )
+                partial = ""
+                result["answer"] = ""
+                repair_messages = [dict(m) for m in messages]
+                repair_messages[0]["content"] += (
+                    "\nA prior attempt failed validation: "
+                    + ", ".join(validation["reasons"])
+                    + ". Correct these failures using ONLY the provided excerpts. Do not reproduce the failed attempt. "
+                    "Answer the actual question directly, avoid unrelated advice, place supporting [S#] citations "
+                    "at the end of every factual paragraph. No URLs, no repeated summary. For a yes/no control question "
+                    "start with a direct yes/no and distinguish the flag's role from the transport protocol's role."
+                )
+                if evidence_bound:
+                    repair_messages[0]["content"] = messages[0]["content"] + (
+                        "\nCorrect rejected source slots using their chosen paragraphs only. Keep JSON schema; no inline citations or quotes. Remove unanchored values/identifiers, choose a supporting paragraph of the same source, or UNUSED. No guesses/repetitions. Failures: "
+                        + ", ".join(validation["reasons"])
+                        + ". Details: "
+                        + json.dumps(validation.get("evidence_issues", []), ensure_ascii=False)
+                        + ". Protocol: "
+                        + ", ".join(validation.get("protocol_errors", []))
+                    )
+                if "secure_attribute_is_not_cookie_encryption" in validation["reasons"]:
+                    repair_messages[0]["content"] += (
+                        "\nSecure ограничивает передачу cookie через HTTPS. Флаг не шифрует значение и не требует отдельного шифрования содержимого cookie. TLS шифрует транспорт. Исправь смешение ролей и ответь прямо, сохраняя формат."
+                        if russian(request.retrieval.query)
+                        else "\nSecure restricts cookie transmission to HTTPS. It neither encrypts the cookie value nor requires separate cookie-value encryption. TLS encrypts transport. Correct these roles and answer directly, keeping the format."
+                    )
+                repair_messages[-1]["content"] += (
+                    "\nKeep the evidence-bound JSON schema. Choose the paragraph that actually supports each answer, or UNUSED. No inline citations, quotes or repeated recommendations.\n/no_think"
+                    if evidence_bound
+                    else "\nИсправь ответ по этим фрагментам: каждый абзац заверши ссылкой [S1] или другим подходящим ID выше, с латинской S. Не перечисляй источники отдельно. Избегай повторов.\n/no_think"
+                    if russian(request.retrieval.query)
+                    else "\nEnd each factual paragraph with the relevant [S#] source. No separate source summaries.\n/no_think"
+                )
+                remaining_seconds = int(generation_config.timeout_seconds - (time.perf_counter() - started))
+                repair_config = generation_config.model_copy(
+                    update={
+                        "num_predict": generation_config.num_predict
+                        if request.prompt_mode == "technical_grounded" or evidence_bound
+                        else min(512, generation_config.num_predict),
+                        "timeout_seconds": max(10, remaining_seconds),
+                    }
+                )
+                from src.generation.context import count_messages
+
+                if (
+                    remaining_seconds >= 10
+                    and count_messages(repair_messages, self.tokenizer)
+                    + repair_config.num_predict
+                    + repair_config.template_reserve_tokens
+                    <= repair_config.num_ctx
+                ):
+                    cancel.check()
+                    op["current"] = "Однократное исправление ответа · " + request.llm
+                    write_json(self.service.operation_path, op)
+                    with trace.step("ANSWER_REPAIR", as_type="generation", model=request.llm) as span:
+                        try:
+                            answer, metrics = self.ollama.stream(
+                                request.llm,
+                                repair_messages,
+                                cancel,
+                                token,
+                                config=repair_config,
+                                **(protocol_options if evidence_bound else {}),
+                            )
+                        except GenerationError as exc:
+                            result["diagnostics"]["generation_attempts"].append(exc.metrics)
+                            result["diagnostics"]["generation"] = exc.metrics
+                            span.update(metadata=exc.metrics)
+                            raise
+                        span.update(
+                            metadata=metrics,
+                            usage_details={
+                                k: metrics[source]
+                                for k, source in (("input", "prompt_eval_count"), ("output", "eval_count"))
+                                if isinstance(metrics.get(source), int)
+                            },
+                        )
+                    result["diagnostics"]["generation_attempts"].append(metrics)
+                    with trace.step("ANSWER_REVALIDATION") as span:
+                        validation, final = validate_answer(
+                            answer,
+                            sources,
+                            request.retrieval.query,
+                            result["request_id"],
+                            evidence_bindings=metrics.get("evidence_bindings"),
+                            evidence_errors=metrics.get("evidence_errors"),
+                        )
+                        span.update(
+                            metadata={
+                                k: v
+                                for k, v in validation.items()
+                                if k not in {"evidence", "evidence_issues"}
+                            }
+                        )
+                        result["diagnostics"]["validation"] = validation
+                        if not validation["valid"]:
+                            result["diagnostics"]["repair_rejected_draft"] = answer
+                else:
+                    result["diagnostics"]["repair_skipped"] = (
+                        "request time/prompt budget; no hidden truncation"
+                    )
             result.update(
                 status="completed" if validation["valid"] else "refused",
                 answer=final,
@@ -356,7 +543,7 @@ class Chat:
             result["diagnostics"].update(
                 validation=validation,
                 generation=metrics,
-                grounding_limit="Citation IDs are checked; factual entailment still requires human review",
+                grounding_limit="Source text/literals/known errors checked; lexical evidence spans do not prove semantic entailment",
             )
             with trace.step("FINAL_ANSWER") as span:
                 span.update(
@@ -400,6 +587,11 @@ class Chat:
                             sources=result["sources"],
                             error=result["error"],
                             trace_id=result["trace_id"],
+                            llm=request.llm,
+                            prompt_mode=request.prompt_mode,
+                            retrieval_strategy=request.retrieval_strategy,
+                            answer_format=request.answer_format,
+                            context_sources=result.get("context_sources", []),
                         )
                 write_json(self.session_path(request.session_id), session)
                 op.update(

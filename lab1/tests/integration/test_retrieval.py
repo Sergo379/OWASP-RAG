@@ -93,6 +93,83 @@ def build(service, **options):
     return result["index_id"], result
 
 
+def test_chat_hybrid_preserves_baseline_index_and_embedding_identity(retrieval_service):
+    from src.retrieval.chat import retrieve_for_chat
+    from src.retrieval.pipeline import execute_search
+
+    service = retrieval_service
+    index, _ = build(service)
+    query = SearchRequest(query="Как SQL защищает пользовательские параметры?", index_id=index, top_k=3)
+    before = service.search(query)
+    catalog = service.vectors.catalog_path.read_bytes()
+    count = service.vectors.collection(service.vectors.catalog()["indexes"][index]).count()
+    output = retrieve_for_chat(
+        query,
+        service.vectors,
+        service.models,
+        service.retrieval_config,
+        request_id="1" * 32,
+        observer=None,
+        search=execute_search,
+    )
+    after = service.search(query)
+    assert [(r["chunk_id"], r["vector_similarity"]) for r in before["results"]] == [
+        (r["chunk_id"], r["vector_similarity"]) for r in after["results"]
+    ]
+    assert (
+        catalog == service.vectors.catalog_path.read_bytes()
+        and count == service.vectors.collection(service.vectors.catalog()["indexes"][index]).count()
+    )
+    assert output["diagnostics"]["retrieval_strategy"] == "hybrid_context"
+    assert all(r["metadata"]["index_id"] == index for r in output["results"])
+    assert len({r["chunk_id"] for r in output["results"]}) == len(output["results"])
+    assert "reranker" not in service.models.gets
+
+
+@pytest.mark.parametrize(
+    "filters", [{"topic": "missing"}, {"document_id": "f" * 64}, {"similarity_threshold": 1}]
+)
+def test_chat_hybrid_does_not_bypass_filters(retrieval_service, filters):
+    from src.retrieval.chat import retrieve_for_chat
+    from src.retrieval.pipeline import execute_search
+
+    service = retrieval_service
+    index, _ = build(service)
+    query = SearchRequest(query="SQL injection", index_id=index, **filters)
+    out = retrieve_for_chat(
+        query,
+        service.vectors,
+        service.models,
+        service.retrieval_config,
+        request_id="2" * 32,
+        observer=None,
+        search=execute_search,
+    )
+    assert out["results"] == []
+
+
+def test_chat_optional_reranker_scores_merged_pool_once(retrieval_service):
+    from src.retrieval.chat import retrieve_for_chat
+    from src.retrieval.pipeline import execute_search
+
+    service = retrieval_service
+    index, _ = build(service)
+    output = retrieve_for_chat(
+        SearchRequest(query="SQL queries", index_id=index, reranking=True),
+        service.vectors,
+        service.models,
+        service.retrieval_config,
+        request_id="3" * 32,
+        observer=None,
+        search=execute_search,
+    )
+    assert output["diagnostics"]["reranking_applied"]
+    assert service.models.gets.count("reranker") == 1
+    scores = [r["rerank_score"] for r in output["results"]]
+    assert scores == sorted(scores, reverse=True)
+    assert all(r["rerank_rank"] for r in output["results"])
+
+
 def test_chroma_persistence_repeat_metadata_and_snapshot(retrieval_service):
     service = retrieval_service
     index_id, first = build(service)

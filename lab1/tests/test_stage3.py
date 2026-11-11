@@ -654,3 +654,87 @@ def test_generation_origin_and_memory_budget_validation(generation):
     ):
         with pytest.raises(ValueError):
             GenerationConfig.model_validate({**generation.model_dump(), **updates})
+
+
+@pytest.mark.parametrize(
+    "repair,second_valid,expected,calls",
+    [(True, True, "completed", 2), (True, False, "refused", 2), (False, True, "refused", 1)],
+)
+def test_known_error_repair_is_conditional_and_bounded(
+    chat, monkeypatch, repair, second_valid, expected, calls
+):
+    chat.config = chat.config.model_copy(update={"repair_on_validation_failure": repair})
+    monkeypatch.setattr(
+        "src.generation.service.execute_search",
+        lambda *a, **kw: {
+            "results": [
+                source("The Secure attribute restricts cookie transmission to HTTPS; TLS encrypts transport.")
+            ],
+            "diagnostics": {"request_id": kw["request_id"]},
+        },
+    )
+    invocations = []
+
+    def stream(model, messages, cancel, token, *, config):
+        invocations.append(config)
+        answer = (
+            "Secure encrypts the cookie value [S1]."
+            if len(invocations) == 1 or not second_valid
+            else "Secure restricts cookie transmission to HTTPS; TLS encrypts transport [S1]."
+        )
+        token(answer)
+        return answer, {"eval_count": 20}
+
+    monkeypatch.setattr(chat.ollama, "stream", stream)
+    result = chat.wait(chat.start(request_for(chat, "Does Secure encrypt cookie values?"))["request_id"])
+    assert result["status"] == expected
+    assert len(invocations) == calls
+    assert len(result["diagnostics"]["generation_attempts"]) == calls
+    assert all(c.num_ctx == chat.config.mode_budgets["strict_grounded"].num_ctx for c in invocations)
+    if repair:
+        assert "ANSWER_REPAIR" in [s["name"] for s in result["diagnostics"]["stages"]]
+        assert (
+            "secure_attribute_is_not_cookie_encryption"
+            in result["diagnostics"]["first_validation"]["reasons"]
+        )
+
+
+@pytest.mark.parametrize(
+    "text,status",
+    [
+        ("Use parameterized SQL queries.", "completed"),
+        ("Use `PRIVATE_IMPLEMENTATION_OPTION` safely.", "refused"),
+    ],
+)
+def test_source_bound_chat_records_exact_local_evidence_without_cloud_text_metadata(
+    chat, monkeypatch, text, status
+):
+    # The test tokenizer has no BPE merges; allow its byte expansion independently
+    # of the real pinned Qwen budgets exercised in the real-model checks.
+    budgets = dict(chat.config.mode_budgets)
+    budgets["strict_grounded"] = budgets["strict_grounded"].model_copy(update={"num_ctx": 8192})
+    chat.config = chat.config.model_copy(update={"mode_budgets": budgets})
+    monkeypatch.setattr(
+        "src.generation.service.execute_search",
+        lambda *a, **kw: {
+            "results": [source("CONFIDENTIAL_SOURCE_TEXT. Use parameterized SQL queries.")],
+            "diagnostics": {"request_id": kw["request_id"]},
+        },
+    )
+    payload = json.dumps({"S1": {"evidence_id": "S1P1", "answer_en": text}, "missing_details": ""})
+    chat.ollama, _ = mock_ollama(
+        chat.config,
+        [
+            {"message": {"content": payload[:55]}},
+            {"message": {"content": payload[55:]}},
+            {"done": True, "done_reason": "stop", "eval_count": 40},
+        ],
+    )
+    result = chat.wait(chat.start(request_for(chat, answer_format="evidence_bound"))["request_id"])
+    assert result["status"] == status
+    assert result["diagnostics"]["generation"]["generation_protocol"] == "evidence_bound"
+    assert result["diagnostics"]["validation"]["evidence"][0]["quote"].startswith("CONFIDENTIAL_SOURCE_TEXT")
+    chat.tracing.flush()
+    attributes = json.dumps([dict(span.attributes) for span in chat.tracing.exporter.spans], default=str)
+    assert "CONFIDENTIAL_SOURCE_TEXT" not in attributes
+    assert "PRIVATE_IMPLEMENTATION_OPTION" not in attributes

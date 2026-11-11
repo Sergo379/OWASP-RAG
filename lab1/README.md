@@ -1,4 +1,4 @@
-# OWASP-RAG · этапы №1–3
+# OWASP-RAG · лабораторная работа №1
 
 Цель — собственная воспроизводимая RAG-система по безопасности веб-приложений. Требования: [задание преподавателя](https://github.com/Randwow/PAD). Этапы №1–2 приняты пользователем. Доступны Foundation, Grabber, Preprocessing, Dashboard, Knowledge Base, семантический поиск RU/EN с ChromaDB/reranking и AI Chat на Ollama/Qwen3 с citations, streaming, отменой и Langfuse OpenTelemetry.
 
@@ -216,12 +216,38 @@ pixi run app
 
 Откройте [AI Chat](http://127.0.0.1:8000/#chat), выберите LLM, embedding и готовый индекс этой модели. Введите RU/EN-вопрос. Во время streaming текст предварительный; после проверки final заменяет его на ответ с источниками либо отказ. «Остановить» отменяет upstream HTTP-запрос. Cancelled/failed/interrupted не считаются завершённым ответом. Новый диалог изолирован; «Очистить историю» очищает сообщения текущего диалога. Локальные request records остаются в игнорируемом Git каталоге `data/chat/requests`; это не удаление всех диагностических данных.
 
-Настройки `configs/generation.yaml`: CPU 4 threads, `num_ctx=4096`, `num_predict=512`, temperature 0.1, `keep_alive=0`, общий timeout 360 s, контекст максимум 2400 Qwen tokens, запас шаблона 192, история до 2 полных пар / 400 tokens. Результат `prompt_eval_count` — фактическое измерение Ollama; предварительная оценка использует pinned Qwen tokenizer и запас под Go template. Chunks включаются целиком или исключаются с причиной. Retrieval модели освобождаются перед LLM; файлы weights/индексов сохраняются.
+Базовые настройки `configs/generation.yaml`: CPU 4 threads, temperature 0.1, `keep_alive=0`, timeout 360 s, запас шаблона 192, история до 2 полных пар / 400 tokens; фактические context/output/source budgets выбираются профилем режима, указанным ниже. Результат `prompt_eval_count` — фактическое измерение Ollama; предварительная оценка использует pinned Qwen tokenizer и запас под Go template. Chunks включаются целиком или исключаются с причиной. Retrieval модели освобождаются перед LLM; файлы weights/индексов сохраняются.
 
-Закреплённый `qwen3:4b` по GGUF metadata является **Thinking-2507**, а не hybrid: отключение thinking не поддерживается weights. Рабочая конфигурация использует **исходный `qwen3:4b`, `think=true` и отдельный structured thinking channel API**. Клиент отбрасывает thinking до UI, логов, истории и Cloud; fallback filter скрывает inline prefix до `</think>`. Для 4B выделен максимум 2048 generated tokens (включая скрытый reasoning), для 1.7B — 512. На сложных RAG запросах Thinking-2507 реально исчерпывал даже 2048 tokens: failed/length обработан честно. Для практичного 4B Chat добавлен отдельный официальный `qwen3:4b-instruct-2507-q4_K_M` (другая fine-tune, та же Q4_K_M разрядность), с think=false и лимитом 512. Он выбирается под своим настоящим именем, не выдаётся за Thinking-тег. В обычном Chat приоритетна 1.7B с think=false. Поддержку параметра описывает [Ollama Thinking API](https://docs.ollama.com/capabilities/thinking).
+Закреплённый `qwen3:4b` по GGUF metadata является **Thinking-2507**, а не hybrid: отключение thinking не поддерживается weights. Рабочая конфигурация использует **исходный `qwen3:4b`, `think=true` и отдельный structured thinking channel API**. Клиент отбрасывает thinking до UI, логов, истории и Cloud; fallback filter скрывает inline prefix до `</think>`. Для Thinking 4B сохранён override 2048 generated tokens (включая скрытый reasoning); остальные лимиты теперь зависят от режима. На сложных RAG запросах Thinking-2507 реально исчерпывал даже 2048 tokens: failed/length обработан честно. Для практичного 4B Chat добавлен отдельный официальный `qwen3:4b-instruct-2507-q4_K_M` (другая fine-tune, та же Q4_K_M разрядность), с think=false и лимитами выбранного режима. Он выбирается под своим настоящим именем, не выдаётся за Thinking-тег. В обычном Chat приоритетна 1.7B с think=false. Поддержку параметра описывает [Ollama Thinking API](https://docs.ollama.com/capabilities/thinking).
 
-`configs/prompts.yaml` хранит версии `strict_grounded` и `concise_grounded`. История не считается источником. Статус `refused` возможен даже при ненулевых similarity scores: пустая выдача, неподходящий контекст, неизвестный частный факт, instruction override, sentinel модели или некорректные citations. Эвристики и prompt уменьшают ошибки, но не гарантируют защиту от всех prompt injections.
+`configs/prompts.yaml` хранит версии `strict_grounded`, `concise_grounded` и `technical_grounded`. История не считается источником. Статус `refused` возможен даже при ненулевых similarity scores: пустая выдача, неподходящий контекст, неизвестный частный факт, instruction override, sentinel модели или некорректные citations. Эвристики и prompt уменьшают ошибки, но не гарантируют защиту от всех prompt injections.
 
 Для Cloud задайте `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` в локальном `.env` и перезапустите сервер. `pixi run langfuse-check` проверяет auth и реальный OTLP export и возвращает ненулевой код при отсутствии ключей/доставки (Python CLI: 2; Pixi может нормализовать код). До настройки: **LANGFUSE CLOUD VERIFICATION: BLOCKED — USER CREDENTIALS REQUIRED**. SDK работает локально; это не доказательство Cloud delivery. По умолчанию экспортируются только технические metadata. `LANGFUSE_CAPTURE_TEXTS=true` включает opt-in текстов с best-effort masking email/key/password; masking не является универсальным DLP. Cloud недоступность не останавливает RAG; очередь SDK ограничена памятью, переживание restart/replay не обещается. «Open in Langfuse» появляется только после auth и успешного экспорта данного trace ID.
 
 Данные: [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/), авторы OWASP Foundation и участники. [CC BY-SA 4.0](https://github.com/OWASP/CheatSheetSeries/blob/master/LICENSE.md). При распространении raw/chunks сохраняйте атрибуцию, ссылку на источник, указание преобразований и ту же лицензию. Все изменения pipeline — подготовка/нормализация/chunking. Это самостоятельный учебный проект, не официальный продукт OWASP.
+
+
+## Stage 3 Quality Fix
+
+Профили `mode_budgets` в `configs/generation.yaml` задают context window / output cap / source cap: concise 4096/512/2400, strict 4096/896/2400, technical 6144/1536/3600. Эти значения заменяют базовые 4096/512 для конкретного запроса. Явная просьба ответить кратко выбирает concise budget. Полный prompt учитывает историю, инструкции и output reserve; скрытого усечения chunks нет.
+
+AI Chat/CLI явно выбирают `hybrid_context` по конфигурации: semantic + BM25 существующего индекса, RRF и отбор по метаданным/покрытию темы. Обычная вкладка Search сохраняет baseline. Старые API-клиенты без `retrieval_strategy` получают baseline; новый UI передаёт выбор явно. Это эвристика с диагностикой, а не гарантия роста качества. Reranking остаётся отдельной опцией.
+
+Проверка ответа связывает IDs с текущим request и исходным текстом, проверяет известную ошибку Secure, технические литералы и точные quotations; evidence spans доступны для чтения. Это не полный faithfulness judge. `repair_on_validation_failure` разрешает максимум одно исправление той же локальной моделью только после определённых ошибок в пределах оставшегося времени/prompt budget. Rejected provisional draft заменяется; отказ не считается содержательным успехом. Локальная диагностика содержит отклонённый draft; по умолчанию тексты/evidence не экспортируются в Cloud.
+
+[Ручная приёмка](MANUAL_TESTING_STAGE3_QUALITY_FIX.md), [реальные результаты](STAGE3_QUALITY_FIX_RESULTS.md). `pixi run quality-smoke --offline` запускает фиксированные регрессии; это не этап 4 и не научный benchmark.
+
+Новый UI/CLI для strict/technical предлагает `answer_format=evidence_bound`: один локальный вызов выбирает реальные абзацы текущего контекста и формулирует рекомендации в ограниченной структуре. Приложение добавляет citations, отображает точные source spans и проверяет literals относительно выбранного абзаца/раздела. Модель не сочиняет текст evidence. Поток показывает завершённые предварительные блоки, затем общий validated final. Это не semantic entailment: смысл вывода требует проверки. `--answer-format prose` сохраняет свободную генерацию; она рекомендуется автоматически для concise и legacy Thinking. Старый API без нового поля использует prose. Формат независим от retrieval strategy, поэтому baseline/hybrid можно сравнивать при одном формате ответа.
+
+## Stage 4 · Research / Evaluation
+
+Раздел Research / Evaluation в локальном приложении запускает эксперименты и открывает результаты, эталоны, контекст и цитаты. Датасет `owasp-v1` содержит 40 вопросов с разбиением 10 development и 30 final. Каждый запуск проверяет SHA снимка и разметки. Экспериментальные индексы строятся отдельно от рабочих.
+
+```powershell
+pixi run eval-check
+pixi run eval-run --suite retrieval --offline
+pixi run eval-resume --run-id RUN_ID --offline
+pixi run eval-charts --run-id RUN_ID
+```
+
+Хранение checkpoints и режимы оценивания описаны в [ручной приёмке](MANUAL_TESTING_STAGE4.md). Текущие run IDs и команда продолжения указаны в [checkpoint](STAGE4_CHECKPOINT.md). Подбор параметров проводится на development, а запуск final требует зафиксированного выбора.

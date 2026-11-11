@@ -25,6 +25,9 @@ def create_app(service: Service | None = None) -> FastAPI:
     from src.api.stage3 import install_routes as install_generation
 
     install_generation(app, service)
+    from src.evaluation.api import install_routes as install_evaluation
+
+    install_evaluation(app, service)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"])
 
     @app.middleware("http")
