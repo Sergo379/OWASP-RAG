@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 233" role="img">
+<title>Задержка запросов</title><desc>development; n — сохранённые запросы на вариант. Холодные загрузки включены в распределение.</desc>
+<rect width="930" height="233" fill="#fff"/>
+<g font-family="Segoe UI, Arial, sans-serif" fill="#182b49">
+<text x="24" y="30" font-size="19" text-anchor="start">Задержка запросов</text>
+<text x="24" y="52" font-size="12" text-anchor="start">development; n — сохранённые запросы на вариант. Холодные загрузки включены в распределение.</text>
+<path d="M230.0,72 V180" stroke="#dce3ed"/>
+<text x="230.0" y="197" font-size="12" text-anchor="middle">0</text>
+<path d="M355.0,72 V180" stroke="#dce3ed"/>
+<text x="355.0" y="197" font-size="12" text-anchor="middle">7.8e+04</text>
+<path d="M480.0,72 V180" stroke="#dce3ed"/>
+<text x="480.0" y="197" font-size="12" text-anchor="middle">1.6e+05</text>
+<path d="M605.0,72 V180" stroke="#dce3ed"/>
+<text x="605.0" y="197" font-size="12" text-anchor="middle">2.3e+05</text>
+<path d="M730.0,72 V180" stroke="#dce3ed"/>
+<text x="730.0" y="197" font-size="12" text-anchor="middle">3.1e+05</text>
+<path d="M855.0,72 V180" stroke="#dce3ed"/>
+<text x="855.0" y="197" font-size="12" text-anchor="middle">3.9e+05</text>
+<text x="220" y="93.0" font-size="12" text-anchor="end">qwen-17 (n=5)</text>
+<rect x="230" y="75.0" width="298.8" height="11" fill="#3155a4"/>
+<text x="533.7869890189036" y="85.0" font-size="11" text-anchor="start">1.86e+05</text>
+<rect x="230" y="89.0" width="455.1" height="11" fill="#1d846a"/>
+<text x="690.081141516014" y="99.0" font-size="11" text-anchor="start">2.83e+05</text>
+<text x="220" y="129.0" font-size="12" text-anchor="end">qwen-4-instruct (n=5)</text>
+<rect x="230" y="111.0" width="470.2" height="11" fill="#3155a4"/>
+<text x="705.2141546773123" y="121.0" font-size="11" text-anchor="start">2.93e+05</text>
+<rect x="230" y="125.0" width="578.7" height="11" fill="#1d846a"/>
+<text x="813.7037037037037" y="135.0" font-size="11" text-anchor="start">3.6e+05</text>
+<text x="220" y="165.0" font-size="12" text-anchor="end">prompt-concise (n=3)</text>
+<rect x="230" y="147.0" width="185.7" height="11" fill="#3155a4"/>
+<text x="420.6797314194481" y="157.0" font-size="11" text-anchor="start">1.16e+05</text>
+<rect x="230" y="161.0" width="327.3" height="11" fill="#1d846a"/>
+<text x="562.2781723819778" y="171.0" font-size="11" text-anchor="start">2.04e+05</text>
+<text x="542.5" y="217" font-size="12" text-anchor="middle">мс</text>
+<rect x="24" y="218" width="9" height="9" fill="#3155a4"/>
+<text x="36" y="227" font-size="11" text-anchor="start">Медиана</text>
+<rect x="199" y="218" width="9" height="9" fill="#1d846a"/>
+<text x="211" y="227" font-size="11" text-anchor="start">p95</text>
+</g></svg>

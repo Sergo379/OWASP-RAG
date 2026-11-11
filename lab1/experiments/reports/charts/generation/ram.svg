@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 233" role="img">
+<title>Пиковая память процесса</title><desc>development; n — сохранённые запросы на вариант. </desc>
+<rect width="930" height="233" fill="#fff"/>
+<g font-family="Segoe UI, Arial, sans-serif" fill="#182b49">
+<text x="24" y="30" font-size="19" text-anchor="start">Пиковая память процесса</text>
+<text x="24" y="52" font-size="12" text-anchor="start">development; n — сохранённые запросы на вариант. </text>
+<path d="M230.0,72 V180" stroke="#dce3ed"/>
+<text x="230.0" y="197" font-size="12" text-anchor="middle">0</text>
+<path d="M355.0,72 V180" stroke="#dce3ed"/>
+<text x="355.0" y="197" font-size="12" text-anchor="middle">7.7e+02</text>
+<path d="M480.0,72 V180" stroke="#dce3ed"/>
+<text x="480.0" y="197" font-size="12" text-anchor="middle">1.5e+03</text>
+<path d="M605.0,72 V180" stroke="#dce3ed"/>
+<text x="605.0" y="197" font-size="12" text-anchor="middle">2.3e+03</text>
+<path d="M730.0,72 V180" stroke="#dce3ed"/>
+<text x="730.0" y="197" font-size="12" text-anchor="middle">3.1e+03</text>
+<path d="M855.0,72 V180" stroke="#dce3ed"/>
+<text x="855.0" y="197" font-size="12" text-anchor="middle">3.8e+03</text>
+<text x="220" y="93.0" font-size="12" text-anchor="end">qwen-17 (n=5)</text>
+<rect x="230" y="75.0" width="118.1" height="11" fill="#3155a4"/>
+<text x="353.05907820765833" y="85.0" font-size="11" text-anchor="start">725</text>
+<rect x="230" y="89.0" width="385.7" height="11" fill="#1d846a"/>
+<text x="620.7304052540369" y="99.0" font-size="11" text-anchor="start">2.37e+03</text>
+<text x="220" y="129.0" font-size="12" text-anchor="end">qwen-4-instruct (n=5)</text>
+<rect x="230" y="111.0" width="112.4" height="11" fill="#3155a4"/>
+<text x="347.3846833763987" y="121.0" font-size="11" text-anchor="start">690</text>
+<rect x="230" y="125.0" width="578.7" height="11" fill="#1d846a"/>
+<text x="813.7037037037037" y="135.0" font-size="11" text-anchor="start">3.56e+03</text>
+<text x="220" y="165.0" font-size="12" text-anchor="end">prompt-concise (n=3)</text>
+<rect x="230" y="147.0" width="104.7" height="11" fill="#3155a4"/>
+<text x="339.7423087151583" y="157.0" font-size="11" text-anchor="start">643</text>
+<rect x="230" y="161.0" width="392.8" height="11" fill="#1d846a"/>
+<text x="627.8443820998607" y="171.0" font-size="11" text-anchor="start">2.41e+03</text>
+<text x="542.5" y="217" font-size="12" text-anchor="middle">MiB</text>
+<rect x="24" y="218" width="9" height="9" fill="#3155a4"/>
+<text x="36" y="227" font-size="11" text-anchor="start">Python</text>
+<rect x="199" y="218" width="9" height="9" fill="#1d846a"/>
+<text x="211" y="227" font-size="11" text-anchor="start">Python + Ollama</text>
+</g></svg>

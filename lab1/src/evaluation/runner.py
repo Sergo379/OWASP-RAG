@@ -215,7 +215,9 @@ class Runner:
                 try:
                     if label not in indexes:
                         resolved, details = self.indexes.resolve(parameters, progress)
-                        indexes[label] = (resolved, details)
+                        selected = manifest.get("selection", {}).get("development_index")
+                        if selected and selected["id"] != details["index_id"]:
+                            raise AppError("Финальный индекс отличается от выбранного в development")
                         index_path = self.store.path(run_id) / "indexes" / (label + ".json")
                         if index_path.exists():
                             previous = checked(index_path)
@@ -226,6 +228,7 @@ class Runner:
                                 raise AppError("Изменился index ID или generation. Создайте отдельный run")
                         else:
                             save(index_path, details)
+                        indexes[label] = (resolved, details)
                     service, details = indexes[label]
                     active_services.add(service)
                     question = questions[qid]

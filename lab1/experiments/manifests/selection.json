@@ -1,0 +1,98 @@
+{
+  "sha256": "9942445d29932128956bbccb87c229252166cd644715ae2af9756545ec10d56c",
+  "data": {
+    "created_at": "2026-11-11T20:09:56.172933+00:00",
+    "dataset_sha256": "fa61317c559ed9192095e503abeda0f4c6096df5695608d4d0fd4a1a075d3610",
+    "checksums": {
+      "configs/preprocessing.yaml": "89e72f514be48b4b579f933543ad19a5aef1d1f89163d94404806e2d3f495996",
+      "configs/retrieval.yaml": "d8d8684d25ad41e90aa2338083afdfad4295fef07a8a700170ad768e46778b95",
+      "configs/generation.yaml": "c32a48fbb2fe9d20bedd438d291181f90ea611cd33085cb50aa48060926fd388",
+      "configs/prompts.yaml": "f067820a768f45b016bfd8337fc79a2a4b74cb908542561c576c263e2fd19363",
+      "configs/model_artifacts.json": "5e3067697b9ffb2772b77a4fccd6bcf93d02a8880952eeaf127900f4c273e049",
+      "src/preprocessing/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "src/preprocessing/chunking.py": "3f45fb15f40d92caa3f1bffc7aef5bf25c224519d406d72998d5caaf5dc83b8e",
+      "src/preprocessing/markdown.py": "b7e02f8c5062983791a99ea776fa8ee5bae0447caf1d1b59ad15243c6e03e444",
+      "src/preprocessing/pipeline.py": "6e7dffa953aa44a0a01207a357013c9c3146f30eefad5a37eda8a6c1d5a7b36b",
+      "src/preprocessing/tokenization.py": "c2de2e1d5daca4987ee333bcc79562009ad5589ee5f833ba386c1623fedee7e4",
+      "src/embeddings/__init__.py": "a7f784919bfe5d1d0555ce6fb3f408795465e9b7a9097129f392a5cac6d8b756",
+      "src/embeddings/config.py": "ea8abca74f58d47def63ed9984a3c9d15fed498f2f7a2a6727ae206d8498f2af",
+      "src/embeddings/download.py": "4bdea25fd8b6a463d49b56b1f29e8b1e82673dc9b27f24904a1454cf696e846a",
+      "src/embeddings/provider.py": "d294b63ccd64e62fabbe12736009192f571decc7e4d6cd9b017c2e603a2bc852",
+      "src/retrieval/__init__.py": "55b8cc1fb5dfc2ea725452552702375b5bb06f3d15f2d9aa9e87f747faa62be8",
+      "src/retrieval/chat.py": "4d6534939658e326150098de6e12d4ba9424ef310c29e7cdd5938a98d29afa63",
+      "src/retrieval/lexical.py": "29fb642ffdd93a426d790e2e8ef4ac9234bb4804232aa1aa47a7e51dfd69ab06",
+      "src/retrieval/models.py": "5aff051f06c293895e990d4620092b97d7882b40d5b5e365a78a6359f08fa4c9",
+      "src/retrieval/pipeline.py": "20aaf20d0ecbc858d861c47b8e230d61d89ff458da04923298c88408fa995428",
+      "src/generation/__init__.py": "07e2bc65f6b64f2230b09ee17747b94c7a972619ddfde53acf863b19fd85d115",
+      "src/generation/config.py": "33eae0196089a74aaa88648a544f5e7d76abbfaae6d85ac5852f1e0df8c1eed1",
+      "src/generation/context.py": "a7bed4b22725a97e5fe1d69dcb455d8161ad77eb5d61249927a64303d18b32d4",
+      "src/generation/evidence.py": "bb6e397129b59ecb7e039db5a5ad5288918d61c8478a3a05958f6f7f5174f77a",
+      "src/generation/grounding.py": "64366a7ffce25adfe76306573ba2a7cc5c1568b23099d91126794aae604482ff",
+      "src/generation/ollama.py": "cdddc39b0482c4709ae3d8336d9b579c60136100c09818fdfbbf3eda0e2a3961",
+      "src/generation/resources.py": "1f4565a168a50277e3102102b22edf8034ef54c0cf322c26bba4190bda486dae",
+      "src/generation/service.py": "67c78b07570ce4dff0b8d84d6561962c3ef80207d51d12cc38d4e825243d06a3",
+      "src/storage/vectors.py": "d839b2728130b4c0ca9bbef089348ebff67806e183f9619e90c6386b95dcc943"
+    },
+    "normalized_checksums": {
+      "configs/preprocessing.yaml": "89e72f514be48b4b579f933543ad19a5aef1d1f89163d94404806e2d3f495996",
+      "configs/retrieval.yaml": "d8d8684d25ad41e90aa2338083afdfad4295fef07a8a700170ad768e46778b95",
+      "configs/generation.yaml": "81e15ff7c8f6475b9e906cf6516727ac09d35ba59499154759e6dfc80137492d",
+      "configs/prompts.yaml": "153ce45d83ab5be4c43c3a128220ab48bbf0495dfcd44999b2142834e99c6713",
+      "configs/model_artifacts.json": "ff19afb5f613cf9802eabab7d597530b4ff99f273a7adc8977f3669f4a2e6e5e",
+      "src/preprocessing/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "src/preprocessing/chunking.py": "3f45fb15f40d92caa3f1bffc7aef5bf25c224519d406d72998d5caaf5dc83b8e",
+      "src/preprocessing/markdown.py": "b7e02f8c5062983791a99ea776fa8ee5bae0447caf1d1b59ad15243c6e03e444",
+      "src/preprocessing/pipeline.py": "6e7dffa953aa44a0a01207a357013c9c3146f30eefad5a37eda8a6c1d5a7b36b",
+      "src/preprocessing/tokenization.py": "c2de2e1d5daca4987ee333bcc79562009ad5589ee5f833ba386c1623fedee7e4",
+      "src/embeddings/__init__.py": "a7f784919bfe5d1d0555ce6fb3f408795465e9b7a9097129f392a5cac6d8b756",
+      "src/embeddings/config.py": "ea8abca74f58d47def63ed9984a3c9d15fed498f2f7a2a6727ae206d8498f2af",
+      "src/embeddings/download.py": "4bdea25fd8b6a463d49b56b1f29e8b1e82673dc9b27f24904a1454cf696e846a",
+      "src/embeddings/provider.py": "d294b63ccd64e62fabbe12736009192f571decc7e4d6cd9b017c2e603a2bc852",
+      "src/retrieval/__init__.py": "55b8cc1fb5dfc2ea725452552702375b5bb06f3d15f2d9aa9e87f747faa62be8",
+      "src/retrieval/chat.py": "a7262ef4d8a5ef5d438572b5f69113efaf39aae207d25f77adaf35597a5cafa0",
+      "src/retrieval/lexical.py": "cd924b96225477ceccbbe1e33e42f092fed65f669451ccf11ef3682a68d7e125",
+      "src/retrieval/models.py": "5aff051f06c293895e990d4620092b97d7882b40d5b5e365a78a6359f08fa4c9",
+      "src/retrieval/pipeline.py": "20aaf20d0ecbc858d861c47b8e230d61d89ff458da04923298c88408fa995428",
+      "src/generation/__init__.py": "07e2bc65f6b64f2230b09ee17747b94c7a972619ddfde53acf863b19fd85d115",
+      "src/generation/config.py": "338697f116fa6f2198a4cc1e3e1812a16eea52ba37365b340fb695f3433f3bcb",
+      "src/generation/context.py": "a7bed4b22725a97e5fe1d69dcb455d8161ad77eb5d61249927a64303d18b32d4",
+      "src/generation/evidence.py": "bb6e397129b59ecb7e039db5a5ad5288918d61c8478a3a05958f6f7f5174f77a",
+      "src/generation/grounding.py": "14a18ab7d509e30c801ba75780a6fcc31a714d5f95744f9980f8f1997252193d",
+      "src/generation/ollama.py": "f1229142333c921e84b06f3c3bf76f8c2729033625c9409d4121312b01d8929e",
+      "src/generation/resources.py": "1f4565a168a50277e3102102b22edf8034ef54c0cf322c26bba4190bda486dae",
+      "src/generation/service.py": "86548b3d7665b275b30b0a2ddc10862a414e13c0978d00b3160a5ba60a9704ee",
+      "src/storage/vectors.py": "d839b2728130b4c0ca9bbef089348ebff67806e183f9619e90c6386b95dcc943"
+    },
+    "retrieval": {
+      "strategy": "section",
+      "size": 256,
+      "overlap": 0.0,
+      "model": "e5",
+      "k": 5,
+      "pool": 20,
+      "threshold": -1.0,
+      "rerank": true
+    },
+    "development_index": {
+      "id": "b4f35294b84e0f83fda0e36cd6fed34b",
+      "generation": 2,
+      "source_snapshot_fingerprint": "b74c365ed2c1954a0908ade8a327af9b4307dbf82696b8916ee5678fbf04c296"
+    },
+    "generation": {
+      "answer_format": "evidence_bound",
+      "llm": "qwen3:1.7b",
+      "mode": "strict_grounded",
+      "retrieval_strategy": "baseline"
+    },
+    "development_runs": [
+      "146eb445217746c3b693edabdb51d6b3",
+      "acaaa3811cda402aafda5cc192af2d6b"
+    ],
+    "development_configs": [
+      "rerank-on",
+      "qwen-17"
+    ],
+    "rationale": "E5 section/256, pool 20, K=5 с cross-encoder: на development Recall@5 1,000, MRR 0,917, нужный абзац TLS на первом месте вместо восьмого. Выбран ради поддержки инженерных ответов при ограниченном контексте. Медиана поиска 13,06 с и потеря REST HTTPS в Q08 приняты как ограничения. Threshold -1 сохраняет контекст ответимых вопросов: каждый положительный порог терял минимум один из восьми. Qwen 1.7B strict_grounded с evidence_bound выбран как консервативный CPU-профиль. Из пяти пар strict не имел timeout, у 4B Instruct два timeout и больший RSS, хотя ответ JDBC у 4B был лучше. Concise ускорил три пары, но на Q05 смешал PDO и JDBC после формального прохождения citations. Выбор опирается на эти development-записи и выборочный разбор по источникам. Смысловые экспертные баллы не выставлялись. Связка выбранных компонентов оценивается в final без повторного подбора.",
+    "id": "00c35cd42e6054c6"
+  }
+}

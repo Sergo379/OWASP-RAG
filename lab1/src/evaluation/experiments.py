@@ -191,12 +191,18 @@ def freeze(
     fields = {"llm", "mode", "answer_format", "retrieval_strategy"}
     if fields.intersection(retrieval) or not fields.issubset(generation) or not rationale.strip():
         raise AppError("Укажите измеренные retrieval/generation и обоснование")
+    index = checked(store.path(retrieval_id) / "indexes" / f"{retrieval_label}.json")
     selection = {
         "created_at": now(),
         "dataset_sha256": dataset.manifest["sha256"],
         "checksums": checksums,
         "normalized_checksums": normalized_checksums(service.settings.root, checksums),
         "retrieval": retrieval,
+        "development_index": {
+            "id": index["index_id"],
+            "generation": index["published"]["generation"],
+            "source_snapshot_fingerprint": index["identity"]["source_snapshot_fingerprint"],
+        },
         "generation": {key: generation[key] for key in sorted(fields)},
         "development_runs": [retrieval_id, generation_id],
         "development_configs": [retrieval_label, generation_label],
