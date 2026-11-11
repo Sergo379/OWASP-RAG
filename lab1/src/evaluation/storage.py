@@ -108,6 +108,19 @@ class RunStore:
             else {}
         )
 
+    def audit(self, run_id):
+        rows = self.rows(run_id)
+        for key, latest in rows.items():
+            directory = self.path(run_id) / "rows" / key
+            attempts = sorted(directory.glob("*.json"))
+            if len(attempts) != latest["attempt"]:
+                raise AppError("Нарушена последовательность попыток")
+            for attempt, path in enumerate(attempts, 1):
+                record = checked(path)
+                if record["key"] != key or record["attempt"] != attempt or path.stem != f"{attempt:06d}":
+                    raise AppError("Нарушена последовательность попыток")
+        return rows
+
     def list(self):
         return [
             {

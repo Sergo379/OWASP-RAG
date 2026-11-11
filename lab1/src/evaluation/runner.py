@@ -178,7 +178,7 @@ class Runner:
             or manifest["environment"] != protocol_now
         ):
             raise AppError("Изменились dataset, runtime или pipeline. Resume требует исходной конфигурации")
-        rows = self.store.rows(run_id)
+        rows = self.store.audit(run_id)
         questions = {q["id"]: q for q in self.dataset.split(manifest["split"])}
         tasks = [(c, qid) for c in manifest["configurations"] for qid in c["questions"]]
         indexes = {}

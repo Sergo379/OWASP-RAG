@@ -8,7 +8,7 @@ from typing import Literal
 from fastapi import HTTPException
 from fastapi.responses import FileResponse, Response
 from filelock import FileLock, Timeout
-from pydantic import Field
+from pydantic import Field, StrictInt
 
 from src.core.config import AppError
 from src.core.models import StrictModel
@@ -36,7 +36,7 @@ class ResumeRequest(StrictModel):
 
 
 class ReviewRequest(StrictModel):
-    scores: dict[str, int]
+    scores: dict[str, StrictInt]
     reviewer: str = Field(min_length=1, max_length=100)
     notes: str = Field(min_length=1, max_length=4000)
 
