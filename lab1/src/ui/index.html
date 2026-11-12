@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js"></script><script defer src="/static/stage3.js"></script><script defer src="/static/evaluation.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js?v=stage4-final"></script><script defer src="/static/stage3.js"></script><script defer src="/static/evaluation.js?v=stage4-final"></script></head>
 <body>
 <aside class="sidebar">
   <a class="brand" href="#dashboard"><span class="brand-icon">O<span>R</span></span><div>OWASP<span class="muted">—RAG</span><small>KNOWLEDGE CONSOLE</small></div></a>
@@ -12,23 +12,23 @@
     <a href="#chat" data-view="chat"><span>◇</span> AI Chat <small>03</small></a>
     <a href="#experiments" data-view="experiments"><span>⌁</span> Research / Evaluation</a>
   </nav>
-  <div class="sidebar-bottom"><span class="dot"></span> Local · CPU only<small>Grounded AI Chat<br>Этап 03 / 04 · <span id="version">…</span></small></div>
+  <div class="sidebar-bottom"><span class="dot"></span> Local · CPU only<small>Research / Evaluation<br>Этап №4 · <span id="version">…</span></small></div>
 </aside>
 <main>
   <header><div class="breadcrumb">WORKSPACE <span>/</span> <span id="breadcrumb">Dashboard</span></div><a href="https://cheatsheetseries.owasp.org/" target="_blank" rel="noreferrer">OWASP Cheat Sheet Series ↗</a></header>
   <div id="connection-error" role="alert" class="alert hidden"></div>
   <article class="panel operation"><div class="panel-title"><h2>Текущая операция</h2><span id="operation-status" class="badge subtle">Ожидание</span></div><p id="operation-text" class="muted">Операции ещё не запускались.</p><progress id="progress" max="1" value="0" class="hidden"></progress><details id="operation-details" class="hidden"><summary>Результат и параметры операции</summary><pre id="operation-result"></pre></details></article>
   <section class="page" id="dashboard">
-    <div class="page-heading"><div><div class="eyebrow">INTELLIGENT CYBERSECURITY KNOWLEDGE ASSISTANT</div><h1>Обзор системы<span class="accent">.</span></h1><p>От проверенных источников — к структурированным знаниям.</p></div><span class="badge">Этап №3 · Grounded AI Chat</span></div>
+    <div class="page-heading"><div><div class="eyebrow">INTELLIGENT CYBERSECURITY KNOWLEDGE ASSISTANT</div><h1>Обзор системы<span class="accent">.</span></h1><p>От проверенных источников — к структурированным знаниям.</p></div><span class="badge">Этап №4 · Research / Evaluation</span></div>
     <div class="metrics">
       <article><small>СКАЧАНО ДОКУМЕНТОВ</small><strong id="downloaded">—</strong><span>Markdown из OWASP GitHub</span></article>
       <article><small>ОБРАБОТАНО</small><strong id="processed">—</strong><span>Актуальная версия корпуса</span></article>
       <article><small>CHUNKS</small><strong id="chunks">—</strong><span id="active-config">Preprocessing ещё не запускался</span></article>
       <article><small>ПОСЛЕДНЕЕ ОБНОВЛЕНИЕ</small><strong class="date" id="updated">—</strong><span id="commit">Источник ещё не загружен</span></article>
     </div>
-    <article class="panel pipeline"><div class="panel-title"><h2>Data pipeline</h2><span class="muted">Собственная реализация · без LangChain</span></div><div class="pipeline-steps"><div><b>01</b><strong>GitHub Grabber</strong><small>Discovery · SHA · Manifest</small></div><i>→</i><div><b>02</b><strong>Preprocessing</strong><small>Markdown · Tokens · Chunks</small></div><i>→</i><div><b>03</b><strong>Vector Retrieval</strong><small>ChromaDB · Filters · Reranking</small></div><i>→</i><div class="upcoming"><b>04</b><strong>LLM Answer</strong><small>Будет доступно на этапе №3</small></div></div></article>
+    <article class="panel pipeline"><div class="panel-title"><h2>Data pipeline</h2><span class="muted">Собственная реализация · без LangChain</span></div><div class="pipeline-steps"><div><b>01</b><strong>GitHub Grabber</strong><small>Discovery · SHA · Manifest</small></div><i>→</i><div><b>02</b><strong>Preprocessing</strong><small>Markdown · Tokens · Chunks</small></div><i>→</i><div><b>03</b><strong>Vector Retrieval</strong><small>ChromaDB · Filters · Reranking</small></div><i>→</i><div><b>04</b><strong>LLM Answer</strong><small>Локальная Ollama · AI Chat</small></div></div></article>
     <article class="panel"><div class="panel-title"><h2>Semantic retrieval</h2><a href="#search">Открыть Search →</a></div><p id="retrieval-summary" class="muted">Индексы ещё не загружены.</p></article>
-    <div class="two-columns"><article class="panel"><div class="panel-title"><h2>Компоненты</h2><span class="badge subtle">Roadmap</span></div><div id="components" class="component-list"></div></article><article class="panel"><div class="panel-title"><h2>Последние ошибки</h2><span class="muted">Сохраняются между запусками</span></div><div id="errors" class="error-list"><p class="muted">Загрузка…</p></div></article></div>
+    <div class="two-columns"><article class="panel"><div class="panel-title"><h2>Компоненты</h2></div><div id="components" class="component-list"></div></article><article class="panel"><div class="panel-title"><h2>Последние ошибки</h2><span class="muted">Сохраняются между запусками</span></div><div id="errors" class="error-list"><p class="muted">Загрузка…</p></div></article></div>
     <a class="next-link" href="#knowledge">Открыть Knowledge Base <span>Управление корпусом и просмотр chunks →</span></a>
   </section>
   <section class="page hidden" id="knowledge">

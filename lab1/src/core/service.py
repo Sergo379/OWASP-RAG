@@ -244,7 +244,7 @@ class Service:
                 "Semantic Retrieval": "Доступен на странице Search",
                 "Ollama Generation": "AI Chat · Qwen3 1.7B / 4B · CPU · llm-check проверяет API",
                 "Langfuse": "OpenTelemetry SDK · Cloud: настройте локальный .env и langfuse-check",
-                "Evaluation": "Ожидает этап №4",
+                "Evaluation": "Доступен в Research / Evaluation",
             },
         }
 

@@ -71,7 +71,7 @@ window.loadStage2 = async () => {
     actions.append(inspect, element('br'), rebuild); row.append(id, model, count, status, actions); $('index-list').append(row);
   }
   $('index-empty').classList.toggle('hidden', vectorIndexes.length > 0);
-  $('retrieval-summary').textContent = `Индексов: ${vectorIndexes.length} · Ready: ${vectorIndexes.filter(i=>i.status==='Ready').length} · Локальных моделей: ${modelStates.filter(m=>m.status==='ready').length}/3 · LLM Generation ещё не подключена.`;
+  $('retrieval-summary').textContent = `Индексов: ${vectorIndexes.length} · Ready: ${vectorIndexes.filter(i=>i.status==='Ready').length} · Локальных моделей поиска: ${modelStates.filter(m=>m.status==='ready').length}/3`;
   updateSearchIndexes(); await updateAnalysis(); window.updateStage2Busy();
 };
 

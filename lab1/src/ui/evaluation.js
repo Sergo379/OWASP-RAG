@@ -43,18 +43,21 @@ function evalUpdateButtons() {
   const running = runs.some(item => ['running', 'queued'].includes(item.state.status));
   const chosen = runs.find(item => item.id === evalView.run);
   const canStop = chosen && ['running', 'queued'].includes(chosen.state.status);
+  const canResume = chosen && ((chosen.state.saved || 0) < chosen.planned
+    || (chosen.state.failures > 0 && $('eval-retry').checked));
   const suite = $('eval-suite').value;
   $('eval-launch').disabled = evalView.pending || running
     || (suite === 'final' && !evalView.info?.frozen)
     || (suite === 'threshold' && !$('eval-parent').value);
   $('eval-stop').disabled = evalView.pending || !canStop;
-  $('eval-resume').disabled = evalView.pending || running || !chosen;
+  $('eval-resume').disabled = evalView.pending || running || !canResume;
   $('eval-charts').disabled = evalView.pending || !chosen || !chosen.state.saved;
 }
 
 function evalRenderDashboard(data) {
   const runs = data.runs;
   const counters = [
+    ['Датасет ' + data.dataset, data.splits.development + data.splits.final],
     ['Development', data.splits.development], ['Final', data.splits.final],
     ['Запросы сохранены', runs.reduce((n, run) => n + (run.state.saved || 0), 0)],
     ['Запросы в очереди', runs.reduce((n, run) => n + Math.max(0, run.planned - (run.state.saved || 0)), 0)],
@@ -288,6 +291,7 @@ async function evalAction(work) {
 $('eval-refresh').onclick = () => evalAction(async () => {});
 $('eval-suite').onchange = evalSuiteOptions;
 $('eval-parent').onchange = evalUpdateButtons;
+$('eval-retry').onchange = evalUpdateButtons;
 $('eval-run').onchange = () => {
   evalView.run = $('eval-run').value;
   evalView.question = '';
