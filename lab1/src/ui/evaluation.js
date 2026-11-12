@@ -6,8 +6,20 @@ const evalView = {
   question: '',
   pending: false,
   lastRevision: '',
+  runRequest: 0,
   token: 0,
+  questionTasks: [],
+  questionPage: 0,
 };
+
+const evalQuestionsPerPage = 24;
+const evalQuestionFilters = {model: 'model', config: 'label', status: 'status'};
+const evalQuestionStatuses = ['completed', 'failed', 'timeout', 'cancelled', 'interrupted'];
+const evalModelNames = new Map([
+  ['e5', 'E5'], ['minilm', 'MiniLM'],
+  ['qwen3:1.7b', 'Qwen3 1.7B'], ['qwen3:4b', 'Qwen3 4B'],
+  ['qwen3:4b-instruct-2507-q4_K_M', 'Qwen3 4B Instruct'],
+]);
 
 function evalOption(value, label) {
   const option = element('option', label);
@@ -17,8 +29,112 @@ function evalOption(value, label) {
 
 function evalOptions(id, items, previous) {
   const select = $(id);
-  select.replaceChildren(...items.map(([value, label]) => evalOption(value, label)));
+  if (items.length !== select.options.length || !items.every(([value, label], i) =>
+    select.options[i].value === value && select.options[i].textContent === label)) {
+    select.replaceChildren(...items.map(([value, label]) => evalOption(value, label)));
+  }
   if (items.some(([value]) => value === previous)) select.value = previous;
+}
+
+function evalModelName(model) {
+  return evalModelNames.get(model) || model;
+}
+
+function evalSearchText(value) {
+  return (value || '').normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function evalMarkQuestion() {
+  for (const button of $('eval-question-list').querySelectorAll('button')) {
+    button.setAttribute('aria-pressed', String(button.dataset.key === evalView.question));
+  }
+}
+
+function evalRenderQuestions(resetScroll = false) {
+  const list = $('eval-question-list');
+  const focusedKey = list.contains(document.activeElement) ? document.activeElement.dataset.key : '';
+  const scrollTop = list.scrollTop;
+  const query = evalSearchText($('eval-question-search').value);
+  const filters = Object.entries(evalQuestionFilters).map(([name, field]) =>
+    [field, $('eval-question-' + name).value]);
+  const tasks = evalView.questionTasks;
+  const matches = tasks.filter(task =>
+    (task.searchId.includes(query) || task.searchQuestion.includes(query)) &&
+    filters.every(([field, value]) => !value || task[field] === value));
+  const pages = Math.ceil(matches.length / evalQuestionsPerPage);
+  evalView.questionPage = Math.max(0, Math.min(evalView.questionPage, pages - 1));
+  const offset = evalView.questionPage * evalQuestionsPerPage;
+  let restoreFocus;
+  const items = matches.slice(offset, offset + evalQuestionsPerPage).map(task => {
+    const item = element('li');
+    const button = element('button', undefined, 'eval-question-card');
+    button.type = 'button';
+    button.dataset.key = task.key;
+    button.title = [task.question_id, task.question].filter(Boolean).join(' — ');
+    button.append(
+      element('span', button.title, 'eval-question-title'),
+      element('small', [evalModelName(task.model), task.prompt_mode || task.label, task.status]
+        .filter(Boolean).join(' · ')),
+    );
+    button.onclick = () => {
+      evalView.question = task.key;
+      evalMarkQuestion();
+      return evalInspect({focus: true}).catch(evalError);
+    };
+    if (task.key === focusedKey) restoreFocus = button;
+    item.append(button);
+    return item;
+  });
+  list.replaceChildren(...items);
+  list.scrollTop = resetScroll ? 0 : scrollTop;
+  evalMarkQuestion();
+  restoreFocus?.focus({preventScroll:true});
+  $('eval-question-count').textContent = `Найдено ${matches.length} из ${tasks.length}`;
+  $('eval-question-empty').classList.toggle('hidden', matches.length > 0);
+  $('eval-question-pagination').classList.toggle('hidden', pages <= 1);
+  $('eval-question-page').textContent = pages ? `${evalView.questionPage + 1} / ${pages}` : '';
+  $('eval-question-prev').disabled = evalView.questionPage === 0;
+  $('eval-question-next').disabled = evalView.questionPage + 1 >= pages;
+}
+
+function evalSetQuestionTasks(tasks) {
+  evalView.questionTasks = tasks.map(task => ({
+    ...task, searchId: evalSearchText(task.question_id), searchQuestion: evalSearchText(task.question),
+  }));
+  for (const [name, field] of Object.entries(evalQuestionFilters)) {
+    const id = 'eval-question-' + name;
+    const recorded = tasks.map(task => task[field]).filter(Boolean).sort();
+    const values = [...new Set(field === 'status' ? [...evalQuestionStatuses, ...recorded] : recorded)];
+    evalOptions(id, [['', 'Все'], ...values.map(value =>
+      [value, field === 'model' ? evalModelName(value) : value])], $(id).value);
+  }
+  if (evalView.question && !tasks.some(task => task.key === evalView.question)) {
+    evalView.question = '';
+    evalView.token += 1;
+    $('eval-inspector').replaceChildren();
+  }
+  evalRenderQuestions();
+}
+
+function evalResetQuestionFilters() {
+  $('eval-question-search').value = '';
+  for (const name of Object.keys(evalQuestionFilters)) $('eval-question-' + name).value = '';
+  evalView.questionPage = 0;
+  evalRenderQuestions(true);
+}
+
+function evalSelectRun(id) {
+  if (id === evalView.run) return;
+  evalView.run = id;
+  evalView.lastRevision = '';
+  evalView.question = '';
+  evalView.token += 1;
+  $('eval-inspector').replaceChildren();
+  $('eval-question-search').value = '';
+  for (const name of Object.keys(evalQuestionFilters)) $('eval-question-' + name).value = '';
+  evalView.questionPage = 0;
+  $('eval-question-list').scrollTop = 0;
+  evalSetQuestionTasks([]);
 }
 
 function evalError(err) {
@@ -77,7 +193,7 @@ function evalRenderDashboard(data) {
   evalOptions('eval-run', [['', 'Выберите run'], ...runs.map(x =>
     [x.id, x.suite + ' · ' + x.id.slice(0, 8) + ' · ' + x.state.status])], evalView.run);
   if (!evalView.run && runs.length) $('eval-run').value = runs[0].id;
-  evalView.run = $('eval-run').value;
+  evalSelectRun($('eval-run').value);
   const active = runs.find(x => ['running', 'queued'].includes(x.state.status));
   const state = active?.state;
   const operation = state?.current;
@@ -132,19 +248,18 @@ async function evalRefreshRun(force = false) {
     if (id) link.href = '/api/evaluation/runs/' + id + '/export/' + kind;
   }
   if (!id) {
-    for (const name of ['eval-results', 'eval-inspector', 'eval-question', 'eval-figures']) $(name).replaceChildren();
+    for (const name of ['eval-results', 'eval-figures']) $(name).replaceChildren();
     return;
   }
   const item = evalView.info?.runs.find(x => x.id === id);
   const revision = id + ':' + (item?.state?.saved || 0) + ':' + (item?.state?.status || '');
   if (!force && revision === evalView.lastRevision) return;
+  const request = ++evalView.runRequest;
   const data = await api('/evaluation/runs/' + id);
-  if (id !== evalView.run) return;
+  if (id !== evalView.run || request !== evalView.runRequest) return;
   evalView.lastRevision = revision;
   evalTable(data);
-  evalOptions('eval-question', [['', 'Выберите сохранённый запрос'], ...data.tasks.map(task =>
-    [task.key, task.question_id + ' · ' + task.label + ' · ' + task.status])], evalView.question);
-  if (!$('eval-question').value) $('eval-inspector').replaceChildren();
+  evalSetQuestionTasks(data.tasks);
   const figures = $('eval-figures');
   figures.replaceChildren(...data.charts.map(name => {
     const details = element('details');
@@ -239,18 +354,18 @@ function evalReviewForm(row, rubric, review, endpoint) {
   return form;
 }
 
-async function evalInspect() {
-  const key = $('eval-question').value;
-  evalView.question = key;
+async function evalInspect({focus = false} = {}) {
+  const key = evalView.question;
   const target = $('eval-inspector');
   target.replaceChildren();
   if (!key) return;
   const endpoint = '/evaluation/runs/' + evalView.run + '/questions/' + encodeURIComponent(key);
   const token = ++evalView.token;
   const data = await api(endpoint);
-  if (token !== evalView.token || key !== $('eval-question').value) return;
+  if (token !== evalView.token || key !== evalView.question) return;
   const q = data.question, r = data.row;
-  target.append(element('h3', q.id + ' · ' + q.question), element('p', q.reference_answer),
+  const title = element('h3', q.id + ' · ' + q.question);
+  target.append(title, element('p', q.reference_answer),
     element('p', [r.status, r.trace_id ? 'Trace ID ' + r.trace_id : ''].filter(Boolean).join(' · ')));
   if (r.answer) target.append(element('h4', 'Ответ модели'), element('pre', r.answer));
   if (r.error) target.append(element('p', r.error));
@@ -263,6 +378,11 @@ async function evalInspect() {
     evalDetails('Цитаты и проверка', {citations:r.citations, validation:r.validation, scores:r.scores, review:data.review}),
     evalDetails('Полный результат запроса', r));
   if (r.status === 'completed' && r.parameters.llm) target.append(evalReviewForm(r, data.rubric, data.review, endpoint));
+  if (focus) {
+    title.tabIndex = -1;
+    title.focus({preventScroll:true});
+    title.scrollIntoView({block:'nearest'});
+  }
 }
 
 function evalPost(data) {
@@ -293,14 +413,27 @@ $('eval-suite').onchange = evalSuiteOptions;
 $('eval-parent').onchange = evalUpdateButtons;
 $('eval-retry').onchange = evalUpdateButtons;
 $('eval-run').onchange = () => {
-  evalView.run = $('eval-run').value;
-  evalView.question = '';
-  evalView.token += 1;
-  $('eval-inspector').replaceChildren();
+  evalSelectRun($('eval-run').value);
   evalUpdateButtons();
   evalRefreshRun(true).catch(evalError);
 };
-$('eval-question').onchange = () => evalInspect().catch(evalError);
+function evalQuestionFilterChanged() {
+  evalView.questionPage = 0;
+  evalRenderQuestions(true);
+}
+$('eval-question-search').oninput = evalQuestionFilterChanged;
+for (const name of Object.keys(evalQuestionFilters)) {
+  $('eval-question-' + name).onchange = evalQuestionFilterChanged;
+}
+$('eval-question-reset').onclick = evalResetQuestionFilters;
+$('eval-question-prev').onclick = () => {
+  evalView.questionPage -= 1;
+  evalRenderQuestions(true);
+};
+$('eval-question-next').onclick = () => {
+  evalView.questionPage += 1;
+  evalRenderQuestions(true);
+};
 $('eval-start').onsubmit = event => {
   event.preventDefault();
   evalAction(async () => {
@@ -309,8 +442,7 @@ $('eval-start').onsubmit = event => {
     if (suite === 'threshold') payload.parent = $('eval-parent').value;
     if (['retrieval','final'].includes(suite) && $('eval-group').value) payload.group = $('eval-group').value;
     const run = await api('/evaluation/runs', evalPost(payload));
-    evalView.run = run.id; evalView.question = '';
-    $('eval-inspector').replaceChildren();
+    evalSelectRun(run.id);
   });
 };
 $('eval-stop').onclick = () => evalAction(() => api('/evaluation/runs/' + evalView.run + '/stop', evalPost({})));

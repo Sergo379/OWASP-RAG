@@ -673,7 +673,28 @@ dialog::backdrop {
 .eval-overflow td:not(:first-child) {font-variant-numeric:tabular-nums}
 .eval-figures img {display:block;width:100%;max-width:950px;background:white;border-radius:6px}
 #experiments h2 {margin:0 0 12px}
-#eval-question {width:100%;max-width:700px}
+.eval-question-layout {display:grid;grid-template-columns:minmax(0, 2fr) minmax(0, 3fr);gap:20px}
+.eval-question-browser {min-width:0}
+.eval-question-browser label {display:block;color:var(--muted);font-size:.85rem}
+#eval-question-search,.eval-question-filters select {display:block;width:100%;min-width:0;margin-top:4px}
+.eval-question-filters {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.eval-question-toolbar {display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.eval-question-toolbar p {margin:0}
+#eval-question-list {list-style:none;margin:8px 0;padding:2px 4px 2px 2px;max-height:24rem;overflow:auto}
+#eval-question-list:empty {display:none}
+#eval-question-list li + li {margin-top:6px}
+.eval-question-card {display:block;width:100%;text-align:left;padding:9px 11px;line-height:1.4;white-space:normal}
+.eval-question-card[aria-pressed="true"] {border-color:var(--accent);box-shadow:inset 3px 0 var(--accent)}
+.eval-question-title {display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+.eval-question-card small {display:block;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
+#eval-inspector {min-width:0;overflow-wrap:anywhere}
+@media(max-width:1050px) {
+  .eval-question-layout {grid-template-columns:minmax(0,1fr)}
+  #eval-question-list {max-height:19rem}
+}
+@media(max-width:520px) {
+  .eval-question-filters {grid-template-columns:minmax(0,1fr)}
+}
 #eval-inspector pre {white-space:pre-wrap;overflow-wrap:anywhere;max-height:380px;overflow:auto}
 #eval-inspector details {margin:.65rem 0}
 #eval-inspector label {display:block;margin:.5rem 0}

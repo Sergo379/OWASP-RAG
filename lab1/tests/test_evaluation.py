@@ -1,4 +1,6 @@
 import json
+import shutil
+import subprocess
 import xml.etree.ElementTree as ET
 from copy import deepcopy
 from pathlib import Path
@@ -137,7 +139,9 @@ def test_threshold_calibration_requires_full_development_data(tmp_path):
 
 
 def fixture_run(store, *, generation=False):
-    params = {"k": 5, "llm": "local"} if generation else {"k": 5}
+    params = {"k": 5, "model": "e5"}
+    if generation:
+        params.update(llm="qwen3:1.7b", mode="strict_grounded")
     run = store.create(
         {
             "suite": "generation" if generation else "retrieval",
@@ -232,7 +236,23 @@ def test_api_dashboard_and_inspector_use_frozen_data(tmp_path):
         dash = client.get("/api/evaluation").json()
         assert dash["splits"] == {"development": 10, "final": 30}
         assert dash["runs"][0]["state"]["saved"] == 1
-        assert client.get(f"/api/evaluation/runs/{run}/questions/{key}").json()["question"]["source_evidence"]
+        detail = client.get(f"/api/evaluation/runs/{run}/questions/{key}").json()["question"]
+        assert detail["source_evidence"]
+        assert client.get(f"/api/evaluation/runs/{run}").json()["tasks"] == [
+            {
+                "key": key,
+                "question_id": detail["id"],
+                "question": detail["question"],
+                "status": "completed",
+                "label": "topk-e5-5",
+                "model": "e5",
+                "prompt_mode": None,
+                "trace_id": None,
+            }
+        ]
+        generation_run, _ = fixture_run(store, generation=True)
+        task = client.get(f"/api/evaluation/runs/{generation_run}").json()["tasks"][0]
+        assert (task["model"], task["prompt_mode"]) == ("qwen3:1.7b", "strict_grounded")
         assert (
             client.get(f"/api/evaluation/runs/{run}/export/csv")
             .headers["content-type"]
@@ -245,5 +265,18 @@ def test_api_dashboard_and_inspector_use_frozen_data(tmp_path):
 def test_vanilla_ui_connects_dashboard_and_inspector():
     page = (ROOT / "src/ui/index.html").read_text(encoding="utf-8")
     assert 'id="experiments"' in page and "/static/evaluation.js" in page
-    for suffix in ("suite", "stop", "resume", "question", "figures", "csv", "json"):
+    for suffix in ("suite", "stop", "resume", "question-search", "question-list", "figures", "csv", "json"):
         assert f'id="eval-{suffix}"' in page
+
+
+def test_question_search_javascript():
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("Node.js is required for the dependency-free JavaScript tests")
+    run = subprocess.run(
+        [node, str(ROOT / "tests/ui/evaluation_questions.test.cjs")],
+        capture_output=True,
+        encoding="utf-8",
+        timeout=20,
+    )
+    assert run.returncode == 0, run.stdout + run.stderr

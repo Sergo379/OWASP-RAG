@@ -145,6 +145,7 @@ def install_routes(app, service):
     def run(run_id: str):
         store = repository()
         summary = results(store, run_id)
+        question_texts = {q["id"]: q["question"] for q in load_dataset(root).questions}
         return {
             "state": summary["state"],
             "configurations": summary["configurations"],
@@ -153,8 +154,11 @@ def install_routes(app, service):
                 {
                     "key": r["key"],
                     "question_id": r["question_id"],
+                    "question": question_texts.get(r["question_id"], ""),
                     "status": r["status"],
                     "label": r["configuration_label"],
+                    "model": r["parameters"].get("llm") or r["parameters"].get("model"),
+                    "prompt_mode": r["parameters"].get("mode"),
                     "trace_id": r.get("trace_id"),
                 }
                 for r in summary["rows"]

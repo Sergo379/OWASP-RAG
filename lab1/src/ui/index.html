@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js?v=stage4-final"></script><script defer src="/static/stage3.js"></script><script defer src="/static/evaluation.js?v=stage4-final"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OWASP-RAG · Knowledge Console</title><link rel="stylesheet" href="/static/styles.css?v=question-search"><script defer src="/static/app.js"></script><script defer src="/static/stage2.js?v=stage4-final"></script><script defer src="/static/stage3.js"></script><script defer src="/static/evaluation.js?v=question-search"></script></head>
 <body>
 <aside class="sidebar">
   <a class="brand" href="#dashboard"><span class="brand-icon">O<span>R</span></span><div>OWASP<span class="muted">—RAG</span><small>KNOWLEDGE CONSOLE</small></div></a>
@@ -92,8 +92,29 @@
     </article>
     <article class="panel">
       <h2>Question Inspector</h2>
-      <label>Запрос и конфигурация<select id="eval-question"></select></label>
-      <div id="eval-inspector"></div>
+      <div class="eval-question-layout">
+        <div class="eval-question-browser">
+          <label for="eval-question-search">Поиск вопросов</label>
+          <input type="search" id="eval-question-search" placeholder="Поиск по ID или тексту вопроса..." autocomplete="off">
+          <div class="eval-question-filters">
+            <label>Модель<select id="eval-question-model"><option value="">Все</option></select></label>
+            <label>Конфигурация<select id="eval-question-config"><option value="">Все</option></select></label>
+            <label>Статус<select id="eval-question-status"><option value="">Все</option></select></label>
+          </div>
+          <div class="eval-question-toolbar">
+            <p id="eval-question-count" class="muted" role="status">Найдено 0 из 0</p>
+            <button type="button" id="eval-question-reset">Сбросить фильтры</button>
+          </div>
+          <ul id="eval-question-list" aria-label="Найденные вопросы"></ul>
+          <p id="eval-question-empty" class="muted">Вопросы не найдены</p>
+          <div id="eval-question-pagination" class="eval-question-toolbar hidden">
+            <button type="button" id="eval-question-prev">Назад</button>
+            <span id="eval-question-page" class="muted"></span>
+            <button type="button" id="eval-question-next">Далее</button>
+          </div>
+        </div>
+        <div id="eval-inspector"></div>
+      </div>
     </article>
   </section>
   <footer>OWASP-RAG <span>Данные: OWASP Cheat Sheet Series · CC BY-SA 4.0</span></footer>
