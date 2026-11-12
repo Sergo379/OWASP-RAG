@@ -250,4 +250,4 @@ pixi run eval-resume --run-id RUN_ID --offline
 pixi run eval-charts --run-id RUN_ID
 ```
 
-Хранение checkpoints и режимы оценивания описаны в [ручной приёмке](MANUAL_TESTING_STAGE4.md). Текущие run IDs и команда продолжения указаны в [checkpoint](STAGE4_CHECKPOINT.md). Подбор параметров проводится на development, а запуск final требует зафиксированного выбора.
+Подбор параметров проводится на development, а запуск final требует зафиксированного выбора. Опубликованы [измерения, графики и анализ final](STAGE4_RESULTS.md). Для проверки уже сохранённого прогона используйте его ID из [checkpoint](STAGE4_CHECKPOINT.md) и [руководство по ручной приёмке](MANUAL_TESTING_STAGE4.md).

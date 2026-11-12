@@ -1,0 +1,145 @@
+{
+  "checkpoint_audit": {
+    "dataset_sha256": "fa61317c559ed9192095e503abeda0f4c6096df5695608d4d0fd4a1a075d3610",
+    "documents": 55,
+    "selection_id": "00c35cd42e6054c6",
+    "selection_created_at": "2026-11-11T20:09:56.172933+00:00",
+    "final_created_at": "2026-11-11T20:11:17.079060+00:00",
+    "all_attempts": 1,
+    "runs": {
+      "retrieval": {
+        "run_id": "146eb445217746c3b693edabdb51d6b3",
+        "count": 200,
+        "state": "completed",
+        "statuses": {
+          "completed": 200
+        }
+      },
+      "threshold": {
+        "run_id": "0c58239054014b6a8fa20b6a3b3e8a06",
+        "count": 80,
+        "state": "completed",
+        "statuses": {
+          "completed": 80
+        }
+      },
+      "generation": {
+        "run_id": "acaaa3811cda402aafda5cc192af2d6b",
+        "count": 13,
+        "state": "completed_with_errors",
+        "statuses": {
+          "completed": 6,
+          "refused": 5,
+          "timeout": 2
+        }
+      },
+      "final": {
+        "run_id": "831cc8a09ec74f01b35018a86e3ed9ae",
+        "count": 60,
+        "state": "completed",
+        "statuses": {
+          "completed": 54,
+          "refused": 6
+        }
+      }
+    },
+    "verified": true
+  },
+  "selection_git_commit": "b3fa2e8e279c70f3e1437c95c24c160b48ccbf0c",
+  "regression": {
+    "current_exit_codes": {
+      "lint": 0,
+      "test": 0,
+      "smoke": 0,
+      "eval_check": 0
+    },
+    "saved_offline_exit_codes": {
+      "final": 0,
+      "stage2_smoke": 0,
+      "stage3_smoke": 0
+    },
+    "pytest_passed": 245,
+    "pytest_warnings": 1,
+    "stage2_queries": 20,
+    "stage3_cases": [
+      {
+        "name": "sql_en",
+        "status": "completed",
+        "passed": true
+      },
+      {
+        "name": "password_ru",
+        "status": "completed",
+        "passed": true
+      },
+      {
+        "name": "auth_en_rerank",
+        "status": "completed",
+        "passed": true
+      },
+      {
+        "name": "weather_ru",
+        "status": "refused",
+        "passed": true
+      },
+      {
+        "name": "absent_fact",
+        "status": "refused",
+        "passed": true
+      },
+      {
+        "name": "injection",
+        "status": "refused",
+        "passed": true
+      },
+      {
+        "name": "qwen4_minilm",
+        "status": "completed",
+        "passed": true
+      },
+      {
+        "name": "partial",
+        "status": "completed",
+        "passed": true
+      }
+    ]
+  },
+  "ui_exports": {
+    "final_rows": 60,
+    "json_rows": 60,
+    "csv_rows": 60,
+    "svg_files": 22,
+    "final_svg_endpoints": 5,
+    "question_inspector": "OWASP-Q21: benchmark evidence, answer, citations, trace ID, review form visible",
+    "resume": "disabled for successful final, enabled for development generation after enabling retry",
+    "console_errors": 0
+  },
+  "langfuse": {
+    "connectivity": {
+      "sdk": "langfuse 5.0.4 / OpenTelemetry",
+      "configured": true,
+      "cloud_verification": "authenticated",
+      "last_export": "accepted",
+      "capture_texts": false,
+      "instrumentation_errors": 0,
+      "trace_id": "84e0c0eafaa95a34c293f278ac52e45c"
+    },
+    "checkpoint_trace": {
+      "timestamp": "2026-11-11T23:56:06.574649+00:00",
+      "purpose": "Stage 4 checkpoint audit, metadata only",
+      "inference": false,
+      "sdk": "langfuse 5.0.4 / OpenTelemetry",
+      "configured": true,
+      "cloud_verification": "authenticated",
+      "last_export": "accepted",
+      "capture_texts": false,
+      "instrumentation_errors": 0,
+      "delivery": "bounded in-memory SDK queue; no durable replay",
+      "message": "Cloud delivery requires auth-check and accepted export",
+      "trace_id": "80b91d9447f478872c07e4f30eb9d3ae",
+      "readback": "observed",
+      "matching_observations": 1,
+      "payload_text_absent": true
+    }
+  }
+}
